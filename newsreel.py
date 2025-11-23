@@ -201,7 +201,15 @@ def create_newsreel_page(page_number=185):
         subpages.append(article_subpage)
     
     # Exporteer de complete newsreel pagina
-    page = {"number": page_number, "subpages": subpages, "control": {"cycleTime": "25,T"}}
+    page = {
+        "number": page_number, 
+        "subpages": subpages, 
+        "control": {
+            "cycleTime": "25,T",
+            "erasePage": True,
+            "update": True
+        }
+    }
     page = vervang_datum_in_tti(page)
     exportTTI(pageLegaliser(page))
     
