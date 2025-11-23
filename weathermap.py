@@ -209,31 +209,34 @@ def maak_weer_kaart(input_bestand="weathermap.tti"):
                         prefix = f"{parts[0]},{parts[1]},"
                         content = parts[2]
                         
-                        # Vervang alleen in content
-                        content = re.sub(r'11\.01\.1988', datum, content)
-                        content = re.sub(r'Klo 19\.00', tijd, content)
-                        # DAGDELEN_FIN heeft al een dubbele punt, niet nóg een toevoegen!
+                        # EERST dagdeel vervangen
                         content = re.sub(r'HUOMISILTAAN ASTI:', DAGDELEN_FIN[huidig_dagdeel], content)
                         
-                        # Vervang temperaturen (niet in "Klo XX.XX")
+                        # DAN temperaturen vervangen (niet in datum/tijd patronen)
                         for placeholder, temp in temperaturen_nu.items():
                             temp_str = f"{int(temp):02d}"
-                            # Niet vervangen in "Klo XX.XX"
-                            pattern = rf'(?<!Klo )(?<!\d){re.escape(placeholder)}(?!\d)(?!\.)'
+                            # Niet vervangen als het in een tijd/datum staat
+                            pattern = rf'(?<!Klo )(?<!\d)(?<!\.){re.escape(placeholder)}(?!\d)(?!\.)'
                             content = re.sub(pattern, temp_str, content)
+                        
+                        # LAATST datum en tijd vervangen (nadat temperaturen al gedaan zijn)
+                        content = re.sub(r'11\.01\.1988', datum, content)
+                        content = re.sub(r'Klo 19\.00', tijd, content)
                         
                         packet["text"] = prefix + content
                 else:
-                    # Geen OL regel, gewoon vervangen
+                    # EERST datum
                     text = re.sub(r'11\.01\.1988', datum, text)
-                    text = re.sub(r'Klo 19\.00', tijd, text)
-                    # DAGDELEN_FIN heeft al een dubbele punt!
                     text = re.sub(r'HUOMISILTAAN ASTI:', DAGDELEN_FIN[huidig_dagdeel], text)
                     
+                    # DAN temperaturen (niet in "Klo XX.XX")
                     for placeholder, temp in temperaturen_nu.items():
                         temp_str = f"{int(temp):02d}"
-                        pattern = rf'(?<!\d){re.escape(placeholder)}(?!\d)'
+                        pattern = rf'(?<!Klo )(?<!\d){re.escape(placeholder)}(?!\d)(?!\.)'
                         text = re.sub(pattern, temp_str, text)
+                    
+                    # LAATST tijd
+                    text = re.sub(r'Klo 19\.00', tijd, text)
                     
                     packet["text"] = text
         

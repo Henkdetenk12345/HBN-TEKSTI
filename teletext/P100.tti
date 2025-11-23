@@ -2,7 +2,7 @@ PN,10001
 SC,0001
 CT,5,T
 PS,8000
-OL,0,        ECIMSBF100A1763320497
+OL,0,        ECIMSBF100A1763911212
 OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
 OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
 OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
@@ -12,17 +12,16 @@ OL,6,CTUOREIMMAT ...................... 111
 OL,7,CSAA ............................. 160
 OL,8,CUUTISRUUTU ...................... 185
 OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GEcuadorilainen rikollispomo lavasti
-OL,18,Gkuolemansa, mutta loytyi vuosien   C112
+OL,17,GKaaokseen ajautuneen Liverpoolin
+OL,18,Gkapteenilta painava avautuminen `  C309
 OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,20,V       F   HBN TEKSTI-TV
 OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@Txw
 PN,10002
 SC,0002
 CT,5,T
 PS,8000
-OL,0,        ECIMSBF100A1763320497
+OL,0,        ECIMSBF100A1763911212
 OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
 OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
 OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
@@ -32,18 +31,17 @@ OL,6,CTUOREIMMAT ...................... 111
 OL,7,CSAA ............................. 160
 OL,8,CUUTISRUUTU ...................... 185
 OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GTampereella kehitetaan "lentavaa
-OL,18,Glaivaa" rahtikuljetuksiin ` alus soC113
+OL,17,GLukas Hradeckyn Monacolle ruma tappio,
+OL,18,Gdopingtuomionsa karsinyt Paul PogbaC310
 OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,20,V       F   HBN TEKSTI-TV
 OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@yD@TxpyD@UxpyD@XO]yD@]xpyD@_xpyD@`xpzD@
-OL,26,AGO]
+OL,26,@zD@Rxp
 PN,10003
 SC,0003
 CT,5,T
 PS,8000
-OL,0,        ECIMSBF100A1763320497
+OL,0,        ECIMSBF100A1763911212
 OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
 OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
 OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
@@ -53,17 +51,17 @@ OL,6,CTUOREIMMAT ...................... 111
 OL,7,CSAA ............................. 160
 OL,8,CUUTISRUUTU ...................... 185
 OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GJyvaskylassa tyttojen ja naisten
-OL,18,Gitsepuolustus- ja uhkatilannekoulutC114
+OL,17,GLiverpoolin tuska jatkui, kun
+OL,18,GNottingham hoykytti 3`0 ` ManchesteC311
 OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,20,V       F   HBN TEKSTI-TV
 OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@yD@DxpyD@IxpyD@LxpyD@Rxw
+OL,26,@zD@Mxw
 PN,10004
 SC,0004
 CT,5,T
 PS,8000
-OL,0,        ECIMSBF100A1763320497
+OL,0,        ECIMSBF100A1763911212
 OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
 OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
 OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
@@ -73,17 +71,16 @@ OL,6,CTUOREIMMAT ...................... 111
 OL,7,CSAA ............................. 160
 OL,8,CUUTISRUUTU ...................... 185
 OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GDelhin autopommia epaillaan
-OL,18,Gitsemurhaiskuksi                   C115
+OL,17,GBarcelona palasi ikoniselle
+OL,18,Gstadionilleen yli kahden vuoden    C312
 OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,20,V       F   HBN TEKSTI-TV
 OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@yD@UxpyD@YxpyD@Zxp
 PN,10005
 SC,0005
 CT,5,T
 PS,8000
-OL,0,        ECIMSBF100A1763320497
+OL,0,        ECIMSBF100A1763911212
 OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
 OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
 OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
@@ -93,127 +90,9 @@ OL,6,CTUOREIMMAT ...................... 111
 OL,7,CSAA ............................. 160
 OL,8,CUUTISRUUTU ...................... 185
 OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GYli 30 kuoli kaivosturmassa Kongon
-OL,18,Gdemokraattisessa tasavallassa      C116
+OL,17,GHuuhkajien hyokkaajat iskussa:
+OL,18,GBenjamin Kallman kaatoi sarjakarjenC313
 OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,20,V       F   HBN TEKSTI-TV
 OL,21,V       FSORNAINEN, HELSINKI
-PN,10006
-SC,0006
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763320497
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GIkaalisissa tulipalo kerrostalossa `
-OL,18,Gei henkilovahinkoja                C117
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@Jxw
-PN,10007
-SC,0007
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763320497
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GPoliisi varjeli salaisuutta vuosia `
-OL,18,Gkun totuus Anom-puhelimista paljastC118
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-PN,10008
-SC,0008
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763320497
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GAlkavalla viikolla luvassa talvista
-OL,18,Gsaata ` "Ei pitaisi olla kesarenkaiC119
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@BxpzD@CxpzD@ExpzD@IO]zD@PxpzD@]xp
-PN,10009
-SC,0009
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763320497
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GRuokakauppojen koko paisuu ` asiakas:
-OL,18,G"Mielestani aika jarjetonta"       C120
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@AO]zD@IxpzD@SxpzD@XxwzD@[xpzD@\O]
-PN,10010
-SC,0010
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763320497
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GKorruptioskandaali ravistelee Ukrainaa
-OL,18,G` professori: "Maa taistelee       C121
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@OO]
-PN,10011
-SC,0011
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763320497
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GHenri Piiraisen jujutsu-lajilla on
-OL,18,Galle 300 harrastajaa ` nain han arvC122
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@yD@RuzzD@YxpzD@^xp
+OL,26,@yD@NxwyD@QxpyD@RxpyD@TxpzD@KxpzD@_xp

@@ -37,37 +37,26 @@ def vervang_datum_in_tti(tti_data):
     
     return tti_data
 
-# RSS feed van Yle
-rss_feed_url = "https://yle.fi/rss/uutiset/paauutiset"
-max_articles = 10
-
-def fetch_articles():
+def fetch_articles_from_feed(rss_url, max_articles):
+    """Haal artikelen op van een specifieke RSS feed"""
     all_articles = []
     
-    # Parse de Yle RSS feed
-    parsed = feedparser.parse(rss_feed_url)
+    parsed = feedparser.parse(rss_url)
     count = 0
     
     for entry in parsed["entries"]:
         if count >= max_articles:
             break
         
-        # Haal de titel op
         clean_title = entry.get("title", "Geen titel").strip()
         
-        # Yle gebruikt 'description' voor de samenvatting
         if "description" in entry:
             article_text = entry["description"]
         else:
-            article_text = clean_title  # fallback
+            article_text = clean_title
         
-        # Verwijder soft hyphen (U+00AD)
         article_text = article_text.replace("\u00AD", "")
-        
-        # Parse met BeautifulSoup
         soup = BeautifulSoup(article_text, "lxml")
-        
-        # Voor Yle is description plain text, dus we maken één paragraaf
         text = soup.get_text().strip()
         paragraphs = [text] if text else ["Geen inhoud beschikbaar"]
         
@@ -79,69 +68,156 @@ def fetch_articles():
     
     return all_articles
 
-def create_newsreel_page(articles, page_number=185):
-    template = loadTTI("newsreel_page.tti")
-    subpages = []
-
-    # Intro subpagina
-    intro_lines = [
-        {"line": 3, "text": "        KATSOT HBN-teksti-TV:tä", "align": "center", "colour": "white"},
-        {"line": 5, "text": "UUTISIA JA TIETOJA", "align": "center", "colour": "white"},
-        {"line": 7, "text": "    YLE", "align": "center", "colour": "yellow"},
-        {"line": 11, "text": " Täysi palvelu tarjoaa paljon", "align": "left", "colour": "white"},
-        {"line": 12, "text": "  sivuja ja on saatavilla", "align": "left", "colour": "white"},
-        {"line": 13, "text": "   kuka tahansa, jolla on sopiva", "align": "left", "colour": "white"},
-        {"line": 14, "text": "  televisiovastaanotin.", "align": "left", "colour": "white"}
-    ]
-    intro_packets = copy.deepcopy(template["subpages"][0]["packets"])
-    for item in intro_lines:
-        block = toTeletextBlock(
-            input={"content": [{"align": item["align"], "content": [{"colour": item["colour"], "text": item["text"]}]}]},
-            line=item["line"]
-        )
-        intro_packets += block
-    subpages.append({"packets": intro_packets})
-
-    # Artikel subpagina's
-    for article in articles:
-        packets = copy.deepcopy(template["subpages"][0]["packets"])
-        line = 5
-
-        # Titel toevoegen
-        title_block = toTeletextBlock(
-            input={"content": [{"align": "left", "content": [{"colour": "yellow", "text": article["title"]}]}]},
+def create_index_subpage(template, headlines, section_title):
+    """Maak een index subpagina met headlines"""
+    packets = copy.deepcopy(template["subpages"][0]["packets"])
+    line = 5
+    
+    for headline in headlines:
+        para_block = toTeletextBlock(
+            input={
+                "content": [
+                    {"align": "left", "content": [{"colour": "white", "text": headline["title"]}]},
+                    {"align": "right", "content": [{"colour": "yellow", "text": headline["number"]}]}
+                ]
+            },
             line=line
         )
-        line += len(title_block) + 1
-        packets += title_block
+        
+        if (len(para_block) + line) > 22:
+            break
+        
+        line += len(para_block) + 1
+        packets += para_block
+    
+    return {"packets": packets}
 
-        # Content toevoegen
-        for paragraph in article["content"]:
-            para_block = toTeletextBlock(
-                input={"content": [{"align": "left", "content": [{"colour": "white", "text": paragraph}]}]},
-                line=line
-            )
-            if line + len(para_block) > 22:
-                break
-            line += len(para_block) + 1
-            packets += para_block
+def create_article_subpage(template, article, page_number):
+    """Maak een artikel subpagina"""
+    packets = copy.deepcopy(template["subpages"][0]["packets"])
+    line = 5
+    
+    # Titel toevoegen
+    title_block = toTeletextBlock(
+        input={"content": [{"align": "left", "content": [{"colour": "yellow", "text": article["title"]}]}]},
+        line=line
+    )
+    line += len(title_block) + 1
+    packets += title_block
+    
+    # Content toevoegen
+    for paragraph in article["content"]:
+        para_block = toTeletextBlock(
+            input={"content": [{"align": "left", "content": [{"colour": "white", "text": paragraph}]}]},
+            line=line
+        )
+        if line + len(para_block) > 22:
+            break
+        line += len(para_block) + 1
+        packets += para_block
+    
+    # Voeg paginanummer toe onderaan met hoofdletter P
+    page_ref_block = toTeletextBlock(
+        input={"content": [{"align": "right", "content": [{"colour": "cyan", "text": f"P{page_number}"}]}]},
+        line=23
+    )
+    packets += page_ref_block
+    
+    return {"packets": packets}
 
-        subpages.append({"packets": packets})
-
-    # Exporteer de pagina
+def create_newsreel_page(page_number=185):
+    """Maak de volledige newsreel met alle feeds"""
+    subpages = []
+    
+    # INTRO SUBPAGINA - laad uit TTI template
+    print("Loading intro template...")
+    intro_template = loadTTI("newsreel_intro.tti")
+    intro_subpage = {"packets": copy.deepcopy(intro_template["subpages"][0]["packets"])}
+    subpages.append(intro_subpage)
+    print(f"Intro loaded with {len(intro_subpage['packets'])} packets")
+    
+    # ===== PÄÄUUTISET (10 subpages: 1 index + 9 artikelen) =====
+    print("Fetching Pääuutiset...")
+    paauutiset_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/paauutiset", 9)
+    paauutiset_headlines = [{"title": art["title"], "number": str(102 + i)} for i, art in enumerate(paauutiset_articles)]
+    
+    # Index subpagina voor Pääuutiset (zoals p101)
+    paauutiset_index_template = loadTTI("paauutiset_index.tti")
+    index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÄÄUUTISET")
+    subpages.append(index_subpage)
+    
+    # Artikel subpagina's voor Pääuutiset
+    paauutiset_page_template = loadTTI("paauutiset_page.tti")
+    for i, article in enumerate(paauutiset_articles):
+        article_subpage = create_article_subpage(paauutiset_page_template, article, 102 + i)
+        subpages.append(article_subpage)
+    
+    # ===== TUOREIMMAT (5 subpages: 1 index + 4 artikelen) =====
+    print("Fetching Tuoreimmat...")
+    tuoreimmat_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/tuoreimmat", 4)
+    tuoreimmat_headlines = [{"title": art["title"], "number": str(112 + i)} for i, art in enumerate(tuoreimmat_articles)]
+    
+    # Index subpagina voor Tuoreimmat (zoals p111)
+    tuoreimmat_index_template = loadTTI("tuoreimmat_index.tti")
+    index_subpage = create_index_subpage(tuoreimmat_index_template, tuoreimmat_headlines, "TUOREIMMAT")
+    subpages.append(index_subpage)
+    
+    # Artikel subpagina's voor Tuoreimmat
+    tuoreimmat_page_template = loadTTI("tuoreimmat_page.tti")
+    for i, article in enumerate(tuoreimmat_articles):
+        article_subpage = create_article_subpage(tuoreimmat_page_template, article, 112 + i)
+        subpages.append(article_subpage)
+    
+    # ===== URHEILU (5 subpages: 1 index + 4 artikelen) =====
+    print("Fetching Urheilu...")
+    urheilu_articles = fetch_articles_from_feed("https://yle.fi/rss/urheilu", 4)
+    urheilu_headlines = [{"title": art["title"], "number": str(302 + i)} for i, art in enumerate(urheilu_articles)]
+    
+    # Index subpagina voor Urheilu (zoals p301)
+    urheilu_index_template = loadTTI("sportgeneral_index.tti")
+    index_subpage = create_index_subpage(urheilu_index_template, urheilu_headlines, "URHEILU")
+    subpages.append(index_subpage)
+    
+    # Artikel subpagina's voor Urheilu
+    urheilu_page_template = loadTTI("sportgeneral_page.tti")
+    for i, article in enumerate(urheilu_articles):
+        article_subpage = create_article_subpage(urheilu_page_template, article, 302 + i)
+        subpages.append(article_subpage)
+    
+    # ===== JALKAPALLO (5 subpages: 1 index + 4 artikelen) =====
+    print("Fetching Jalkapallo...")
+    jalkapallo_articles = fetch_articles_from_feed("https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_URHEILU&concepts=18-205598", 4)
+    jalkapallo_headlines = [{"title": art["title"], "number": str(309 + i)} for i, art in enumerate(jalkapallo_articles)]
+    
+    # Index subpagina voor Jalkapallo (zoals p308)
+    jalkapallo_index_template = loadTTI("jalkapallo_index.tti")
+    index_subpage = create_index_subpage(jalkapallo_index_template, jalkapallo_headlines, "JALKAPALLO")
+    subpages.append(index_subpage)
+    
+    # Artikel subpagina's voor Jalkapallo
+    jalkapallo_page_template = loadTTI("jalkapallo_page.tti")
+    for i, article in enumerate(jalkapallo_articles):
+        article_subpage = create_article_subpage(jalkapallo_page_template, article, 309 + i)
+        subpages.append(article_subpage)
+    
+    # Exporteer de complete newsreel pagina
     page = {"number": page_number, "subpages": subpages, "control": {"cycleTime": "25,T"}}
-    
-    # Vervang DAY/DATE placeholders VOOR het exporteren
     page = vervang_datum_in_tti(page)
-    
     exportTTI(pageLegaliser(page))
-    print(f"Newsreel with {len(subpages)} subpages saved as page {page_number}.")
+    
+    print(f"\nNewsreel complete!")
+    print(f"Total subpages: {len(subpages)}")
+    print(f"  - Intro: 1")
+    print(f"  - Pääuutiset: 1 index + 9 articles = 10")
+    print(f"  - Tuoreimmat: 1 index + 4 articles = 5")
+    print(f"  - Urheilu: 1 index + 4 articles = 5")
+    print(f"  - Jalkapallo: 1 index + 4 articles = 5")
+    print(f"  = {1 + 10 + 5 + 5 + 5} total subpages (26)")
 
 def run_newsreel():
     """Hoofdfunctie om de newsreel te genereren"""
-    print("=== NEWSREEL WITH YLE NEWS ===")
-    articles = fetch_articles()
-    create_newsreel_page(articles)
+    print("=== COMPREHENSIVE NEWSREEL WITH ALL YLE FEEDS ===")
+    create_newsreel_page()
     print("Done.")
 
 if __name__ == "__main__":
