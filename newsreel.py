@@ -200,6 +200,26 @@ def create_newsreel_page(page_number=185):
         article_subpage = create_article_subpage(jalkapallo_page_template, article, 309 + i)
         subpages.append(article_subpage)
     
+    # ===== WEERKAART (3 subpages) =====
+    print("Adding weather map subpages...")
+    try:
+        import weathermap
+        
+        # Haal de weerkaart subpages op via de functie
+        weather_subpages = weathermap.get_weather_subpages("weathermap.tti")
+        
+        if weather_subpages:
+            for weather_subpage in weather_subpages:
+                subpages.append(weather_subpage)
+            print(f"✓ Added {len(weather_subpages)} weather map subpages with live data")
+        else:
+            print("⚠ No weather subpages available")
+            
+    except Exception as e:
+        print(f"⚠ Could not add weather map subpages: {e}")
+        import traceback
+        traceback.print_exc()
+    
     # Exporteer de complete newsreel pagina
     page = {
         "number": page_number, 
@@ -220,7 +240,8 @@ def create_newsreel_page(page_number=185):
     print(f"  - Tuoreimmat: 1 index + 4 articles = 5")
     print(f"  - Urheilu: 1 index + 4 articles = 5")
     print(f"  - Jalkapallo: 1 index + 4 articles = 5")
-    print(f"  = {1 + 10 + 5 + 5 + 5} total subpages (26)")
+    print(f"  - Weather map: 3 subpages")
+    print(f"  = Total: {len(subpages)} subpages")
 
 def run_newsreel():
     """Hoofdfunctie om de newsreel te genereren"""
