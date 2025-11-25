@@ -68,7 +68,7 @@ The system uses TTI template files for page layouts:
 
 ## Output
 
-Generated pages are exported to the `teletext/` directory as TTI files, which can be used with teletext broadcasting systems or emulators.
+Generated pages are exported to the `teletext/` directory as TTI files, which can be used by [vbit2](https://github.com/peterkvt80/vbit2).
 
 ## Configuration
 
@@ -87,7 +87,7 @@ Adjust `maxPages` in each section to control how many articles are fetched per c
 
 ## Credits
 
-Nos Demo by Nathan Dane changed by Max de Vos for YLE rss feeds, 2025  
+NOS Demo by Nathan Dane changed by Max de Vos for YLE RSS feeds, 2025  
 Copyright free - do what you like & have fun with it :)
 
 ## License
