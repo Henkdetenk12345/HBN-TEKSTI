@@ -17,6 +17,7 @@ import copy
 import newsreel
 import weathermap
 from datetime import datetime
+import unicodedata
 
 from textBlock import toTeletextBlock
 from page import exportTTI, loadTTI
@@ -37,6 +38,30 @@ def get_finnish_date():
     now = datetime.now()
     day_name = FINNISH_DAYS[now.weekday()]
     return f"{day_name} {now.day}.{now.month}."
+
+def clean_text_aggressive(text):
+    """Verwijdert/normaliseert alle problematische karakters voor teletext"""
+    if not text:
+        return text
+    
+    # Normaliseer Unicode (bijv. gecombineerde accenten naar enkele karakters)
+    text = unicodedata.normalize('NFKC', text)
+    
+    # Verwijder alle control characters en invisible characters
+    cleaned = []
+    for char in text:
+        cat = unicodedata.category(char)
+        # Cc = Control, Cf = Format, Zs = Space separator
+        if cat == 'Cc' or cat == 'Cf':
+            # Skip control en format characters
+            continue
+        elif cat == 'Zs' and char != ' ':
+            # Vervang alle niet-standaard spaties met normale spatie
+            cleaned.append(' ')
+        else:
+            cleaned.append(char)
+    
+    return ''.join(cleaned)
 
 def vervang_datum_in_tti(tti_data):
     """Vervangt DAY en DATE placeholders in TTI data met Finse datum"""
@@ -415,8 +440,8 @@ for newsArticle in newsData['entries']:
 	# Vervang DAY/DATE placeholders in de template
 	teletextPage = vervang_datum_in_tti(teletextPage)
 	
-	# Get the title from Yle RSS
-	clean_title = newsArticle["title"].strip()
+	# Get the title from Yle RSS - CLEAN IT FOR JALKAPALLO!
+	clean_title = clean_text_aggressive(newsArticle["title"].strip())
 	
 	# Create the title
 	paraBlock = toTeletextBlock(
@@ -436,13 +461,8 @@ for newsArticle in newsData['entries']:
 	else:
 		article_text = newsArticle["title"]  # fallback
 
-	# fix: verwijder soft hyphen (U+00AD)
-	article_text = article_text.replace("\u00AD", "")
-	# fix: verwijder white square en andere problematische karakters
-	article_text = article_text.replace("\u25A1", "")  # White square
-	article_text = article_text.replace("\u25A0", "")  # Black square
-	article_text = article_text.replace("\u2B1C", "")  # White large square
-	article_text = article_text.replace("\u2B1B", "")  # Black large square
+	# CLEAN THE TEXT AGGRESSIVELY FOR JALKAPALLO!
+	article_text = clean_text_aggressive(article_text)
     
 	# Voor Yle is description plain text, maar we gebruiken BeautifulSoup voor de zekerheid
 	soup = BeautifulSoup(article_text, "lxml")
@@ -475,7 +495,7 @@ for newsArticle in newsData['entries']:
 	if pageNum > maxPages:
 		break
 
-# Next we create P111, the headlines
+# Next we create P308, the headlines
 # Start by loading the template
 newsIndexTemplate = loadTTI("jalkapallo_index.tti")
 

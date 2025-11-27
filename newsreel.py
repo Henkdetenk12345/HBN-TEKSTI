@@ -2,6 +2,7 @@ import feedparser
 from bs4 import BeautifulSoup
 import copy
 from datetime import datetime
+import unicodedata
 
 from textBlock import toTeletextBlock
 from page import exportTTI, loadTTI
@@ -23,6 +24,30 @@ def get_finnish_date():
     day_name = FINNISH_DAYS[now.weekday()]
     return f"{day_name} {now.day}.{now.month}."
 
+def clean_text_aggressive(text):
+    """Verwijdert/normaliseert alle problematische karakters voor teletext"""
+    if not text:
+        return text
+    
+    # Normaliseer Unicode (bijv. gecombineerde accenten naar enkele karakters)
+    text = unicodedata.normalize('NFKC', text)
+    
+    # Verwijder alle control characters en invisible characters
+    cleaned = []
+    for char in text:
+        cat = unicodedata.category(char)
+        # Cc = Control, Cf = Format, Zs = Space separator
+        if cat == 'Cc' or cat == 'Cf':
+            # Skip control en format characters
+            continue
+        elif cat == 'Zs' and char != ' ':
+            # Vervang alle niet-standaard spaties met normale spatie
+            cleaned.append(' ')
+        else:
+            cleaned.append(char)
+    
+    return ''.join(cleaned)
+
 def vervang_datum_in_tti(tti_data):
     """Vervangt DAY en DATE placeholders in TTI data met Finse datum"""
     dag = get_finnish_day()
@@ -37,7 +62,7 @@ def vervang_datum_in_tti(tti_data):
     
     return tti_data
 
-def fetch_articles_from_feed(rss_url, max_articles):
+def fetch_articles_from_feed(rss_url, max_articles, clean_aggressive=False):
     """Haal artikelen op van een specifieke RSS feed"""
     all_articles = []
     
@@ -50,12 +75,21 @@ def fetch_articles_from_feed(rss_url, max_articles):
         
         clean_title = entry.get("title", "Geen titel").strip()
         
+        # Gebruik aggressive cleaning voor jalkapallo feed
+        if clean_aggressive:
+            clean_title = clean_text_aggressive(clean_title)
+        
         if "description" in entry:
             article_text = entry["description"]
         else:
             article_text = clean_title
         
         article_text = article_text.replace("\u00AD", "")
+        
+        # Gebruik aggressive cleaning voor jalkapallo feed
+        if clean_aggressive:
+            article_text = clean_text_aggressive(article_text)
+        
         soup = BeautifulSoup(article_text, "lxml")
         text = soup.get_text().strip()
         paragraphs = [text] if text else ["Geen inhoud beschikbaar"]
@@ -184,9 +218,13 @@ def create_newsreel_page(page_number=185):
         article_subpage = create_article_subpage(urheilu_page_template, article, 302 + i)
         subpages.append(article_subpage)
     
-    # ===== JALKAPALLO (5 subpages: 1 index + 4 artikelen) =====
+    # ===== JALKAPALLO (5 subpages: 1 index + 4 artikelen) - MET AGGRESSIVE CLEANING =====
     print("Fetching Jalkapallo...")
-    jalkapallo_articles = fetch_articles_from_feed("https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_URHEILU&concepts=18-205598", 4)
+    jalkapallo_articles = fetch_articles_from_feed(
+        "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_URHEILU&concepts=18-205598", 
+        4, 
+        clean_aggressive=True  # Gebruik aggressive cleaning voor jalkapallo!
+    )
     jalkapallo_headlines = [{"title": art["title"], "number": str(309 + i)} for i, art in enumerate(jalkapallo_articles)]
     
     # Index subpagina voor Jalkapallo (zoals p308)
