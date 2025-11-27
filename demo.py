@@ -438,6 +438,11 @@ for newsArticle in newsData['entries']:
 
 	# fix: verwijder soft hyphen (U+00AD)
 	article_text = article_text.replace("\u00AD", "")
+	# fix: verwijder white square en andere problematische karakters
+	article_text = article_text.replace("\u25A1", "")  # White square
+	article_text = article_text.replace("\u25A0", "")  # Black square
+	article_text = article_text.replace("\u2B1C", "")  # White large square
+	article_text = article_text.replace("\u2B1B", "")  # Black large square
     
 	# Voor Yle is description plain text, maar we gebruiken BeautifulSoup voor de zekerheid
 	soup = BeautifulSoup(article_text, "lxml")
