@@ -4,14 +4,14 @@ import copy
 from datetime import datetime
 import unicodedata
 
-from textBlock import toTeletextBlock
+from textBlock import toTeletextBlock, tableRow
 from page import exportTTI, loadTTI
 from legaliser import pageLegaliser
 
 # Finse dag- en maandnamen
 FINNISH_DAYS = ["MAANANTAI", "TIISTAI", "KESKIVIIKKO", "TORSTAI", "PERJANTAI", "LAUANTAI", "SUNNUNTAI"]
-FINNISH_MONTHS = ["TAMMIKUU", "HELMIKUU", "MAALISKUU", "HUHTIKUU", "TOUKOKUU", "KESÄKUU", 
-                  "HEINÄKUU", "ELOKUU", "SYYSKUU", "LOKAKUU", "MARRASKUU", "JOULUKUU"]
+FINNISH_MONTHS = ["TAMMIKUU", "HELMIKUU", "MAALISKUU", "HUHTIKUU", "TOUKOKUU", "KESÃ„KUU", 
+                  "HEINÃ„KUU", "ELOKUU", "SYYSKUU", "LOKAKUU", "MARRASKUU", "JOULUKUU"]
 
 def get_finnish_day():
     """Geeft de huidige dag in het Fins terug"""
@@ -191,25 +191,25 @@ def create_newsreel_page(page_number=185):
     subpages.append(intro_subpage)
     print(f"Intro loaded with {len(intro_subpage['packets'])} packets")
     
-    # ===== PÄÄUUTISET (10 subpages: 1 index + 9 artikelen) =====
-    print("Fetching Pääuutiset...")
+    # ===== PÃ„Ã„UUTISET (10 subpages: 1 index + 9 artikelen) =====
+    print("Fetching PÃ¤Ã¤uutiset...")
     paauutiset_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/paauutiset", 9)
     paauutiset_headlines = [{"title": art["title"], "number": str(102 + i)} for i, art in enumerate(paauutiset_articles)]
     
-    # Index subpagina voor Pääuutiset (zoals p101)
+    # Index subpagina voor PÃ¤Ã¤uutiset (zoals p101)
     paauutiset_index_template = loadTTI("paauutiset_index.tti")
-    index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÄÄUUTISET")
+    index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÃ„Ã„UUTISET")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Pääuutiset
+    # Artikel subpagina's voor PÃ¤Ã¤uutiset
     paauutiset_page_template = loadTTI("paauutiset_page.tti")
     for i, article in enumerate(paauutiset_articles):
         article_subpage = create_article_subpage(paauutiset_page_template, article, 102 + i)
         subpages.append(article_subpage)
     
-    # ===== TUOREIMMAT (5 subpages: 1 index + 4 artikelen) =====
+    # ===== TUOREIMMAT (6 subpages: 1 index + 5 artikelen) =====
     print("Fetching Tuoreimmat...")
-    tuoreimmat_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/tuoreimmat", 4)
+    tuoreimmat_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/tuoreimmat", 5)
     tuoreimmat_headlines = [{"title": art["title"], "number": str(112 + i)} for i, art in enumerate(tuoreimmat_articles)]
     
     # Index subpagina voor Tuoreimmat (zoals p111)
@@ -223,9 +223,9 @@ def create_newsreel_page(page_number=185):
         article_subpage = create_article_subpage(tuoreimmat_page_template, article, 112 + i)
         subpages.append(article_subpage)
     
-    # ===== URHEILU (5 subpages: 1 index + 4 artikelen) =====
+    # ===== URHEILU (6 subpages: 1 index + 5 artikelen) =====
     print("Fetching Urheilu...")
-    urheilu_articles = fetch_articles_from_feed("https://yle.fi/rss/urheilu", 4)
+    urheilu_articles = fetch_articles_from_feed("https://yle.fi/rss/urheilu", 5)
     urheilu_headlines = [{"title": art["title"], "number": str(302 + i)} for i, art in enumerate(urheilu_articles)]
     
     # Index subpagina voor Urheilu (zoals p301)
@@ -239,11 +239,11 @@ def create_newsreel_page(page_number=185):
         article_subpage = create_article_subpage(urheilu_page_template, article, 302 + i)
         subpages.append(article_subpage)
     
-    # ===== JALKAPALLO (5 subpages: 1 index + 4 artikelen) - MET AGGRESSIVE CLEANING =====
+    # ===== JALKAPALLO (6 subpages: 1 index + 5 artikelen) - MET AGGRESSIVE CLEANING =====
     print("Fetching Jalkapallo...")
     jalkapallo_articles = fetch_articles_from_feed(
         "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_URHEILU&concepts=18-205598", 
-        4, 
+        5, 
         clean_aggressive=True  # Gebruik aggressive cleaning voor jalkapallo!
     )
     jalkapallo_headlines = [{"title": art["title"], "number": str(309 + i)} for i, art in enumerate(jalkapallo_articles)]
@@ -258,6 +258,67 @@ def create_newsreel_page(page_number=185):
     for i, article in enumerate(jalkapallo_articles):
         article_subpage = create_article_subpage(jalkapallo_page_template, article, 309 + i)
         subpages.append(article_subpage)
+    
+    # ===== VEIKKAUSLIIGA SCORE TABLE (1 subpage) =====
+    print("Adding Veikkausliiga score table...")
+    try:
+        from veikkausliiga_scraper import AiScoreScraper
+        
+        scraper = AiScoreScraper()
+        standings = scraper.scrape_standings()
+        
+        if standings:
+            # Laad de Veikkausliiga template
+            veikkausliiga_template = loadTTI("veikkausliiga_page.tti")
+            veikkausliiga_packets = copy.deepcopy(veikkausliiga_template["subpages"][0]["packets"])
+            
+            line = 6
+            for t in standings:
+                rowDict = {
+                    "P": t["position"],
+                    "C": t["team"][:13],   # clubnaam inkorten naar 13 chars
+                    "Pt": t["points"],
+                    "G": t["goals"],
+                    "WDG": f"{t['wins']}/{t['draws']}/{t['losses']}"
+                }
+                
+                row = tableRow(
+                    [
+                        {"width": 2,  "data": "P",   "colour": "yellow", "align": "right"},
+                        {"width": 13, "data": "C",   "colour": "cyan"},
+                        {"width": 3,  "data": "Pt",  "colour": "yellow", "align": "right"},
+                        {"width": 7,  "data": "G",   "colour": "white"},
+                        {"width": 6,  "data": "WDG", "colour": "white"},
+                    ],
+                    rowDict
+                )
+                
+                tt_block = [{"number": line, "text": row}]
+                
+                if (line + len(tt_block)) > 22:
+                    break
+                
+                veikkausliiga_packets += tt_block
+                line += len(tt_block)
+            
+            # Voeg paginanummer P314 toe rechtsonderaan
+            page_ref_block = toTeletextBlock(
+                input={"content": [{"align": "right", "content": [{"colour": "cyan", "text": "P314"}]}]},
+                line=23
+            )
+            veikkausliiga_packets += page_ref_block
+            
+            # Voeg Veikkausliiga subpage toe
+            veikkausliiga_subpage = {"packets": veikkausliiga_packets}
+            subpages.append(veikkausliiga_subpage)
+            print(f"✓ Added Veikkausliiga score table with {len(standings)} teams")
+        else:
+            print("⚠ No Veikkausliiga data available")
+            
+    except Exception as e:
+        print(f"⚠ Could not add Veikkausliiga score table: {e}")
+        import traceback
+        traceback.print_exc()
     
     # ===== WEERKAART (3 subpages) =====
     print("Adding weather map subpages...")
@@ -296,9 +357,10 @@ def create_newsreel_page(page_number=185):
     print(f"Total subpages: {len(subpages)}")
     print(f"  - Intro: 1 ({intro_filename})")
     print(f"  - Pääuutiset: 1 index + 9 articles = 10")
-    print(f"  - Tuoreimmat: 1 index + 4 articles = 5")
-    print(f"  - Urheilu: 1 index + 4 articles = 5")
-    print(f"  - Jalkapallo: 1 index + 4 articles = 5")
+    print(f"  - Tuoreimmat: 1 index + 5 articles = 6")
+    print(f"  - Urheilu: 1 index + 5 articles = 6")
+    print(f"  - Jalkapallo: 1 index + 5 articles = 6")
+    print(f"  - Veikkausliiga: 1 score table")
     print(f"  - Weather map: 3 subpages")
     print(f"  = Total: {len(subpages)} subpages")
 
