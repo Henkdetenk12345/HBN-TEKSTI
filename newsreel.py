@@ -191,17 +191,17 @@ def create_newsreel_page(page_number=185):
     subpages.append(intro_subpage)
     print(f"Intro loaded with {len(intro_subpage['packets'])} packets")
     
-    # ===== PÃ„Ã„UUTISET (10 subpages: 1 index + 9 artikelen) =====
-    print("Fetching PÃ¤Ã¤uutiset...")
+    # ===== PÄSÄSUUTISET (10 subpages: 1 index + 9 artikelen) =====
+    print("Fetching Päsäsuutiset...")
     paauutiset_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/paauutiset", 9)
     paauutiset_headlines = [{"title": art["title"], "number": str(102 + i)} for i, art in enumerate(paauutiset_articles)]
     
-    # Index subpagina voor PÃ¤Ã¤uutiset (zoals p101)
+    # Index subpagina voor Päsäsuutiset (zoals p101)
     paauutiset_index_template = loadTTI("paauutiset_index.tti")
     index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÃ„Ã„UUTISET")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor PÃ¤Ã¤uutiset
+    # Artikel subpagina's voor Päsäsuutiset
     paauutiset_page_template = loadTTI("paauutiset_page.tti")
     for i, article in enumerate(paauutiset_articles):
         article_subpage = create_article_subpage(paauutiset_page_template, article, 102 + i)
