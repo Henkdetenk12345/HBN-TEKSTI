@@ -16,6 +16,7 @@ import lxml
 import copy
 import newsreel
 import weathermap
+import veikkausliiga
 from datetime import datetime
 import unicodedata
 
