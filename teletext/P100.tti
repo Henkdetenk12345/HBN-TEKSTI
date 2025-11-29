@@ -1,98 +1,102 @@
-PN,10001
-SC,0001
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763911212
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GKaaokseen ajautuneen Liverpoolin
-OL,18,Gkapteenilta painava avautuminen `  C309
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-PN,10002
-SC,0002
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763911212
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GLukas Hradeckyn Monacolle ruma tappio,
-OL,18,Gdopingtuomionsa karsinyt Paul PogbaC310
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@Rxp
-PN,10003
-SC,0003
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763911212
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GLiverpoolin tuska jatkui, kun
-OL,18,GNottingham hoykytti 3`0 ` ManchesteC311
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@zD@Mxw
-PN,10004
-SC,0004
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763911212
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GBarcelona palasi ikoniselle
-OL,18,Gstadionilleen yli kahden vuoden    C312
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-PN,10005
-SC,0005
-CT,5,T
-PS,8000
-OL,0,        ECIMSBF100A1763911212
-OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5
-OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
-OL,4,T]G    HELSINKI BROADCAST NETWORK
-OL,5,CPAAUUTISET ...................... 101
-OL,6,CTUOREIMMAT ...................... 111
-OL,7,CSAA ............................. 160
-OL,8,CUUTISRUUTU ...................... 185
-OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,17,GHuuhkajien hyokkaajat iskussa:
-OL,18,GBenjamin Kallman kaatoi sarjakarjenC313
-OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-OL,20,V       F   HBN TEKSTI-TV
-OL,21,V       FSORNAINEN, HELSINKI
-OL,26,@yD@NxwyD@QxpyD@RxpyD@TxpzD@KxpzD@_xp
+PN,10001
+SC,0001
+CT,5,T
+PS,8000
+OL,0,        ECIMSBF100A1764400163
+OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
+OL,2,T]V j=j=1j5 j5 |j=wj|4j5j54 j5
+OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
+OL,4,T]G    HELSINKI BROADCAST NETWORK
+OL,5,CPAAUUTISET ...................... 101
+OL,6,CTUOREIMMAT ...................... 111
+OL,7,CSAA ............................. 160
+OL,8,CUUTISRUUTU ...................... 185
+OL,9,CURHEILU.......................... 300
+OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,17,GKuPS vahvisti: mestarivalmentaja
+OL,18,GJarkko Wiss ei jatka seurassa      C309
+OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,20,V       F   HBN TEKSTI-TV
+OL,21,V       FSORNAINEN, HELSINKI
+PN,10002
+SC,0002
+CT,5,T
+PS,8000
+OL,0,        ECIMSBF100A1764400163
+OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
+OL,2,T]V j=j=1j5 j5 |j=wj|4j5j54 j5
+OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
+OL,4,T]G    HELSINKI BROADCAST NETWORK
+OL,5,CPAAUUTISET ...................... 101
+OL,6,CTUOREIMMAT ...................... 111
+OL,7,CSAA ............................. 160
+OL,8,CUUTISRUUTU ...................... 185
+OL,9,CURHEILU.......................... 300
+OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,17,GKuPSille niukka tappio Puolassa    C310
+OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,20,V       F   HBN TEKSTI-TV
+OL,21,V       FSORNAINEN, HELSINKI
+PN,10003
+SC,0003
+CT,5,T
+PS,8000
+OL,0,        ECIMSBF100A1764400163
+OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
+OL,2,T]V j=j=1j5 j5 |j=wj|4j5j54 j5
+OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
+OL,4,T]G    HELSINKI BROADCAST NETWORK
+OL,5,CPAAUUTISET ...................... 101
+OL,6,CTUOREIMMAT ...................... 111
+OL,7,CSAA ............................. 160
+OL,8,CUUTISRUUTU ...................... 185
+OL,9,CURHEILU.......................... 300
+OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,17,GSuomen uuden karjen debyytti paattyi
+OL,18,Gnopeasti rajuun yhteentormaykseen `C311
+OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,20,V       F   HBN TEKSTI-TV
+OL,21,V       FSORNAINEN, HELSINKI
+OL,26,@yD@OxpyD@_xpyD@`xpzD@XxwzD@[xp
+PN,10004
+SC,0004
+CT,5,T
+PS,8000
+OL,0,        ECIMSBF100A1764400163
+OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
+OL,2,T]V j=j=1j5 j5 |j=wj|4j5j54 j5
+OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
+OL,4,T]G    HELSINKI BROADCAST NETWORK
+OL,5,CPAAUUTISET ...................... 101
+OL,6,CTUOREIMMAT ...................... 111
+OL,7,CSAA ............................. 160
+OL,8,CUUTISRUUTU ...................... 185
+OL,9,CURHEILU.......................... 300
+OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,17,GArsenal jyraa Mestarien liigassa,
+OL,18,GLiverpool kriisissa ` PSG:n VitinhaC312
+OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,20,V       F   HBN TEKSTI-TV
+OL,21,V       FSORNAINEN, HELSINKI
+OL,26,@yD@LxpyD@MxpzD@Sxp
+PN,10005
+SC,0005
+CT,5,T
+PS,8000
+OL,0,        ECIMSBF100A1764400163
+OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4
+OL,2,T]V j=j=1j5 j5 |j=wj|4j5j54 j5
+OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!
+OL,4,T]G    HELSINKI BROADCAST NETWORK
+OL,5,CPAAUUTISET ...................... 101
+OL,6,CTUOREIMMAT ...................... 111
+OL,7,CSAA ............................. 160
+OL,8,CUUTISRUUTU ...................... 185
+OL,9,CURHEILU.......................... 300
+OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,17,GKylian Mbappen taydellinen hattutemppu
+OL,18,GMestarien liigassa lahenteli MohameC313
+OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+OL,20,V       F   HBN TEKSTI-TV
+OL,21,V       FSORNAINEN, HELSINKI
+OL,26,@yD@MrryD@QxpzD@Uxp

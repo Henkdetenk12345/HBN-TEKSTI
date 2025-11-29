@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 import json
 import time
 import re
@@ -8,14 +9,27 @@ import re
 class AiScoreScraper:
     def __init__(self):
         chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument(
-            'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        )
+        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--disable-software-rasterizer")
+        chrome_options.add_argument("--remote-debugging-port=9222")
+        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        self.driver = webdriver.Chrome(options=chrome_options)
+        # Gebruik Chromium op Raspberry Pi
+        chrome_options.add_argument(
+            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) " 
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/120.0.0.0 Safari/537.36"
+)
+
+        # Gebruik de ARM chromedriver van Raspbian
+        service = Service("/usr/bin/chromedriver")
+
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
     def scrape_standings(self):
         """Scrape Veikkausliiga standings van AiScore (originele methode, maar Pts gefixt)"""
@@ -23,7 +37,7 @@ class AiScoreScraper:
 
         print("Laden van AiScore...")
         self.driver.get(url)
-        time.sleep(6)
+        time.sleep(20)
 
         try:
             body_text = self.driver.find_element(By.TAG_NAME, "body").text
