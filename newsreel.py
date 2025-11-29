@@ -24,6 +24,26 @@ def get_finnish_date():
     day_name = FINNISH_DAYS[now.weekday()]
     return f"{day_name} {now.day}.{now.month}."
 
+def get_intro_template():
+    """Bepaalt welke intro template te gebruiken op basis van de datum"""
+    now = datetime.now()
+    day = now.day
+    month = now.month
+    
+    # 6 december: Independence Day intro
+    if month == 12 and day == 6:
+        return "independent_intro.tti"
+    
+    # 29 november t/m 27 december (exclusief 6 december)
+    # Let op: 29/11 t/m 31/12 in december, plus 1/12 t/m 27/12
+    if month == 11 and day >= 29:
+        return "jouluterveiset_intro.tti"
+    elif month == 12 and day <= 27 and day != 6:
+        return "jouluterveiset_intro.tti"
+    
+    # Standaard intro voor alle andere dagen
+    return "newsreel_intro.tti"
+
 def clean_text_aggressive(text):
     """Verwijdert/normaliseert alle problematische karakters voor teletext"""
     if not text:
@@ -163,9 +183,10 @@ def create_newsreel_page(page_number=185):
     """Maak de volledige newsreel met alle feeds"""
     subpages = []
     
-    # INTRO SUBPAGINA - laad uit TTI template
-    print("Loading intro template...")
-    intro_template = loadTTI("newsreel_intro.tti")
+    # INTRO SUBPAGINA - laad uit TTI template op basis van datum
+    intro_filename = get_intro_template()
+    print(f"Loading intro template: {intro_filename}")
+    intro_template = loadTTI(intro_filename)
     intro_subpage = {"packets": copy.deepcopy(intro_template["subpages"][0]["packets"])}
     subpages.append(intro_subpage)
     print(f"Intro loaded with {len(intro_subpage['packets'])} packets")
@@ -273,7 +294,7 @@ def create_newsreel_page(page_number=185):
     
     print(f"\nNewsreel complete!")
     print(f"Total subpages: {len(subpages)}")
-    print(f"  - Intro: 1")
+    print(f"  - Intro: 1 ({intro_filename})")
     print(f"  - Pääuutiset: 1 index + 9 articles = 10")
     print(f"  - Tuoreimmat: 1 index + 4 articles = 5")
     print(f"  - Urheilu: 1 index + 4 articles = 5")
