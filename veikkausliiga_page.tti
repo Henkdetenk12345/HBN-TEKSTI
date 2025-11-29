@@ -1,14 +1,10 @@
 DE,
-DS,inserter
-SP,C:\Users\Max de Vos\Downloads\Teletekst BO\Yle\veikkausliiga_page.tti
-PN,30507
-SC,0000
 PS,8100
-CT,8,T
-OL,0,        wxTED Header mpp        %H:%M.%S
+PN,31400
+SC,0000
+RE,0
 OL,1,Q]Wh,,,,,,4      ``p` ```p`p`p` ` `p    
 OL,2,Q]WjZY5      jjzj j:jzj.jzj j jj    
 OL,3,Q]WjZY5     `zjjjpjjjjj jjjpjpjz    
 OL,4,Q//-/,,,,/./////-,---,-----/---,-,-,////
-OL,5,    TEAMS         Pts GOALS    W/D/L    
-OL,24,Q]                                      
+OL,5,    Joukkue        P  Maalit   V/T/H    
