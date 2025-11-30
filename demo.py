@@ -643,9 +643,11 @@ exportTTI(pageLegaliser(teletextPage))
 newsData = feedparser.parse("https://yle.fi/rss/uutiset/paauutiset")
 headlines = []
 
+pageNum = 0
 for newsArticle in newsData['entries'][:10]:
     clean_title = newsArticle["title"].strip()
-    headlines.append({"title":clean_title,"number":"102"})
+    headlines.append({"title":clean_title,"number":str(102 + pageNum)})
+    pageNum += 1
 
 # Finally, let's make P100, the main service index.
 frontPageTemplate = loadTTI("front_page.tti")
