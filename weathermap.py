@@ -283,27 +283,28 @@ def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren
                 tekst_delen = []
                 weer_code = str(weer_info.get("weer_id", ""))
                 prefix = ""
-                if kleur == ttxcolour.MOSAICRED:
-                    if weer_code.startswith("6"):
-                        prefix = "LUMI: "
-                    elif weer_code.startswith("7"):
-                        prefix = "SUMU: "
-                elif kleur == ttxcolour.MOSAICBLUE:
+                # Correct prefix based on actual weather code
+                if weer_code.startswith("6"):
+                    prefix = "LUMI: "
+                elif weer_code.startswith("7"):
+                    prefix = "SUMU: "
+                elif weer_code.startswith("5"):
                     prefix = "SADE: "
-                elif kleur == ttxcolour.MOSAICCYAN:
+                elif weer_code.startswith("3"):
                     prefix = "TIHKU: "
-                elif kleur == ttxcolour.MOSAICMAGENTA:
+                elif weer_code.startswith("2"):
                     prefix = "UKKO: "
-                elif kleur == ttxcolour.MOSAICYELLOW:
+                elif weer_code == "800":
                     prefix = "SELKEÄ: "
-                elif kleur == ttxcolour.MOSAICGREEN:
+                elif weer_code.startswith("8"):
                     prefix = "PILVET: "
+                    tekst = ""
+                    
                 if weer_code in WEER_BESCHRIJVINGEN_FI:
                     tekst = WEER_BESCHRIJVINGEN_FI[weer_code]
                 elif weer_info.get("beschrijving"):
                     tekst = weer_info["beschrijving"].capitalize()
-                else:
-                    tekst = ""
+                    
                 if tekst:
                     max_lengte = 22  # 23 - 1 voor de punt
                     eerste_regel = prefix + tekst
@@ -484,7 +485,7 @@ def maak_weer_kaart(input_bestand="weathermap.tti"):
     exportTTI(pageLegaliser(page))
     print(f"Värillinen sääkartta tallennettu: teletext/P166.tti")
 
-if __name__ == "__main__":
+if True:
     import sys
     if len(sys.argv) > 1:
         maak_weer_kaart(sys.argv[1])
