@@ -644,10 +644,12 @@ newsData = feedparser.parse("https://yle.fi/rss/uutiset/paauutiset")
 headlines = []
 
 pageNum = 0
-for newsArticle in newsData['entries'][:10]:
+for newsArticle in newsData['entries']:
     clean_title = newsArticle["title"].strip()
     headlines.append({"title":clean_title,"number":str(102 + pageNum)})
     pageNum += 1
+    if pageNum >= 9:  # 102 t/m 110 = 9 pagina's
+        break
 
 # Finally, let's make P100, the main service index.
 frontPageTemplate = loadTTI("front_page.tti")
