@@ -30,12 +30,15 @@ def get_intro_template():
     day = now.day
     month = now.month
     
+    # 31 december en 1 januari: New Year intro
+    if (month == 12 and day == 31) or (month == 1 and day == 1):
+        return "newyear_intro.tti"
+    
     # 6 december: Independence Day intro
     if month == 12 and day == 6:
         return "independent_intro.tti"
     
     # 29 november t/m 27 december (exclusief 6 december)
-    # Let op: 29/11 t/m 31/12 in december, plus 1/12 t/m 27/12
     if month == 11 and day >= 29:
         return "jouluterveiset_intro.tti"
     elif month == 12 and day <= 27 and day != 6:
@@ -191,17 +194,17 @@ def create_newsreel_page(page_number=185):
     subpages.append(intro_subpage)
     print(f"Intro loaded with {len(intro_subpage['packets'])} packets")
     
-    # ===== PÄSÄSUUTISET (10 subpages: 1 index + 9 artikelen) =====
-    print("Fetching Päsäsuutiset...")
+    # ===== PÄÄUUTISET (10 subpages: 1 index + 9 artikelen) =====
+    print("Fetching Pääuutiset...")
     paauutiset_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/paauutiset", 9)
     paauutiset_headlines = [{"title": art["title"], "number": str(102 + i)} for i, art in enumerate(paauutiset_articles)]
     
-    # Index subpagina voor Päsäsuutiset (zoals p101)
+    # Index subpagina voor Pääuutiset (zoals p101)
     paauutiset_index_template = loadTTI("paauutiset_index.tti")
-    index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÃ„Ã„UUTISET")
+    index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÄÄUUTISET")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Päsäsuutiset
+    # Artikel subpagina's voor Pääuutiset
     paauutiset_page_template = loadTTI("paauutiset_page.tti")
     for i, article in enumerate(paauutiset_articles):
         article_subpage = create_article_subpage(paauutiset_page_template, article, 102 + i)
@@ -257,6 +260,22 @@ def create_newsreel_page(page_number=185):
     jalkapallo_page_template = loadTTI("jalkapallo_page.tti")
     for i, article in enumerate(jalkapallo_articles):
         article_subpage = create_article_subpage(jalkapallo_page_template, article, 309 + i)
+        subpages.append(article_subpage)
+    
+    # ===== TRAVEL (6 subpages: 1 index + 5 artikelen) =====
+    print("Fetching Travel...")
+    travel_articles = fetch_articles_from_feed("https://yle.fi/rss/matkailu", 5)
+    travel_headlines = [{"title": art["title"], "number": str(402 + i)} for i, art in enumerate(travel_articles)]
+    
+    # Index subpagina voor Travel (zoals p401)
+    travel_index_template = loadTTI("matkailu_index.tti")
+    index_subpage = create_index_subpage(travel_index_template, travel_headlines, "MATKAILU")
+    subpages.append(index_subpage)
+    
+    # Artikel subpagina's voor Travel
+    travel_page_template = loadTTI("matkailu_page.tti")
+    for i, article in enumerate(travel_articles):
+        article_subpage = create_article_subpage(travel_page_template, article, 402 + i)
         subpages.append(article_subpage)
     
     # ===== VEIKKAUSLIIGA SCORE TABLE (1 subpage) =====
@@ -360,6 +379,7 @@ def create_newsreel_page(page_number=185):
     print(f"  - Tuoreimmat: 1 index + 5 articles = 6")
     print(f"  - Urheilu: 1 index + 5 articles = 6")
     print(f"  - Jalkapallo: 1 index + 5 articles = 6")
+    print(f"  - Travel: 1 index + 5 articles = 6")
     print(f"  - Veikkausliiga: 1 score table")
     print(f"  - Weather map: 3 subpages")
     print(f"  = Total: {len(subpages)} subpages")
