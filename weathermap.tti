@@ -2,11 +2,12 @@ PN,16600
 SC,0000
 PS,8100
 RE,0
-CT,20,T
+CT,8,T
+OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,S |,,h>.|h>.|G11.01.1988VW     x|p     
 OL,2,S ssj7#j7#GKlo 19.00 VW`    !    
 OL,3,V||||||||||||||||||||||||W+0 j?     
-OL,4,F HUOMISILTAAN ASTI:      W +u     
+OL,4,F DAGDELEN HIER AUBB:     W +u     
 OL,5,                           W 4    
 OL,6,                            WjG50W?    
 OL,7,                            Wj4    
@@ -14,15 +15,16 @@ OL,8,                            W*5
 OL,9,                            W o4   
 OL,10,                             W*!   
 OL,11,                             W`    
-OL,12,                            WpG40W4   
-OL,13,                           Wx   
-OL,14,                          Wx4  
-OL,15,                       W WzG30W  
-OL,16,                         W  
-OL,17,                         W%  
-OL,18,                         WG20W7   
-OL,19,                         W7    
-OL,20,                      W  WoG10W?     
-OL,21,                      W h$"///##       
-OL,22,                      WW !              
-OL,23,                     FS{{ merell{  168  
+OL,12,                         W  WpG40W4   
+OL,13,                        W^ Wx   
+OL,14,                        W^Wx4  
+OL,15,                        W^zG30W  
+OL,16,                        W^  
+OL,17,                        W^%  
+OL,18,                        W^G20W7   
+OL,19,                        W^7    
+OL,20,                      W^  oG10W?     
+OL,21,                      W^h$"///##       
+OL,22,                      W^ !              
+OL,23,T]G   Tiedot: Ilmatieteen laitos        
+OL,24, ]DSAA MERELLA 168  SAAENNUSTEET 161    
