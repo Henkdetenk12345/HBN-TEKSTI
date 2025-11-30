@@ -305,9 +305,10 @@ def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren
                 else:
                     tekst = ""
                 if tekst:
+                    max_lengte = 22  # 23 - 1 voor de punt
                     eerste_regel = prefix + tekst
-                    if len(eerste_regel) > 23:
-                        max_beschrijving = 23 - len(prefix)
+                    if len(eerste_regel) > max_lengte:
+                        max_beschrijving = max_lengte - len(prefix)
                         tekst = tekst[:max_beschrijving]
                         eerste_regel = prefix + tekst
                     tekst_delen.append(eerste_regel)
@@ -331,7 +332,7 @@ def inject_kleuren_in_packets(packets, regel_kleuren):
         if "text" not in packet or "number" not in packet:
             continue
         regel_nr = packet["number"]
-        if regel_nr >= 23:
+        if regel_nr >= 22:
             continue
         if regel_nr not in regel_kleuren:
             continue
