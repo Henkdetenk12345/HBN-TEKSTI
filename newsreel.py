@@ -261,23 +261,7 @@ def create_newsreel_page(page_number=185):
     for i, article in enumerate(jalkapallo_articles):
         article_subpage = create_article_subpage(jalkapallo_page_template, article, 309 + i)
         subpages.append(article_subpage)
-    
-    # ===== TRAVEL (6 subpages: 1 index + 5 artikelen) =====
-    print("Fetching Travel...")
-    travel_articles = fetch_articles_from_feed("https://yle.fi/rss/matkailu", 5)
-    travel_headlines = [{"title": art["title"], "number": str(402 + i)} for i, art in enumerate(travel_articles)]
-    
-    # Index subpagina voor Travel (zoals p401)
-    travel_index_template = loadTTI("matkailu_index.tti")
-    index_subpage = create_index_subpage(travel_index_template, travel_headlines, "MATKAILU")
-    subpages.append(index_subpage)
-    
-    # Artikel subpagina's voor Travel
-    travel_page_template = loadTTI("matkailu_page.tti")
-    for i, article in enumerate(travel_articles):
-        article_subpage = create_article_subpage(travel_page_template, article, 402 + i)
-        subpages.append(article_subpage)
-    
+
     # ===== VEIKKAUSLIIGA SCORE TABLE (1 subpage) =====
     print("Adding Veikkausliiga score table...")
     try:
@@ -338,6 +322,22 @@ def create_newsreel_page(page_number=185):
         print(f"⚠ Could not add Veikkausliiga score table: {e}")
         import traceback
         traceback.print_exc()
+        
+    # ===== TRAVEL (6 subpages: 1 index + 5 artikelen) =====
+    print("Fetching Travel...")
+    travel_articles = fetch_articles_from_feed("https://yle.fi/rss/t/18-206851/fi", 5)
+    travel_headlines = [{"title": art["title"], "number": str(402 + i)} for i, art in enumerate(travel_articles)]
+    
+    # Index subpagina voor Travel (zoals p401)
+    travel_index_template = loadTTI("matkailu_index.tti")
+    index_subpage = create_index_subpage(travel_index_template, travel_headlines, "MATKAILU")
+    subpages.append(index_subpage)
+    
+    # Artikel subpagina's voor Travel
+    travel_page_template = loadTTI("matkailu_page.tti")
+    for i, article in enumerate(travel_articles):
+        article_subpage = create_article_subpage(travel_page_template, article, 402 + i)
+        subpages.append(article_subpage)
     
     # ===== WEERKAART (3 subpages) =====
     print("Adding weather map subpages...")
