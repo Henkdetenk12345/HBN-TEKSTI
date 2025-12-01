@@ -1,5 +1,6 @@
 """
-Fixed Weather Map Colorizer - Correcte kleuren voor Finland kaart
+Fixed Weather Map Colorizer - Adaptive color system with West/East support
+COMPLETE VERSION: Line 22 fix + geographic fix + temp ranges + removed old temp system
 """
 
 import requests
@@ -11,14 +12,6 @@ from page import exportTTI, loadTTI
 from legaliser import pageLegaliser
 import ttxcolour
 from collections import defaultdict
-
-TEMPERATUUR_LOCATIES = {
-    "10": {"locatie": "Helsinki"},
-    "20": {"locatie": "Tampere"},
-    "30": {"locatie": "Kuopio"},
-    "40": {"locatie": "Puolanka"},
-    "50": {"locatie": "Sodankylä"},
-}
 
 DAGDELEN_FIN = {
     "aamu": "AAMUUN ASTI:",
@@ -39,48 +32,50 @@ for key in DAGDELEN_FIN:
 for key in DAGDELEN_FIN_MORGEN:
     DAGDELEN_FIN_MORGEN[key] = DAGDELEN_FIN_MORGEN[key].ljust(19)
 
+# Verbeterde geografische indeling
 GEBIED_REGELS = {
-    "Lapland": (1, 10),
-    "Noord-Pohjanmaa": (8, 12),
-    "Kainuu": (10, 14),
-    "Pohjanmaa": (11, 14),
-    "Noord-Savo": (12, 15),
-    "Noord-Karelia": (13, 16),
-    "Centraal-Finland": (13, 15),
-    "Zuid-Savo": (14, 17),
-    "Pirkanmaa": (14, 16),
-    "Satakunta": (15, 18),
-    "Kanta-Häme": (16, 18),
-    "Zuidwest": (17, 20),
-    "Zuid-Karelia": (17, 20),
-    "Zuid-Uusimaa": (18, 22),
+    # West gebieden (westkust en centraal-west)
+    "Lapland-West": (1, 10, "west"),
+    "Noord-Pohjanmaa-West": (8, 12, "west"),
+    "Pohjanmaa": (11, 14, "west"),
+    "Centraal-Finland-West": (13, 15, "west"),
+    "Pirkanmaa-West": (14, 16, "west"),
+    "Satakunta": (15, 18, "west"),
+    "Zuidwest": (17, 20, "west"),
+    "Zuid-Uusimaa-West": (18, 22, "west"),
+    
+    # Oost gebieden (oostgrens en centraal-oost)
+    "Lapland-Oost": (1, 10, "oost"),
+    "Kainuu": (10, 14, "oost"),
+    "Noord-Savo": (12, 15, "oost"),
+    "Noord-Karelia": (13, 16, "oost"),
+    "Centraal-Finland-Oost": (13, 15, "oost"),
+    "Zuid-Savo": (14, 17, "oost"),
+    "Pirkanmaa-Oost": (14, 16, "oost"),
+    "Kanta-Häme": (16, 18, "oost"),
+    "Zuid-Karelia": (17, 20, "oost"),
+    "Zuid-Uusimaa-Oost": (18, 22, "oost"),
 }
 
 FINLAND_STEDEN = {
-    "Zuid-Uusimaa": "Helsinki",
+    "Zuid-Uusimaa-Oost": "Helsinki",
+    "Zuid-Uusimaa-West": "Helsinki",
     "Zuidwest": "Turku",
     "Satakunta": "Pori",
     "Kanta-Häme": "Hämeenlinna",
-    "Pirkanmaa": "Tampere",
+    "Pirkanmaa-West": "Tampere",
+    "Pirkanmaa-Oost": "Tampere",
     "Zuid-Karelia": "Lappeenranta",
     "Zuid-Savo": "Mikkeli",
     "Pohjanmaa": "Vaasa",
     "Noord-Savo": "Kuopio",
     "Noord-Karelia": "Joensuu",
-    "Centraal-Finland": "Jyväskylä",
+    "Centraal-Finland-West": "Jyväskylä",
+    "Centraal-Finland-Oost": "Jyväskylä",
     "Kainuu": "Kajaani",
-    "Noord-Pohjanmaa": "Oulu",
-    "Lapland": "Rovaniemi",
-}
-
-WEER_KLEUREN = {
-    "2": ttxcolour.MOSAICMAGENTA,
-    "3": ttxcolour.MOSAICCYAN,
-    "5": ttxcolour.MOSAICBLUE,
-    "6": ttxcolour.MOSAICRED,
-    "7": ttxcolour.MOSAICRED,
-    "800": ttxcolour.MOSAICYELLOW,
-    "8": ttxcolour.MOSAICGREEN,
+    "Noord-Pohjanmaa-West": "Oulu",
+    "Lapland-West": "Rovaniemi",
+    "Lapland-Oost": "Ivalo",
 }
 
 WEER_BESCHRIJVINGEN_FI = {
@@ -141,14 +136,107 @@ WEER_BESCHRIJVINGEN_FI = {
     "804": "Pilvistä",
 }
 
-def get_weer_kleur(weer_code):
+AVAILABLE_COLOURS = [
+    ttxcolour.MOSAICRED,
+    ttxcolour.MOSAICGREEN,
+    ttxcolour.MOSAICBLUE,
+    ttxcolour.MOSAICYELLOW,
+    ttxcolour.MOSAICCYAN,
+    ttxcolour.MOSAICMAGENTA,
+]
+
+def get_weer_group(weer_code):
+    """Determine weather group based on code"""
     code_str = str(weer_code)
-    if code_str in WEER_KLEUREN:
-        return WEER_KLEUREN[code_str]
     eerste_cijfer = code_str[0]
-    if eerste_cijfer in WEER_KLEUREN:
-        return WEER_KLEUREN[eerste_cijfer]
-    return ttxcolour.MOSAICWHITE
+    
+    if eerste_cijfer == "2":
+        return "thunderstorm"
+    elif eerste_cijfer == "3":
+        return "drizzle"
+    elif eerste_cijfer == "5":
+        return "rain"
+    elif eerste_cijfer == "6":
+        return "snow"
+    elif eerste_cijfer == "7":
+        return "mist"
+    elif eerste_cijfer == "8":
+        return "cloud"
+    else:
+        return "unknown"
+
+def bepaal_regel_kleuren_west_oost(api_key, uren_vooruit=0):
+    """
+    Determine colours for WEST and OOST separately per rule
+    Returns: (regel_kleuren_west, regel_kleuren_oost, gebied_weer_data)
+    """
+    gebied_weer = {}
+    gebied_weer_data = {}
+    
+    # Haal weer data op voor alle gebieden
+    for gebied, stad in FINLAND_STEDEN.items():
+        weer_data = get_weer_forecast(stad, api_key, uren_vooruit)
+        if weer_data:
+            gebied_weer[gebied] = int(weer_data["weer_id"])
+            gebied_weer_data[stad] = weer_data
+    
+    # Verzamel alle unieke weer groepen
+    weer_groups_present = set()
+    for weer_code in gebied_weer.values():
+        group = get_weer_group(weer_code)
+        weer_groups_present.add(group)
+    
+    # Wijs kleuren toe aan weer groepen
+    weer_group_colours = {}
+    for i, group in enumerate(sorted(weer_groups_present)):
+        weer_group_colours[group] = AVAILABLE_COLOURS[i % len(AVAILABLE_COLOURS)]
+    
+    # Voting systeem voor WEST
+    regel_kleuren_votes_west = defaultdict(lambda: defaultdict(int))
+    # Voting systeem voor OOST
+    regel_kleuren_votes_oost = defaultdict(lambda: defaultdict(int))
+    
+    for gebied, weer_code in gebied_weer.items():
+        if gebied in GEBIED_REGELS:
+            start_regel, eind_regel, positie = GEBIED_REGELS[gebied]
+            group = get_weer_group(weer_code)
+            kleur = weer_group_colours.get(group, ttxcolour.MOSAICWHITE)
+            
+            # Vote voor de juiste positie (west of oost)
+            for regel_nr in range(start_regel, eind_regel + 1):
+                if positie == "west":
+                    regel_kleuren_votes_west[regel_nr][kleur] += 1
+                else:  # oost
+                    regel_kleuren_votes_oost[regel_nr][kleur] += 1
+    
+    # Bepaal beste kleur per regel voor WEST
+    regel_kleuren_west = {}
+    for regel_nr, kleuren_count in regel_kleuren_votes_west.items():
+        if kleuren_count:
+            beste_kleur = max(kleuren_count.items(), key=lambda x: x[1])[0]
+            regel_kleuren_west[regel_nr] = beste_kleur
+    
+    # Bepaal beste kleur per regel voor OOST
+    regel_kleuren_oost = {}
+    for regel_nr, kleuren_count in regel_kleuren_votes_oost.items():
+        if kleuren_count:
+            beste_kleur = max(kleuren_count.items(), key=lambda x: x[1])[0]
+            regel_kleuren_oost[regel_nr] = beste_kleur
+    
+    return regel_kleuren_west, regel_kleuren_oost, gebied_weer_data
+
+def round_tijd_op_15_min():
+    nu = datetime.now()
+    minuten = round(nu.minute / 15) * 15
+    if minuten == 60:
+        nu = nu + timedelta(hours=1)
+        minuten = 0
+    afgeronde_tijd = nu.replace(minute=minuten, second=0, microsecond=0)
+    return f"Klo {afgeronde_tijd.strftime('%H.%M')}"
+
+def get_finnish_datum():
+    nu = datetime.now()
+    return f"{nu.day:02d}.{nu.month:02d}.{nu.year}"
 
 def get_dagdeel(uur):
     if 6 <= uur < 12:
@@ -170,19 +258,6 @@ def get_volgend_dagdeel(huidig_dagdeel, huidig_uur):
     is_morgen = (huidig_dagdeel == "ilta" and volgend_dagdeel == "yö")
     is_overmorgen = (huidig_dagdeel == "ilta" and daaropvolgend_dagdeel == "aamu") or (is_morgen and daaropvolgend_dagdeel == "aamu")
     return volgend_dagdeel, is_morgen, daaropvolgend_dagdeel, is_overmorgen
-
-def round_tijd_op_15_min():
-    nu = datetime.now()
-    minuten = round(nu.minute / 15) * 15
-    if minuten == 60:
-        nu = nu + timedelta(hours=1)
-        minuten = 0
-    afgeronde_tijd = nu.replace(minute=minuten, second=0, microsecond=0)
-    return f"Klo {afgeronde_tijd.strftime('%H.%M')}"
-
-def get_finnish_datum():
-    nu = datetime.now()
-    return f"{nu.day:02d}.{nu.month:02d}.{nu.year}"
 
 def get_weer_forecast(locatie, api_key, uren_vooruit=0):
     if uren_vooruit > 0:
@@ -224,48 +299,33 @@ def get_weer_forecast(locatie, api_key, uren_vooruit=0):
         print(f"Virhe säädatan haussa paikalle {locatie}: {e}")
         return None
 
-def bepaal_regel_kleuren(api_key, uren_vooruit=0):
-    gebied_weer = {}
-    gebied_weer_data = {}
-    for gebied, stad in FINLAND_STEDEN.items():
-        weer_data = get_weer_forecast(stad, api_key, uren_vooruit)
-        if weer_data:
-            gebied_weer[gebied] = int(weer_data["weer_id"])
-            gebied_weer_data[stad] = weer_data
-    regel_kleuren_votes = defaultdict(lambda: defaultdict(int))
-    for gebied, weer_code in gebied_weer.items():
-        if gebied in GEBIED_REGELS:
-            start_regel, eind_regel = GEBIED_REGELS[gebied]
-            kleur = get_weer_kleur(weer_code)
-            for regel_nr in range(start_regel, eind_regel + 1):
-                regel_kleuren_votes[regel_nr][kleur] += 1
-    regel_kleuren = {}
-    for regel_nr, kleuren_count in regel_kleuren_votes.items():
-        beste_kleur = max(kleuren_count.items(), key=lambda x: x[1])[0]
-        regel_kleuren[regel_nr] = beste_kleur
-    return regel_kleuren, gebied_weer_data
-
-def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren_vooruit=0):
-    unieke_kleuren = set(regel_kleuren.values())
+def genereer_kleur_beschrijvingen(regel_kleuren_west, regel_kleuren_oost, gebied_weer_data, api_key, uren_vooruit=0):
+    # Verzamel alle unieke kleuren (zowel west als oost)
+    alle_kleuren = set(regel_kleuren_west.values()) | set(regel_kleuren_oost.values())
+    
     kleur_naar_gebieden = {}
-    for gebied, (start, eind) in GEBIED_REGELS.items():
+    for gebied, (start, eind, positie) in GEBIED_REGELS.items():
+        regel_kleuren = regel_kleuren_west if positie == "west" else regel_kleuren_oost
         gebied_kleuren = [regel_kleuren.get(r) for r in range(start, eind + 1) if r in regel_kleuren]
         if gebied_kleuren:
             meest_voorkomend = max(set(gebied_kleuren), key=gebied_kleuren.count)
             if meest_voorkomend not in kleur_naar_gebieden:
                 kleur_naar_gebieden[meest_voorkomend] = []
             kleur_naar_gebieden[meest_voorkomend].append(gebied)
-    for kleur in unieke_kleuren:
+    
+    # Vul ontbrekende kleuren
+    for kleur in alle_kleuren:
         if kleur not in kleur_naar_gebieden:
-            for regel_nr, regel_kleur in regel_kleuren.items():
+            for regel_nr, regel_kleur in {**regel_kleuren_west, **regel_kleuren_oost}.items():
                 if regel_kleur == kleur:
-                    for gebied, (start, eind) in GEBIED_REGELS.items():
+                    for gebied, (start, eind, positie) in GEBIED_REGELS.items():
                         if start <= regel_nr <= eind:
                             if kleur not in kleur_naar_gebieden:
                                 kleur_naar_gebieden[kleur] = []
                             kleur_naar_gebieden[kleur].append(gebied)
                             break
                     break
+    
     beschrijvingen = {}
     kleur_display = {
         ttxcolour.MOSAICYELLOW: ttxcolour.ALPHAYELLOW,
@@ -275,7 +335,9 @@ def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren
         ttxcolour.MOSAICCYAN: ttxcolour.ALPHACYAN,
         ttxcolour.MOSAICMAGENTA: ttxcolour.ALPHAMAGENTA,
     }
+    
     for kleur, gebieden in kleur_naar_gebieden.items():
+        # GEEN CHECK MEER - altijd beschrijving toevoegen, ook voor 1 regel
         if gebieden and gebieden[0] in FINLAND_STEDEN:
             stad = FINLAND_STEDEN[gebieden[0]]
             if stad in gebied_weer_data:
@@ -283,7 +345,6 @@ def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren
                 tekst_delen = []
                 weer_code = str(weer_info.get("weer_id", ""))
                 prefix = ""
-                # Correct prefix based on actual weather code
                 if weer_code.startswith("6"):
                     prefix = "LUMI: "
                 elif weer_code.startswith("7"):
@@ -295,18 +356,16 @@ def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren
                 elif weer_code.startswith("2"):
                     prefix = "UKKO: "
                 elif weer_code == "800":
-                    prefix = "SELKEÄ: "
+                    prefix = "SELKEÄÄ: "
                 elif weer_code.startswith("8"):
                     prefix = "PILVET: "
-                    tekst = ""
-                    
+                tekst = ""
                 if weer_code in WEER_BESCHRIJVINGEN_FI:
                     tekst = WEER_BESCHRIJVINGEN_FI[weer_code]
                 elif weer_info.get("beschrijving"):
                     tekst = weer_info["beschrijving"].capitalize()
-                    
                 if tekst:
-                    max_lengte = 22  # 23 - 1 voor de punt
+                    max_lengte = 22
                     eerste_regel = prefix + tekst
                     if len(eerste_regel) > max_lengte:
                         max_beschrijving = max_lengte - len(prefix)
@@ -323,37 +382,80 @@ def genereer_kleur_beschrijvingen(regel_kleuren, gebied_weer_data, api_key, uren
                     if len(wind_tekst) > 23:
                         wind_tekst = wind_tekst[:23]
                     tekst_delen.append(wind_tekst)
+                
+                # Temperatuurbereik toevoegen - IN HET FINS MET "asta"
+                temps_voor_kleur = []
+                for gebied in gebieden:
+                    if gebied in FINLAND_STEDEN:
+                        stad_temp = FINLAND_STEDEN[gebied]
+                        if stad_temp in gebied_weer_data:
+                            temps_voor_kleur.append(gebied_weer_data[stad_temp]["temp"])
+                
+                if temps_voor_kleur:
+                    min_temp = min(temps_voor_kleur)
+                    max_temp = max(temps_voor_kleur)
+                    if min_temp == max_temp:
+                        temp_tekst = f"Lämpö: {int(min_temp)}°C"
+                    else:
+                        # FINS: "-2 asta 2°C" (van -2 tot 2°C)
+                        temp_tekst = f"Lämpö: {int(min_temp)} asta {int(max_temp)}°C"
+                    if len(temp_tekst) > 23:
+                        temp_tekst = temp_tekst[:23]
+                    tekst_delen.append(temp_tekst)
+                
                 if tekst_delen:
                     beschrijving = ". ".join(tekst_delen) + "."
                     beschrijvingen[kleur] = (beschrijving, kleur_display.get(kleur, ttxcolour.ALPHAWHITE))
+    
     return beschrijvingen
 
-def inject_kleuren_in_packets(packets, regel_kleuren):
+def inject_kleuren_in_packets(packets, regel_kleuren_west, regel_kleuren_oost):
+    """
+    Inject twee kleuren per regel: eerste voor west, tweede voor oost
+    """
     for packet in packets:
         if "text" not in packet or "number" not in packet:
             continue
         regel_nr = packet["number"]
         if regel_nr >= 22:
             continue
-        if regel_nr not in regel_kleuren:
-            continue
+        
         text = packet["text"]
-        kleur_code_raw = regel_kleuren[regel_nr]
-        mosaic_kleur = chr(kleur_code_raw)
         nieuwe_text = ""
-        for char in text:
+        
+        kleur_west = regel_kleuren_west.get(regel_nr)
+        kleur_oost = regel_kleuren_oost.get(regel_nr)
+        
+        eerste_kleur_gezien = False
+        
+        for i, char in enumerate(text):
             char_code = ord(char)
+            # Als het een mosaic kleurcode is (0x10-0x17)
             if 0x10 <= char_code <= 0x17:
-                if char_code == 0x16 or char_code == 0x13:
+                if char_code == 0x16 or char_code == 0x13:  # Behoud graphics control codes
                     nieuwe_text += char
                 else:
-                    nieuwe_text += mosaic_kleur
+                    # Eerste kleurcode = WEST, tweede kleurcode = OOST
+                    if not eerste_kleur_gezien:
+                        if kleur_west:
+                            nieuwe_text += chr(kleur_west)
+                        elif kleur_oost:
+                            nieuwe_text += chr(kleur_oost)
+                        else:
+                            nieuwe_text += char
+                        eerste_kleur_gezien = True
+                    elif kleur_oost:
+                        nieuwe_text += chr(kleur_oost)
+                    else:
+                        nieuwe_text += char
             else:
                 nieuwe_text += char
+        
         packet["text"] = nieuwe_text
+    
     return packets
 
-def inject_beschrijvingen_in_packets(packets, beschrijvingen, regel_kleuren):
+def inject_beschrijvingen_in_packets(packets, beschrijvingen, regel_kleuren_west, regel_kleuren_oost):
     if not beschrijvingen:
         return packets
     start_regel = 6
@@ -397,13 +499,9 @@ def inject_beschrijvingen_in_packets(packets, beschrijvingen, regel_kleuren):
             break
     return packets
 
-def vervang_placeholders(packet_text, temperaturen, datum, tijd, dagdeel_tekst):
+def vervang_placeholders(packet_text, datum, tijd, dagdeel_tekst):
     text = packet_text
     text = text.replace("DAGDELEN HIER AUBB:", dagdeel_tekst)
-    for placeholder, temp in temperaturen.items():
-        temp_str = f"{int(temp):02d}"
-        pattern = rf'(?<!Klo )(?<!\d)(?<!\.){re.escape(placeholder)}(?!\d)(?!\.)'
-        text = re.sub(pattern, temp_str, text)
     text = re.sub(r'11\.01\.1988', datum, text)
     text = re.sub(r'Klo 19\.00', tijd, text)
     return text
@@ -421,50 +519,42 @@ def get_weather_subpages(input_bestand="weathermap.tti"):
         huidig_dagdeel = get_dagdeel(nu.hour)
         volgend_dagdeel, is_morgen, daaropvolgend_dagdeel, is_overmorgen = get_volgend_dagdeel(huidig_dagdeel, nu.hour)
         subpages = []
-        regel_kleuren_nu, gebied_weer_data_nu = bepaal_regel_kleuren(api_key, 0)
-        beschrijvingen_nu = genereer_kleur_beschrijvingen(regel_kleuren_nu, gebied_weer_data_nu, api_key, 0)
+        
+        # Current
+        regel_kleuren_west_nu, regel_kleuren_oost_nu, gebied_weer_data_nu = bepaal_regel_kleuren_west_oost(api_key, 0)
+        beschrijvingen_nu = genereer_kleur_beschrijvingen(regel_kleuren_west_nu, regel_kleuren_oost_nu, gebied_weer_data_nu, api_key, 0)
         subpage1 = {"packets": copy.deepcopy(template["subpages"][0]["packets"])}
-        inject_kleuren_in_packets(subpage1["packets"], regel_kleuren_nu)
-        inject_beschrijvingen_in_packets(subpage1["packets"], beschrijvingen_nu, regel_kleuren_nu)
-        temperaturen_nu = {}
-        for placeholder, info in TEMPERATUUR_LOCATIES.items():
-            weer_data = get_weer_forecast(info["locatie"], api_key, 0)
-            if weer_data:
-                temperaturen_nu[placeholder] = weer_data["temp"]
+        inject_kleuren_in_packets(subpage1["packets"], regel_kleuren_west_nu, regel_kleuren_oost_nu)
+        inject_beschrijvingen_in_packets(subpage1["packets"], beschrijvingen_nu, regel_kleuren_west_nu, regel_kleuren_oost_nu)
         for packet in subpage1["packets"]:
             if "text" in packet:
-                packet["text"] = vervang_placeholders(packet["text"], temperaturen_nu, datum, tijd, DAGDELEN_FIN[huidig_dagdeel])
+                packet["text"] = vervang_placeholders(packet["text"], datum, tijd, DAGDELEN_FIN[huidig_dagdeel])
         subpages.append(subpage1)
-        regel_kleuren_volgend, gebied_weer_data_volgend = bepaal_regel_kleuren(api_key, 6)
-        beschrijvingen_volgend = genereer_kleur_beschrijvingen(regel_kleuren_volgend, gebied_weer_data_volgend, api_key, 6)
+        
+        # +6 hours
+        regel_kleuren_west_volgend, regel_kleuren_oost_volgend, gebied_weer_data_volgend = bepaal_regel_kleuren_west_oost(api_key, 6)
+        beschrijvingen_volgend = genereer_kleur_beschrijvingen(regel_kleuren_west_volgend, regel_kleuren_oost_volgend, gebied_weer_data_volgend, api_key, 6)
         geldig_volgend = DAGDELEN_FIN_MORGEN[volgend_dagdeel] if is_morgen else DAGDELEN_FIN[volgend_dagdeel]
         subpage2 = {"packets": copy.deepcopy(template["subpages"][0]["packets"])}
-        inject_kleuren_in_packets(subpage2["packets"], regel_kleuren_volgend)
-        inject_beschrijvingen_in_packets(subpage2["packets"], beschrijvingen_volgend, regel_kleuren_volgend)
-        temperaturen_volgend = {}
-        for placeholder, info in TEMPERATUUR_LOCATIES.items():
-            weer_data = get_weer_forecast(info["locatie"], api_key, 6)
-            if weer_data:
-                temperaturen_volgend[placeholder] = weer_data["temp"]
+        inject_kleuren_in_packets(subpage2["packets"], regel_kleuren_west_volgend, regel_kleuren_oost_volgend)
+        inject_beschrijvingen_in_packets(subpage2["packets"], beschrijvingen_volgend, regel_kleuren_west_volgend, regel_kleuren_oost_volgend)
         for packet in subpage2["packets"]:
             if "text" in packet:
-                packet["text"] = vervang_placeholders(packet["text"], temperaturen_volgend, datum, tijd, geldig_volgend)
+                packet["text"] = vervang_placeholders(packet["text"], datum, tijd, geldig_volgend)
         subpages.append(subpage2)
-        regel_kleuren_daarna, gebied_weer_data_daarna = bepaal_regel_kleuren(api_key, 12)
-        beschrijvingen_daarna = genereer_kleur_beschrijvingen(regel_kleuren_daarna, gebied_weer_data_daarna, api_key, 12)
+        
+        # +12 hours
+        regel_kleuren_west_daarna, regel_kleuren_oost_daarna, gebied_weer_data_daarna = bepaal_regel_kleuren_west_oost(api_key, 12)
+        beschrijvingen_daarna = genereer_kleur_beschrijvingen(regel_kleuren_west_daarna, regel_kleuren_oost_daarna, gebied_weer_data_daarna, api_key, 12)
         geldig_daarna = DAGDELEN_FIN_MORGEN[daaropvolgend_dagdeel] if is_overmorgen else DAGDELEN_FIN[daaropvolgend_dagdeel]
         subpage3 = {"packets": copy.deepcopy(template["subpages"][0]["packets"])}
-        inject_kleuren_in_packets(subpage3["packets"], regel_kleuren_daarna)
-        inject_beschrijvingen_in_packets(subpage3["packets"], beschrijvingen_daarna, regel_kleuren_daarna)
-        temperaturen_daarna = {}
-        for placeholder, info in TEMPERATUUR_LOCATIES.items():
-            weer_data = get_weer_forecast(info["locatie"], api_key, 12)
-            if weer_data:
-                temperaturen_daarna[placeholder] = weer_data["temp"]
+        inject_kleuren_in_packets(subpage3["packets"], regel_kleuren_west_daarna, regel_kleuren_oost_daarna)
+        inject_beschrijvingen_in_packets(subpage3["packets"], beschrijvingen_daarna, regel_kleuren_west_daarna, regel_kleuren_oost_daarna)
         for packet in subpage3["packets"]:
             if "text" in packet:
-                packet["text"] = vervang_placeholders(packet["text"], temperaturen_daarna, datum, tijd, geldig_daarna)
+                packet["text"] = vervang_placeholders(packet["text"], datum, tijd, geldig_daarna)
         subpages.append(subpage3)
+        
         return subpages
     except Exception as e:
         print(f"Virhe: {e}")
