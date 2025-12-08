@@ -1,7 +1,7 @@
-DE,Description goes here
+DE,
 DS,inserter
-SP,C:\Users\Max de Vos\Downloads\Teletekst BO\metro\hsl_disruptions_page.tti
-PN,45500
+SP,C:\Users\Max de Vos\Downloads\FIXED3\tti templates – kopio\hsl_disruptions_page.tti
+PN,45600
 SC,0000
 PS,8100
 CT,8,T
@@ -11,3 +11,5 @@ OL,2,T] Wk7h<|`|0|l4|l4Q]G   HAIRIOT     T
 OL,3,T] Wj5jws  k4z5 ]T
 OL,4,Tpuzpuppppuzppzpppppppppppppppppp
 OL,5,Q#######################################
+OL,24,A  Paauutiset BUrheilu CTV Opas  FSaa   
+FL,101,300,500,160,8ff,8ff

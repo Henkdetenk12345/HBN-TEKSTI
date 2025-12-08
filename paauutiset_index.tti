@@ -1,6 +1,11 @@
+DE,
+DS,inserter
+SP,C:\Users\Max de Vos\Downloads\FIXED3\tti templates – kopio\paauutiset_index.tti
 PN,18500
 SC,0000
 PS,8100
-RE,0
-CT,20,T
+CT,8,T
+OL,0,        wxTED Header mpp        %H:%M.%S
 OL,2,T]G PAAUUTISET              DAY         
+OL,24,AA Tuoreimmat BUrheilu CTV Opas  FSaa   
+FL,111,300,500,160,8ff,8ff
