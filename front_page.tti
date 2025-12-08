@@ -1,17 +1,24 @@
+DE,
+DS,inserter
+SP,C:\Users\Max de Vos\Downloads\FIXED3\tti templates – kopio\front_page.tti
 PN,10000
 SC,0000
 PS,8100
-RE,0
-CT,20,T
+CT,8,T
+OL,26,@zD@WxpzD@]xp
+OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,  V h4|h<4|l4h||4||h4|h||4||h4h|4|h4    
-OL,2,T]V j=j=5j5 j5 |j=wj|4j5j54 j5    
+OL,2,T]V j=j=1j5 j5 |j=wj|4j5j54 j5    
 OL,3,T]V j5j}5j5 j5 |j5h|~5j5j5  k!    
 OL,4,T]G    HELSINKI BROADCAST NETWORK       
 OL,5,CPAAUUTISET ...................... 101  
 OL,6,CTUOREIMMAT ...................... 111  
 OL,7,CSAA ............................. 160  
 OL,8,CUUTISRUUTU ...................... 185  
+OL,9,CURHEILU ......................... 300  
 OL,16,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,19,T,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,20,V       F   HBN TEKSTI-TV               
 OL,21,V       FSORNAINEN, HELSINKI            
+OL,24,A  Paauutiset BUrheilu CTV Opas F Saa   
+FL,101,300,500,160,8ff,8ff

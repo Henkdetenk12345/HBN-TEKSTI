@@ -1,13 +1,12 @@
 DE,
 DS,inserter
-SP,F:\Hbn\newyear_intro.tti
+SP,C:\Users\Max de Vos\Downloads\FIXED3\tti templates – kopio\newyear_intro.tti
 PN,18500
 SC,0000
 PS,8100
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,GMHYVAA UUTTAVUOTTA HBN TEKSTI TV:EELTA!
-OL,2,                                      A 
 OL,4,            S                           
 OL,5,            SZH  h                      
 OL,6,            SZHd j `&                   
