@@ -18,6 +18,7 @@ import newsreel
 import weathermap
 import veikkausliiga
 import hsl_teletext
+import weather
 from datetime import datetime
 import unicodedata
 
