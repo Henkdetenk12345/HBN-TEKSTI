@@ -1,13 +1,16 @@
 DE,
-PS,8100
+DS,inserter
+SP,E:\home\max\Hbn\hsl_routes_page.tti
 PN,45500
 SC,0000
-RE,0
-FL,101,300,500,160,8ff,8ff
+PS,8100
+CT,8,T
+OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,T
 OL,2,T] Wk7h<|`|0|l4|l4Q]G AIKATAULUT    T
 OL,3,T] Wj5jws  k4z5 ]T
 OL,4,Tpuzpuppppuzppzpppppppppppppppppp
 OL,5,Q#######################################
-OL,23,Q]GH{iri|t 456 Uutiset 401 Urheilu 300  
-OL,24,A  P{{uutiset BUrheilu CTV Opas  FS{{   
+OL,23,Q]GHairiot 456 Uutiset 401 Urheilu 300  
+OL,24,A  Paauutiset BUrheilu CTV Opas  FSaa   
+FL,101,300,500,160,8ff,8ff

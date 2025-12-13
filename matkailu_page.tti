@@ -1,13 +1,16 @@
 DE,
-PS,8100
+DS,inserter
+SP,E:\home\max\Hbn\matkailu_page.tti
 PN,40200
 SC,0000
-RE,0
-FL,101,300,500,160,8ff,8ff
+PS,8100
+CT,8,T
+OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,W7###57#3#57###57#7#57#3#57###5   h,4   
 OL,2,V5jj 55 1 55 55 1,55 1 55 5pwu35  
 OL,3,Wuzzp5upup5up5upup5upup5up55//%  
 OL,4,----------------------------------------
 OL,22,V]DTieliikenne --- Lennot --- Raide --- 
-OL,23,T]GMetro 455  TV Ja Radio 500 S{{ 160   
-OL,24,A  P{{uutisetBBUrheilu CTV Opas  FS{{   
+OL,23,T]GMetro 455  TV Ja Radio 500 Saa 160   
+OL,24,A  PaauutisetBBUrheilu CTV Opas  FSaa   
+FL,101,300,500,160,8ff,8ff
