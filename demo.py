@@ -18,7 +18,7 @@ import newsreel
 import weathermap
 import veikkausliiga
 import hsl_teletext
-import weather
+from weather import main as weather_main
 from datetime import datetime
 import unicodedata
 
@@ -674,3 +674,4 @@ for headline in headlines:
 
 exportTTI(pageLegaliser(teletextPage))
 newsreel.run_newsreel()
+weather_main()

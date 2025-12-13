@@ -398,7 +398,7 @@ def genereer_kleur_beschrijvingen(regel_kleuren_west, regel_kleuren_oost, gebied
                         temp_tekst = f"Lämpö: {int(min_temp)}°C"
                     else:
                         # FINS: "-2 asta 2°C" (van -2 tot 2°C)
-                        temp_tekst = f"Lämpö: {int(min_temp)} asta {int(max_temp)}°C"
+                        temp_tekst = f"Lämpö: {int(min_temp)} tai {int(max_temp)}°C"
                     if len(temp_tekst) > 23:
                         temp_tekst = temp_tekst[:23]
                     tekst_delen.append(temp_tekst)

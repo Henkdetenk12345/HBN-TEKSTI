@@ -1,6 +1,6 @@
 DE,
 DS,inserter
-SP,C:\Users\Max de Vos\Downloads\FIXED3\tti templates – kopio\paauutiset_page.tti
+SP,E:\home\max\Hbn\paauutiset_page.tti
 PN,10000
 SC,0000
 PS,8100
@@ -10,7 +10,7 @@ OL,1,V |h4||4||4
 OL,2,VVn5~1j5 T]GPAAUUTISET  DAY          
 OL,3,V j5z5j5h||||||||||||||||||||||||||4 
 OL,4, V#"!##!#"!"##########################! 
-OL,22,T]GTuoreimmat 111   Uutisruutu    185   
-OL,23,T]GSaa 160 Urheilu 300 Matkailu 400     
-OL,24,A ATuoreimmat BUrheilu CTV Opas  FSaa   
-FL,111,300,500,8ff,8ff,8ff
+OL,22,T]GPaauutiset 101   Uutisruutu    185   
+OL,23,W]DUrheilu 300 Saa 160 TV ja Radio 500  
+OL,24,A APaauutiset BUrheilu CTV Opas  FSaa   
+FL,101,300,500,8ff,8ff,8ff
