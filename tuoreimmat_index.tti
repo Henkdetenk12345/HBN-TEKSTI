@@ -1,12 +1,12 @@
 DE,
 DS,inserter
-SP,E:\home\max\Hbn\tuoreimmat_index.tti
+SP,C:\Users\Max de Vos\Downloads\tuoreimmat_index.tti
 PN,18500
 SC,0000
 PS,8100
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,2,T]G TUOREIMMAT              DAY         
-OL,23,W]DTuoreimmat 111 Urheilu 300 Saa 160   
-OL,24,AA Tuoreimmat BUrheilu CTV Opas  FSaa   
-FL,111,300,500,160,8ff,8ff
+OL,23,W]DPaauutiset 101 Urheilu 300 Saa 160   
+OL,24,AA Paauutiset BUrheilu CTV Opas  FSaa   
+FL,101,300,500,160,8ff,8ff
