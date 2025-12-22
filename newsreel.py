@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import copy
 from datetime import datetime
 import unicodedata
+import os
 
 from textBlock import toTeletextBlock, tableRow
 from page import exportTTI, loadTTI
@@ -46,6 +47,26 @@ def get_intro_template():
     
     # Standaard intro voor alle andere dagen
     return "newsreel_intro.tti"
+
+def load_intro(intro_filename):
+    """Laad een intro subpage als deze bestaat"""
+    if os.path.exists(intro_filename):
+        try:
+            intro_template = loadTTI(intro_filename)
+            intro_subpage = {"packets": copy.deepcopy(intro_template["subpages"][0]["packets"])}
+            # Vervang datum placeholders
+            for packet in intro_subpage["packets"]:
+                if "text" in packet:
+                    packet["text"] = packet["text"].replace("DAY", get_finnish_day())
+                    packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+            print(f"  ✓ Intro loaded: {intro_filename}")
+            return intro_subpage
+        except Exception as e:
+            print(f"  ⚠ Could not load {intro_filename}: {e}")
+            return None
+    else:
+        print(f"  ℹ No intro found: {intro_filename}")
+        return None
 
 def clean_text_aggressive(text):
     """Verwijdert/normaliseert alle problematische karakters voor teletext"""
@@ -176,102 +197,109 @@ def create_article_subpage(template, article, page_number):
     # Voeg paginanummer toe onderaan met hoofdletter P
     page_ref_block = toTeletextBlock(
         input={"content": [{"align": "right", "content": [{"colour": "cyan", "text": f"P{page_number}"}]}]},
-        line=23
+        line=21
     )
     packets += page_ref_block
     
     return {"packets": packets}
 
+def calculate_text_lines(text, width=40):
+    """Bereken EXACT hoeveel regels een tekst nodig heeft"""
+    if not text:
+        return 0
+    import math
+    return math.ceil(len(text) / width)
+
 def create_newsreel_page(page_number=185):
     """Maak de volledige newsreel met alle feeds"""
     subpages = []
     
-    # INTRO SUBPAGINA - laad uit TTI template op basis van datum
+    # ===== HOOFDINTRO =====
     intro_filename = get_intro_template()
-    print(f"Loading intro template: {intro_filename}")
+    print(f"Loading main intro: {intro_filename}")
     intro_template = loadTTI(intro_filename)
     intro_subpage = {"packets": copy.deepcopy(intro_template["subpages"][0]["packets"])}
     subpages.append(intro_subpage)
-    print(f"Intro loaded with {len(intro_subpage['packets'])} packets")
+    print(f"Main intro loaded with {len(intro_subpage['packets'])} packets")
     
     # ===== PÄÄUUTISET (10 subpages: 1 index + 9 artikelen) =====
-    print("Fetching Pääuutiset...")
+    print("\n--- PÄÄUUTISET ---")
     paauutiset_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/paauutiset", 9)
     paauutiset_headlines = [{"title": art["title"], "number": str(102 + i)} for i, art in enumerate(paauutiset_articles)]
     
-    # Index subpagina voor Pääuutiset (zoals p101)
     paauutiset_index_template = loadTTI("paauutiset_index.tti")
     index_subpage = create_index_subpage(paauutiset_index_template, paauutiset_headlines, "PÄÄUUTISET")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Pääuutiset
     paauutiset_page_template = loadTTI("paauutiset_page.tti")
     for i, article in enumerate(paauutiset_articles):
         article_subpage = create_article_subpage(paauutiset_page_template, article, 102 + i)
         subpages.append(article_subpage)
+    print(f"✓ Pääuutiset: {len(paauutiset_articles) + 1} subpages")
     
-    # ===== TUOREIMMAT (6 subpages: 1 index + 5 artikelen) =====
-    print("Fetching Tuoreimmat...")
+    # ===== TUOREIMMAT INTRO + CONTENT =====
+    print("\n--- TUOREIMMAT ---")
+    tuoreimmat_intro = load_intro("tuoreimmat_intro.tti")
+    if tuoreimmat_intro:
+        subpages.append(tuoreimmat_intro)
+    
     tuoreimmat_articles = fetch_articles_from_feed("https://yle.fi/rss/uutiset/tuoreimmat", 5)
     tuoreimmat_headlines = [{"title": art["title"], "number": str(112 + i)} for i, art in enumerate(tuoreimmat_articles)]
     
-    # Index subpagina voor Tuoreimmat (zoals p111)
     tuoreimmat_index_template = loadTTI("tuoreimmat_index.tti")
     index_subpage = create_index_subpage(tuoreimmat_index_template, tuoreimmat_headlines, "TUOREIMMAT")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Tuoreimmat
     tuoreimmat_page_template = loadTTI("tuoreimmat_page.tti")
     for i, article in enumerate(tuoreimmat_articles):
         article_subpage = create_article_subpage(tuoreimmat_page_template, article, 112 + i)
         subpages.append(article_subpage)
+    print(f"✓ Tuoreimmat: {len(tuoreimmat_articles) + 1} subpages (+ intro if exists)")
     
-    # ===== URHEILU (6 subpages: 1 index + 5 artikelen) =====
-    print("Fetching Urheilu...")
+    # ===== SPORTS INTRO + CONTENT =====
+    print("\n--- URHEILU (SPORTS) ---")
+    sports_intro = load_intro("sports_intro.tti")
+    if sports_intro:
+        subpages.append(sports_intro)
+    
     urheilu_articles = fetch_articles_from_feed("https://yle.fi/rss/urheilu", 5)
     urheilu_headlines = [{"title": art["title"], "number": str(302 + i)} for i, art in enumerate(urheilu_articles)]
     
-    # Index subpagina voor Urheilu (zoals p301)
     urheilu_index_template = loadTTI("sportgeneral_index.tti")
     index_subpage = create_index_subpage(urheilu_index_template, urheilu_headlines, "URHEILU")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Urheilu
     urheilu_page_template = loadTTI("sportgeneral_page.tti")
     for i, article in enumerate(urheilu_articles):
         article_subpage = create_article_subpage(urheilu_page_template, article, 302 + i)
         subpages.append(article_subpage)
     
-    # ===== JALKAPALLO (6 subpages: 1 index + 5 artikelen) - MET AGGRESSIVE CLEANING =====
-    print("Fetching Jalkapallo...")
+    # ===== JALKAPALLO =====
     jalkapallo_articles = fetch_articles_from_feed(
         "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_URHEILU&concepts=18-205598", 
         5, 
-        clean_aggressive=True  # Gebruik aggressive cleaning voor jalkapallo!
+        clean_aggressive=True
     )
     jalkapallo_headlines = [{"title": art["title"], "number": str(309 + i)} for i, art in enumerate(jalkapallo_articles)]
     
-    # Index subpagina voor Jalkapallo (zoals p308)
     jalkapallo_index_template = loadTTI("jalkapallo_index.tti")
     index_subpage = create_index_subpage(jalkapallo_index_template, jalkapallo_headlines, "JALKAPALLO")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Jalkapallo
     jalkapallo_page_template = loadTTI("jalkapallo_page.tti")
     for i, article in enumerate(jalkapallo_articles):
         article_subpage = create_article_subpage(jalkapallo_page_template, article, 309 + i)
         subpages.append(article_subpage)
 
-    # ===== VEIKKAUSLIIGA SCORE TABLE (1 subpage) =====
-    print("Adding Veikkausliiga score table...")
+    # ===== VEIKKAUSLIIGA SCORE TABLE =====
+    veikkausliiga_added = False
     try:
         from veikkausliiga_scraper import AiScoreScraper
         
         scraper = AiScoreScraper()
         standings = scraper.scrape_standings()
         
-        if standings:
-            # Laad de Veikkausliiga template
+        if standings and len(standings) > 0:
             veikkausliiga_template = loadTTI("veikkausliiga_page.tti")
             veikkausliiga_packets = copy.deepcopy(veikkausliiga_template["subpages"][0]["packets"])
             
@@ -279,7 +307,7 @@ def create_newsreel_page(page_number=185):
             for t in standings:
                 rowDict = {
                     "P": t["position"],
-                    "C": t["team"][:13],   # clubnaam inkorten naar 13 chars
+                    "C": t["team"][:13],
                     "Pt": t["points"],
                     "G": t["goals"],
                     "WDG": f"{t['wins']}/{t['draws']}/{t['losses']}"
@@ -304,60 +332,574 @@ def create_newsreel_page(page_number=185):
                 veikkausliiga_packets += tt_block
                 line += len(tt_block)
             
-            # Voeg paginanummer P314 toe rechtsonderaan
             page_ref_block = toTeletextBlock(
                 input={"content": [{"align": "right", "content": [{"colour": "cyan", "text": "P314"}]}]},
-                line=23
+                line=21
             )
             veikkausliiga_packets += page_ref_block
             
-            # Voeg Veikkausliiga subpage toe
             veikkausliiga_subpage = {"packets": veikkausliiga_packets}
             subpages.append(veikkausliiga_subpage)
-            print(f"✓ Added Veikkausliiga score table with {len(standings)} teams")
+            veikkausliiga_added = True
+            print(f"  ✓ Veikkausliiga: 1 score table ({len(standings)} teams)")
         else:
-            print("⚠ No Veikkausliiga data available")
+            # Geen data - maak "KAUSI PÄÄTTYNYT" pagina
+            print(f"  ℹ Veikkausliiga: No data - creating 'season ended' page")
+            
+            veikkausliiga_template = loadTTI("veikkausliiga_page.tti")
+            veikkausliiga_packets = copy.deepcopy(veikkausliiga_template["subpages"][0]["packets"])
+            
+            # Maak centered message
+            line = 11  # Midden van de pagina
+            
+            season_ended_block = toTeletextBlock(
+                input={"content": [{"align": "center", "content": [{"colour": "yellow", "text": "KAUSI PÄÄTTYNYT"}]}]},
+                line=line
+            )
+            veikkausliiga_packets += season_ended_block
+            
+            line += 2
+            info_block = toTeletextBlock(
+                input={"content": [{"align": "center", "content": [{"colour": "white", "text": "Sarjataulukko ei saatavilla"}]}]},
+                line=line
+            )
+            veikkausliiga_packets += info_block
+            
+            # Voeg P314 toe
+            page_ref_block = toTeletextBlock(
+                input={"content": [{"align": "right", "content": [{"colour": "cyan", "text": "P314"}]}]},
+                line=21
+            )
+            veikkausliiga_packets += page_ref_block
+            
+            veikkausliiga_subpage = {"packets": veikkausliiga_packets}
+            subpages.append(veikkausliiga_subpage)
+            veikkausliiga_added = True
+            print(f"  ✓ Veikkausliiga: 'Season ended' page created")
             
     except Exception as e:
-        print(f"⚠ Could not add Veikkausliiga score table: {e}")
-        import traceback
-        traceback.print_exc()
+        # Error - maak ook "KAUSI PÄÄTTYNYT" pagina
+        print(f"  ⚠ Veikkausliiga error: {e} - creating fallback page")
+        try:
+            veikkausliiga_template = loadTTI("veikkausliiga_page.tti")
+            veikkausliiga_packets = copy.deepcopy(veikkausliiga_template["subpages"][0]["packets"])
+            
+            line = 11
+            season_ended_block = toTeletextBlock(
+                input={"content": [{"align": "center", "content": [{"colour": "yellow", "text": "KAUSI PÄÄTTYNYT"}]}]},
+                line=line
+            )
+            veikkausliiga_packets += season_ended_block
+            
+            line += 2
+            info_block = toTeletextBlock(
+                input={"content": [{"align": "center", "content": [{"colour": "white", "text": "Sarjataulukko ei saatavilla"}]}]},
+                line=line
+            )
+            veikkausliiga_packets += info_block
+            
+            page_ref_block = toTeletextBlock(
+                input={"content": [{"align": "right", "content": [{"colour": "cyan", "text": "P314"}]}]},
+                line=21
+            )
+            veikkausliiga_packets += page_ref_block
+            
+            veikkausliiga_subpage = {"packets": veikkausliiga_packets}
+            subpages.append(veikkausliiga_subpage)
+            veikkausliiga_added = True
+        except:
+            pass
+    
+    print(f"✓ Sports total: {len(urheilu_articles) + len(jalkapallo_articles) + 2 + (1 if veikkausliiga_added else 0)} subpages (intro + Urheilu + Jalkapallo{' + Veikkausliiga' if veikkausliiga_added else ''})")
         
-    # ===== TRAVEL (6 subpages: 1 index + 5 artikelen) =====
-    print("Fetching Travel...")
+    # ===== TRAVEL INTRO + CONTENT =====
+    print("\n--- MATKAILU (TRAVEL) ---")
+    travel_intro = load_intro("travel_intro.tti")
+    if travel_intro:
+        subpages.append(travel_intro)
+    
     travel_articles = fetch_articles_from_feed("https://yle.fi/rss/t/18-206851/fi", 5)
     travel_headlines = [{"title": art["title"], "number": str(402 + i)} for i, art in enumerate(travel_articles)]
     
-    # Index subpagina voor Travel (zoals p401)
     travel_index_template = loadTTI("matkailu_index.tti")
     index_subpage = create_index_subpage(travel_index_template, travel_headlines, "MATKAILU")
     subpages.append(index_subpage)
     
-    # Artikel subpagina's voor Travel
     travel_page_template = loadTTI("matkailu_page.tti")
     for i, article in enumerate(travel_articles):
         article_subpage = create_article_subpage(travel_page_template, article, 402 + i)
         subpages.append(article_subpage)
+    print(f"✓ Travel: {len(travel_articles) + 1} subpages (+ intro if exists)")
     
-    # ===== WEERKAART (3 subpages) =====
-    print("Adding weather map subpages...")
+    # ===== WEATHER INTRO =====
+    print("\n--- SÄÄ (WEATHER) ---")
+    weather_intro = load_intro("weather_intro.tti")
+    if weather_intro:
+        subpages.append(weather_intro)
+    
+    # ===== 1. WEER TEXT (P161, P168, P169 - variabel aantal subpages) =====
+    print("  1. Weather text forecasts...")
+    weather_subpages_added = 0
+    
+    try:
+        from FMI import FMITextScraper
+        
+        weather_scraper = FMITextScraper()
+        
+        # P161: LANDELIJK WEERBERICHT
+        forecast_text = weather_scraper.get_land_forecast()
+        
+        if forecast_text:
+            weather_template = loadTTI("weather_land_template.tti")
+            weather_packets = copy.deepcopy(weather_template["subpages"][0]["packets"])
+            
+            for packet in weather_packets:
+                if "text" in packet:
+                    packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+            
+            line = 5
+            forecast_block = toTeletextBlock(
+                input={"content": [{"align": "left", "content": [{"colour": "white", "text": forecast_text}]}]},
+                line=line
+            )
+            weather_packets += forecast_block
+            
+            weather_subpage = {"packets": weather_packets}
+            subpages.append(weather_subpage)
+            weather_subpages_added += 1
+        
+        # P168: MARITIEM WEERBERICHT
+        marine_data = weather_scraper.get_structured_marine_forecast()
+        
+        if marine_data:
+            MAX_LINE = 20
+            
+            def split_area_name(area):
+                if len(area) <= 40:
+                    return [area]
+                parts = [p.strip() for p in area.split(',')]
+                lines = []
+                current = ""
+                for i, part in enumerate(parts):
+                    if i == 0:
+                        current = part
+                    else:
+                        test = current + ", " + part
+                        if len(test) <= 40:
+                            current = test
+                        else:
+                            lines.append(current + ",")
+                            current = part
+                if current:
+                    lines.append(current)
+                return lines
+            
+            try:
+                marine_template = loadTTI("weather_marine_template.tti")
+            except:
+                marine_template = {
+                    "subpages": [{
+                        "packets": [
+                            {"number": 0, "text": "ÿ^ƒÿCÿ]¾\u001f€€€€€€°°°°°°Pÿ GMERISÄÄ        168    DATE  "},
+                            {"number": 24, "text": "£ Sää 161 Alueet 169 TEXT-TV Yle 100"}
+                        ]
+                    }]
+                }
+            
+            # Groepeer warnings
+            warning_groups = []
+            if marine_data['warnings']:
+                current_group = []
+                for item_type, content in marine_data['warnings']:
+                    if item_type == 'heading':
+                        if current_group:
+                            warning_groups.append(current_group)
+                        current_group = [(item_type, content)]
+                    else:
+                        current_group.append((item_type, content))
+                if current_group:
+                    warning_groups.append(current_group)
+            
+            # Maak warning subpages
+            if warning_groups:
+                current_groups = []
+                current_line = 5 + 2
+                
+                for group in warning_groups:
+                    group_size = 0
+                    for item_type, content in group:
+                        if item_type == 'heading':
+                            group_size += len(split_area_name(content))
+                        else:
+                            group_size += calculate_text_lines(content)
+                    group_size += 1
+                    
+                    if current_line + group_size > MAX_LINE:
+                        if current_groups:
+                            subpage = {"packets": copy.deepcopy(marine_template["subpages"][0]["packets"])}
+                            for packet in subpage["packets"]:
+                                if "text" in packet:
+                                    packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                            
+                            line = 5
+                            warning_header = "Kovan tuulen varoitus:"
+                            warning_header_block = toTeletextBlock(
+                                input={"content": [{"align": "left", "content": [{"colour": "red", "text": warning_header}]}]},
+                                line=line
+                            )
+                            subpage["packets"] += warning_header_block
+                            line += 2
+                            
+                            for grp in current_groups:
+                                for itype, icontent in grp:
+                                    if itype == 'heading':
+                                        for heading_line in split_area_name(icontent):
+                                            block = toTeletextBlock(
+                                                input={"content": [{"align": "left", "content": [{"colour": "cyan", "text": heading_line}]}]},
+                                                line=line
+                                            )
+                                            subpage["packets"] += block
+                                            line += 1
+                                    else:
+                                        block = toTeletextBlock(
+                                            input={"content": [{"align": "left", "content": [{"colour": "white", "text": icontent}]}]},
+                                            line=line
+                                        )
+                                        subpage["packets"] += block
+                                        line += calculate_text_lines(icontent)
+                                line += 1
+                            
+                            subpages.append(subpage)
+                            weather_subpages_added += 1
+                        
+                        current_groups = [group]
+                        current_line = 5 + 2 + group_size
+                    else:
+                        current_groups.append(group)
+                        current_line += group_size
+                
+                if current_groups:
+                    subpage = {"packets": copy.deepcopy(marine_template["subpages"][0]["packets"])}
+                    for packet in subpage["packets"]:
+                        if "text" in packet:
+                            packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                    
+                    line = 5
+                    warning_header = "Kovan tuulen varoitus:"
+                    warning_header_block = toTeletextBlock(
+                        input={"content": [{"align": "left", "content": [{"colour": "red", "text": warning_header}]}]},
+                        line=line
+                    )
+                    subpage["packets"] += warning_header_block
+                    line += 2
+                    
+                    for grp in current_groups:
+                        for itype, icontent in grp:
+                            if itype == 'heading':
+                                for heading_line in split_area_name(icontent):
+                                    block = toTeletextBlock(
+                                        input={"content": [{"align": "left", "content": [{"colour": "cyan", "text": heading_line}]}]},
+                                        line=line
+                                    )
+                                    subpage["packets"] += block
+                                    line += 1
+                            else:
+                                block = toTeletextBlock(
+                                    input={"content": [{"align": "left", "content": [{"colour": "white", "text": icontent}]}]},
+                                    line=line
+                                )
+                                subpage["packets"] += block
+                                line += calculate_text_lines(icontent)
+                        line += 1
+                    
+                    subpages.append(subpage)
+                    weather_subpages_added += 1
+            
+            # Maak forecast subpages (1 per gebied)
+            for section in marine_data['forecast_sections']:
+                subpage = {"packets": copy.deepcopy(marine_template["subpages"][0]["packets"])}
+                for packet in subpage["packets"]:
+                    if "text" in packet:
+                        packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                
+                line = 5
+                header = "Odotettavissa huomisiltaan asti:"
+                header_block = toTeletextBlock(
+                    input={"content": [{"align": "left", "content": [{"colour": "yellow", "text": header}]}]},
+                    line=line
+                )
+                subpage["packets"] += header_block
+                line += 2
+                
+                area_lines = split_area_name(section['area'])
+                for area_line in area_lines:
+                    area_block = toTeletextBlock(
+                        input={"content": [{"align": "left", "content": [{"colour": "cyan", "text": area_line}]}]},
+                        line=line
+                    )
+                    subpage["packets"] += area_block
+                    line += 1
+                
+                forecast_block = toTeletextBlock(
+                    input={"content": [{"align": "left", "content": [{"colour": "white", "text": section['forecast']}]}]},
+                    line=line
+                )
+                subpage["packets"] += forecast_block
+                
+                subpages.append(subpage)
+                weather_subpages_added += 1
+            
+            # Maak VRK2 subpages (1 per gebied)
+            for section in marine_data['vrk2_sections']:
+                subpage = {"packets": copy.deepcopy(marine_template["subpages"][0]["packets"])}
+                for packet in subpage["packets"]:
+                    if "text" in packet:
+                        packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                        packet["text"] = packet["text"].replace("MERISÄÄ", "MERI 2VRK")
+                
+                line = 5
+                header = "Säätiedotus 2 vrk merenkulkijoille"
+                header_block = toTeletextBlock(
+                    input={"content": [{"align": "left", "content": [{"colour": "yellow", "text": header}]}]},
+                    line=line
+                )
+                subpage["packets"] += header_block
+                line += 2
+                
+                area_lines = split_area_name(section['area'])
+                for area_line in area_lines:
+                    area_block = toTeletextBlock(
+                        input={"content": [{"align": "left", "content": [{"colour": "cyan", "text": area_line}]}]},
+                        line=line
+                    )
+                    subpage["packets"] += area_block
+                    line += 1
+                
+                forecast_block = toTeletextBlock(
+                    input={"content": [{"align": "left", "content": [{"colour": "white", "text": section['forecast']}]}]},
+                    line=line
+                )
+                subpage["packets"] += forecast_block
+                
+                subpages.append(subpage)
+                weather_subpages_added += 1
+        
+        # P169: REGIONALE WEERBERICHTEN
+        regions = weather_scraper.get_regional_forecasts()
+        
+        if regions:
+            try:
+                regional_template = loadTTI("weather_regional_template.tti")
+            except:
+                regional_template = {
+                    "subpages": [{
+                        "packets": [
+                            {"number": 0, "text": "ÿ^ƒÿCÿ]¾\u001f€€€€€€°°°°°°Pÿ GALUEET        169    DATE  "},
+                            {"number": 24, "text": "£ Sää 161 Meri 168 TEXT-TV Yle 100"}
+                        ]
+                    }]
+                }
+            
+            for region_data in regions:
+                subpage = {"packets": copy.deepcopy(regional_template["subpages"][0]["packets"])}
+                
+                for packet in subpage["packets"]:
+                    if "text" in packet:
+                        packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                
+                line = 5
+                region_block = toTeletextBlock(
+                    input={"content": [{"align": "left", "content": [{"colour": "yellow", "text": region_data['region']}]}]},
+                    line=line
+                )
+                subpage["packets"] += region_block
+                line += 2
+                
+                forecast_block = toTeletextBlock(
+                    input={"content": [{"align": "left", "content": [{"colour": "white", "text": region_data['forecast']}]}]},
+                    line=line
+                )
+                subpage["packets"] += forecast_block
+                
+                subpages.append(subpage)
+                weather_subpages_added += 1
+        
+        print(f"    ✓ Weather text: {weather_subpages_added} subpages")
+            
+    except Exception as e:
+        print(f"    ⚠ Weather text error: {e}")
+    
+    # ===== 2. WEERKAART (3 subpages) =====
+    print("  2. Weather map...")
     try:
         import weathermap
         
-        # Haal de weerkaart subpages op via de functie
-        weather_subpages = weathermap.get_weather_subpages("weathermap.tti")
+        weather_map_subpages = weathermap.get_weather_subpages("weathermap.tti")
         
-        if weather_subpages:
-            for weather_subpage in weather_subpages:
+        if weather_map_subpages:
+            for weather_subpage in weather_map_subpages:
                 subpages.append(weather_subpage)
-            print(f"✓ Added {len(weather_subpages)} weather map subpages with live data")
+            print(f"    ✓ Weather map: {len(weather_map_subpages)} subpages")
         else:
-            print("⚠ No weather subpages available")
+            print("    ⚠ No weather map available")
             
     except Exception as e:
-        print(f"⚠ Could not add weather map subpages: {e}")
-        import traceback
-        traceback.print_exc()
+        print(f"    ⚠ Weather map error: {e}")
+    
+    print(f"✓ Weather total: {weather_subpages_added + (len(weather_map_subpages) if 'weather_map_subpages' in locals() else 0)} subpages (+ intro if exists)")
+    
+    # ===== TV-RADIO INTRO =====
+    print("\n--- TV & RADIO ---")
+    tv_radio_intro = load_intro("tv-radio_intro.tti")
+    if tv_radio_intro:
+        subpages.append(tv_radio_intro)
+    
+    # ===== 3. TV GIDS (4 subpages - één per kanaal) =====
+    print("  3. TV guide...")
+    tv_subpages_added = 0
+    try:
+        from tv import TelsuScraper
+        
+        tv_scraper = TelsuScraper()
+        tv_data = tv_scraper.scrape_all_channels()
+        
+        if tv_data:
+            tv_channels = [
+                ('yle1', 'Yle TV1', 'YLE1_template.tti'),
+                ('yle2', 'Yle TV2', 'YLE2_template.tti'),
+                ('mtv3', 'MTV3', 'MTV3_template.tti'),
+                ('nelonen', 'Nelonen', 'Nelonen_template.tti')
+            ]
+            
+            for channel_id, channel_name, template_file in tv_channels:
+                programs = tv_data.get(channel_name, [])
+                
+                if programs:
+                    try:
+                        tv_template = loadTTI(template_file)
+                        tv_packets = copy.deepcopy(tv_template["subpages"][0]["packets"])
+                        
+                        for packet in tv_packets:
+                            if "text" in packet:
+                                packet["text"] = packet["text"].replace("DAY", get_finnish_day())
+                                packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                        
+                        line = 7
+                        
+                        for program in programs:
+                            tijd = program['start_time'].split('-')[0].strip()
+                            if '<small>' in tijd:
+                                tijd = tijd.split('<small>')[0]
+                            
+                            imdb = f" [{program['imdb_rating']}]" if program['imdb_rating'] else ""
+                            full_title = program['title'] + imdb
+                            
+                            para_block = toTeletextBlock(
+                                input={
+                                    "content": [
+                                        {
+                                            "align": "left",
+                                            "content": [
+                                                {"colour": "yellow", "text": tijd + " "},
+                                                {"colour": "white", "text": full_title}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                line=line,
+                                maxWidth=40
+                            )
+                            
+                            if (len(para_block) + line) > 21:
+                                break
+                            
+                            tv_packets += para_block
+                            line += len(para_block)
+                        
+                        tv_subpage = {"packets": tv_packets}
+                        subpages.append(tv_subpage)
+                        tv_subpages_added += 1
+                        
+                    except Exception as e:
+                        print(f"    ⚠ {channel_name}: {e}")
+            
+            if tv_subpages_added > 0:
+                print(f"    ✓ TV guide: {tv_subpages_added} channels")
+            
+    except Exception as e:
+        print(f"    ⚠ TV guide error: {e}")
+    
+    # ===== 4. RADIO GIDS (3 subpages - één per kanaal) =====
+    print("  4. Radio guide...")
+    radio_subpages_added = 0
+    try:
+        from radio import YleRadioScraper
+        
+        radio_scraper = YleRadioScraper()
+        radio_data = radio_scraper.scrape_radio_guide()
+        
+        if radio_data:
+            radio_channels = [
+                ('radio1', 'Yle Radio 1', 'RADIO1_template.tti'),
+                ('ylex', 'YleX', 'YLEX_template.tti'),
+                ('radiosuomi', 'Yle Radio Suomi', 'RADIOSUOM_template.tti')
+            ]
+            
+            for channel_id, channel_name, template_file in radio_channels:
+                programs = radio_data.get(channel_name, [])
+                
+                if programs:
+                    try:
+                        radio_template = loadTTI(template_file)
+                        radio_packets = copy.deepcopy(radio_template["subpages"][0]["packets"])
+                        
+                        for packet in radio_packets:
+                            if "text" in packet:
+                                packet["text"] = packet["text"].replace("DAY", get_finnish_day())
+                                packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                        
+                        line = 5
+                        
+                        for program in programs:
+                            tijd = program['start_time']
+                            full_title = program['title']
+                            
+                            para_block = toTeletextBlock(
+                                input={
+                                    "content": [
+                                        {
+                                            "align": "left",
+                                            "content": [
+                                                {"colour": "yellow", "text": tijd + " "},
+                                                {"colour": "white", "text": full_title}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                line=line,
+                                maxWidth=40
+                            )
+                            
+                            if (len(para_block) + line) > 21:
+                                break
+                            
+                            radio_packets += para_block
+                            line += len(para_block)
+                        
+                        radio_subpage = {"packets": radio_packets}
+                        subpages.append(radio_subpage)
+                        radio_subpages_added += 1
+                        
+                    except Exception as e:
+                        print(f"    ⚠ {channel_name}: {e}")
+            
+            if radio_subpages_added > 0:
+                print(f"    ✓ Radio guide: {radio_subpages_added} channels")
+            
+    except Exception as e:
+        print(f"    ⚠ Radio guide error: {e}")
+    
+    print(f"✓ TV & Radio total: {tv_subpages_added + radio_subpages_added} subpages (+ intro if exists)")
     
     # Exporteer de complete newsreel pagina
     page = {
@@ -369,26 +911,34 @@ def create_newsreel_page(page_number=185):
             "update": True
         }
     }
+    
     page = vervang_datum_in_tti(page)
     exportTTI(pageLegaliser(page))
     
-    print(f"\nNewsreel complete!")
+    print(f"\n{'='*70}")
+    print(f"NEWSREEL COMPLETE!")
+    print(f"{'='*70}")
     print(f"Total subpages: {len(subpages)}")
-    print(f"  - Intro: 1 ({intro_filename})")
-    print(f"  - Pääuutiset: 1 index + 9 articles = 10")
-    print(f"  - Tuoreimmat: 1 index + 5 articles = 6")
-    print(f"  - Urheilu: 1 index + 5 articles = 6")
-    print(f"  - Jalkapallo: 1 index + 5 articles = 6")
-    print(f"  - Travel: 1 index + 5 articles = 6")
-    print(f"  - Veikkausliiga: 1 score table")
-    print(f"  - Weather map: 3 subpages")
-    print(f"  = Total: {len(subpages)} subpages")
+    print(f"")
+    print(f"BREAKDOWN:")
+    print(f"  • Main intro: 1")
+    print(f"  • Pääuutiset: 10 (1 index + 9 articles)")
+    print(f"  • Tuoreimmat: 6+ (intro + 1 index + 5 articles)")
+    print(f"  • Sports: 12+ (intro + 6 urheilu + 6 jalkapallo + Veikkausliiga)")
+    print(f"  • Travel: 6+ (intro + 1 index + 5 articles)")
+    print(f"  • Weather: {weather_subpages_added + (len(weather_map_subpages) if 'weather_map_subpages' in locals() else 0)}+ (intro + text + map)")
+    print(f"  • TV & Radio: {tv_subpages_added + radio_subpages_added}+ (intro + TV + Radio)")
+    print(f"")
+    print(f"ORDER: Intro → News → Sports → Travel → Weather → TV/Radio")
+    print(f"{'='*70}")
 
 def run_newsreel():
     """Hoofdfunctie om de newsreel te genereren"""
-    print("=== COMPREHENSIVE NEWSREEL WITH ALL YLE FEEDS ===")
+    print("="*70)
+    print("COMPREHENSIVE NEWSREEL WITH ALL YLE FEEDS")
+    print("="*70)
     create_newsreel_page()
-    print("Done.")
+    print("\nDone.")
 
 if __name__ == "__main__":
     run_newsreel()

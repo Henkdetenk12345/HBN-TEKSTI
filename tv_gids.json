@@ -1,0 +1,967 @@
+{
+  "Yle TV1": [
+    {
+      "title": "Prinsessa Ruusunen",
+      "start_time": "13.20",
+      "end_time": "14.55",
+      "channel": "Yle TV1",
+      "imdb_rating": "6.4",
+      "program_id": [
+        "16343854"
+      ],
+      "url": "https://www.telsu.fi/prinsessa-ruusunen"
+    },
+    {
+      "title": "Sportliv",
+      "start_time": "14.55",
+      "end_time": "15.07",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16380461"
+      ],
+      "url": "https://www.telsu.fi/sportliv"
+    },
+    {
+      "title": "Prisma: Dinosaurusten jäljillä",
+      "start_time": "15.07",
+      "end_time": "16.00",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16376423"
+      ],
+      "url": "https://www.telsu.fi/prisma-dinosaurusten-jäljillä"
+    },
+    {
+      "title": "Tastula - toista maata",
+      "start_time": "16.00",
+      "end_time": "16.45",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16343983"
+      ],
+      "url": "https://www.telsu.fi/tastula-toista-maata"
+    },
+    {
+      "title": "Yle Uutiset selkosuomeksi",
+      "start_time": "16.45",
+      "end_time": "16.50",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16343984"
+      ],
+      "url": "https://www.telsu.fi/yle-uutiset-selkosuomeksi"
+    },
+    {
+      "title": "Novosti Yle",
+      "start_time": "16.50",
+      "end_time": "16.55",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16343985"
+      ],
+      "url": "https://www.telsu.fi/novosti-yle"
+    },
+    {
+      "title": "Yle Uutiset viittomakielellä",
+      "start_time": "16.55",
+      "end_time": "17.00",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16343986"
+      ],
+      "url": "https://www.telsu.fi/yle-uutiset-viittomakielellä"
+    },
+    {
+      "title": "Yle Uutiset 17.00",
+      "start_time": "17.00",
+      "end_time": "17.10",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16343987"
+      ],
+      "url": "https://www.telsu.fi/yle-uutiset-17.00"
+    },
+    {
+      "title": "Sisar Bonifacen mysteerit",
+      "start_time": "17.10",
+      "end_time": "17.55",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16343988"
+      ],
+      "url": "https://www.telsu.fi/sisar-bonifacen-mysteerit"
+    },
+    {
+      "title": "Tarinoita tuntureilta",
+      "start_time": "17.55",
+      "end_time": "18.00",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16419959"
+      ],
+      "url": "https://www.telsu.fi/tarinoita-tuntureilta"
+    },
+    {
+      "title": "Yle Uutiset 18.00",
+      "start_time": "18.00",
+      "end_time": "18.21",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344789"
+      ],
+      "url": "https://www.telsu.fi/yle-uutiset-18.00"
+    },
+    {
+      "title": "Yle Uutiset Uutis-Suomi",
+      "start_time": "18.21",
+      "end_time": "18.30",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344790"
+      ],
+      "url": "https://www.telsu.fi/yle-uutiset-uutis-suomi"
+    },
+    {
+      "title": "Joululauluja Suomen Lucian kanssa",
+      "start_time": "18.30",
+      "end_time": "18.54",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344791"
+      ],
+      "url": "https://www.telsu.fi/joululauluja-suomen-lucian-kanssa"
+    },
+    {
+      "title": "Itse asiassa kuultuna 2025",
+      "start_time": "18.54",
+      "end_time": "19.00",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16456432"
+      ],
+      "url": "https://www.telsu.fi/itse-asiassa-kuultuna-2025"
+    },
+    {
+      "title": "Merkkien salat",
+      "start_time": "19.00",
+      "end_time": "19.30",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344792"
+      ],
+      "url": "https://www.telsu.fi/merkkien-salat"
+    },
+    {
+      "title": "Pentulive: Eka vuosi",
+      "start_time": "19.30",
+      "end_time": "20.00",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344793"
+      ],
+      "url": "https://www.telsu.fi/pentulive-eka-vuosi"
+    },
+    {
+      "title": "Viimeinen suksimestari",
+      "start_time": "20.00",
+      "end_time": "20.30",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344824"
+      ],
+      "url": "https://www.telsu.fi/viimeinen-suksimestari"
+    },
+    {
+      "title": "Yle Uutiset 20.30",
+      "start_time": "20.30",
+      "end_time": "20.55",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344825"
+      ],
+      "url": "https://www.telsu.fi/yle-uutiset-20.30"
+    },
+    {
+      "title": "Urheiluruutu",
+      "start_time": "20.55",
+      "end_time": "21.01",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344826"
+      ],
+      "url": "https://www.telsu.fi/urheiluruutu"
+    },
+    {
+      "title": "A-studio",
+      "start_time": "21.01",
+      "end_time": "21.45",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344827"
+      ],
+      "url": "https://www.telsu.fi/a-studio"
+    },
+    {
+      "title": "Sokeana sotaa pakoon",
+      "start_time": "21.45",
+      "end_time": "22.06",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16344828"
+      ],
+      "url": "https://www.telsu.fi/sokeana-sotaa-pakoon"
+    },
+    {
+      "title": "Ei mikään murhamysteeri",
+      "start_time": "22.06",
+      "end_time": "23.00",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16390156"
+      ],
+      "url": "https://www.telsu.fi/ei-mikään-murhamysteeri"
+    },
+    {
+      "title": "Ciao rakas!",
+      "start_time": "23.00",
+      "end_time": "23.27",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16390157"
+      ],
+      "url": "https://www.telsu.fi/ciao-rakas!"
+    },
+    {
+      "title": "Ciao rakas!",
+      "start_time": "23.27",
+      "end_time": "23.55",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16390158"
+      ],
+      "url": "https://www.telsu.fi/ciao-rakas!"
+    },
+    {
+      "title": "Rikostarinoita historiasta",
+      "start_time": "23.55-00.25",
+      "end_time": "00.25",
+      "channel": "Yle TV1",
+      "imdb_rating": "",
+      "program_id": [
+        "16390159"
+      ],
+      "url": "https://www.telsu.fi/rikostarinoita-historiasta"
+    }
+  ],
+  "Yle TV2": [
+    {
+      "title": "Elämä käännekohdassa",
+      "start_time": "13.30",
+      "end_time": "14.00",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343868"
+      ],
+      "url": "https://www.telsu.fi/elämä-käännekohdassa"
+    },
+    {
+      "title": "Tanskalainen maajussi",
+      "start_time": "14.00",
+      "end_time": "14.30",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343929"
+      ],
+      "url": "https://www.telsu.fi/tanskalainen-maajussi"
+    },
+    {
+      "title": "Vanhasta uudeksi - kierrätysvinkkejä",
+      "start_time": "14.30",
+      "end_time": "15.00",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343930"
+      ],
+      "url": "https://www.telsu.fi/vanhasta-uudeksi-kierrätysvinkkejä"
+    },
+    {
+      "title": "Kaikkea kaupan",
+      "start_time": "15.00",
+      "end_time": "15.30",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343931"
+      ],
+      "url": "https://www.telsu.fi/kaikkea-kaupan"
+    },
+    {
+      "title": "Tanskan aarteenmetsästäjät",
+      "start_time": "15.30",
+      "end_time": "16.00",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343932"
+      ],
+      "url": "https://www.telsu.fi/tanskan-aarteenmetsästäjät"
+    },
+    {
+      "title": "Unelmakoti",
+      "start_time": "16.00",
+      "end_time": "17.00",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343989"
+      ],
+      "url": "https://www.telsu.fi/unelmakoti"
+    },
+    {
+      "title": "Pikku Kakkonen",
+      "start_time": "17.00",
+      "end_time": "17.45",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16343990"
+      ],
+      "url": "https://www.telsu.fi/pikku-kakkonen"
+    },
+    {
+      "title": "Joulukalenteri: Tonttuakatemia",
+      "start_time": "17.45",
+      "end_time": "18.00",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16359535"
+      ],
+      "url": "https://www.telsu.fi/joulukalenteri-tonttuakatemia"
+    },
+    {
+      "title": "Rock-Suomi: Sanojen takana",
+      "start_time": "18.00",
+      "end_time": "18.58",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16359536"
+      ],
+      "url": "https://www.telsu.fi/rock-suomi-sanojen-takana"
+    },
+    {
+      "title": "House of Kardashian",
+      "start_time": "18.58",
+      "end_time": "19.50",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16431000"
+      ],
+      "url": "https://www.telsu.fi/house-of-kardashian"
+    },
+    {
+      "title": "Joulukalenteri: Tonttuakatemia",
+      "start_time": "19.50",
+      "end_time": "20.05",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344843"
+      ],
+      "url": "https://www.telsu.fi/joulukalenteri-tonttuakatemia"
+    },
+    {
+      "title": "Suuri ompelukisa",
+      "start_time": "20.05",
+      "end_time": "21.05",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344844"
+      ],
+      "url": "https://www.telsu.fi/suuri-ompelukisa"
+    },
+    {
+      "title": "Peltsin toinen luonto",
+      "start_time": "21.05",
+      "end_time": "21.35",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344845"
+      ],
+      "url": "https://www.telsu.fi/peltsin-toinen-luonto"
+    },
+    {
+      "title": "Ei myytävänä",
+      "start_time": "21.35",
+      "end_time": "22.05",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344846"
+      ],
+      "url": "https://www.telsu.fi/ei-myytävänä"
+    },
+    {
+      "title": "Rahti",
+      "start_time": "22.05",
+      "end_time": "22.55",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344847"
+      ],
+      "url": "https://www.telsu.fi/rahti"
+    },
+    {
+      "title": "Seitsemän",
+      "start_time": "22.55",
+      "end_time": "23.40",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344848"
+      ],
+      "url": "https://www.telsu.fi/seitsemän"
+    },
+    {
+      "title": "Dubain tanskalaiset naiset",
+      "start_time": "23.40-00.10",
+      "end_time": "00.10",
+      "channel": "Yle TV2",
+      "imdb_rating": "",
+      "program_id": [
+        "16344849"
+      ],
+      "url": "https://www.telsu.fi/dubain-tanskalaiset-naiset"
+    }
+  ],
+  "MTV3": [
+    {
+      "title": "Leilan superruokaa",
+      "start_time": "12.50",
+      "end_time": "13.45",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16465059"
+      ],
+      "url": "https://www.telsu.fi/leilan-superruokaa"
+    },
+    {
+      "title": "Rempalla kaupaksi",
+      "start_time": "13.45",
+      "end_time": "14.10",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16468721"
+      ],
+      "url": "https://www.telsu.fi/rempalla-kaupaksi"
+    },
+    {
+      "title": "Madame Blanc",
+      "start_time": "14.10",
+      "end_time": "15.00",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16465061"
+      ],
+      "url": "https://www.telsu.fi/madame-blanc"
+    },
+    {
+      "title": "Kolmosvaihde",
+      "start_time": "15.00",
+      "end_time": "15.40",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16325914"
+      ],
+      "url": "https://www.telsu.fi/kolmosvaihde"
+    },
+    {
+      "title": "Onnela",
+      "start_time": "15.40",
+      "end_time": "16.05",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16465062"
+      ],
+      "url": "https://www.telsu.fi/onnela"
+    },
+    {
+      "title": "Onnela",
+      "start_time": "16.05",
+      "end_time": "16.30",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16465063"
+      ],
+      "url": "https://www.telsu.fi/onnela"
+    },
+    {
+      "title": "Kauniit ja rohkeat",
+      "start_time": "16.30",
+      "end_time": "17.00",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276842"
+      ],
+      "url": "https://www.telsu.fi/kauniit-ja-rohkeat"
+    },
+    {
+      "title": "Viiden jälkeen",
+      "start_time": "17.00",
+      "end_time": "18.30",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276843"
+      ],
+      "url": "https://www.telsu.fi/viiden-jälkeen"
+    },
+    {
+      "title": "Emmerdale",
+      "start_time": "18.30",
+      "end_time": "19.00",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276844"
+      ],
+      "url": "https://www.telsu.fi/emmerdale"
+    },
+    {
+      "title": "Seitsemän Uutiset",
+      "start_time": "19.00",
+      "end_time": "19.20",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276845"
+      ],
+      "url": "https://www.telsu.fi/seitsemän-uutiset"
+    },
+    {
+      "title": "Päivän sää",
+      "start_time": "19.20",
+      "end_time": "19.25",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276846"
+      ],
+      "url": "https://www.telsu.fi/päivän-sää"
+    },
+    {
+      "title": "Tulosruutu",
+      "start_time": "19.25",
+      "end_time": "19.30",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276847"
+      ],
+      "url": "https://www.telsu.fi/tulosruutu"
+    },
+    {
+      "title": "Salatut elämät",
+      "start_time": "19.30",
+      "end_time": "20.00",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276848"
+      ],
+      "url": "https://www.telsu.fi/salatut-elämät"
+    },
+    {
+      "title": "Agatha Christie: Kohti nollapistettä",
+      "start_time": "20.00",
+      "end_time": "20.55",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276849"
+      ],
+      "url": "https://www.telsu.fi/agatha-christie-kohti-nollapistettä"
+    },
+    {
+      "title": "Agatha Christie: Kohti nollapistettä",
+      "start_time": "20.55",
+      "end_time": "21.45",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16465064"
+      ],
+      "url": "https://www.telsu.fi/agatha-christie-kohti-nollapistettä"
+    },
+    {
+      "title": "Asian ytimessä.doc: Supermummo Sole",
+      "start_time": "21.45",
+      "end_time": "22.00",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16465065"
+      ],
+      "url": "https://www.telsu.fi/asian-ytimessä.doc-supermummo-sole"
+    },
+    {
+      "title": "Kymmenen Uutiset",
+      "start_time": "22.00",
+      "end_time": "22.20",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276851"
+      ],
+      "url": "https://www.telsu.fi/kymmenen-uutiset"
+    },
+    {
+      "title": "Milli arvontalähetys",
+      "start_time": "22.20",
+      "end_time": "22.21",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276852"
+      ],
+      "url": "https://www.telsu.fi/milli-arvontalähetys"
+    },
+    {
+      "title": "Päivän sää",
+      "start_time": "22.21",
+      "end_time": "22.25",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276853"
+      ],
+      "url": "https://www.telsu.fi/päivän-sää"
+    },
+    {
+      "title": "Tulosruutu",
+      "start_time": "22.25",
+      "end_time": "22.35",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16276854"
+      ],
+      "url": "https://www.telsu.fi/tulosruutu"
+    },
+    {
+      "title": "Elizabeth Taylor: Rebel Superstar",
+      "start_time": "22.35",
+      "end_time": "23.30",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16325915"
+      ],
+      "url": "https://www.telsu.fi/elizabeth-taylor-rebel-superstar"
+    },
+    {
+      "title": "Kolmiodraama",
+      "start_time": "23.30",
+      "end_time": "00.25",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16444139"
+      ],
+      "url": "https://www.telsu.fi/kolmiodraama"
+    },
+    {
+      "title": "Murhamysteeri merellä",
+      "start_time": "00.25",
+      "end_time": "01.15",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16444140"
+      ],
+      "url": "https://www.telsu.fi/murhamysteeri-merellä"
+    },
+    {
+      "title": "Murhamysteeri merellä",
+      "start_time": "01.15",
+      "end_time": "02.10",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16444141"
+      ],
+      "url": "https://www.telsu.fi/murhamysteeri-merellä"
+    },
+    {
+      "title": "Harry Wild",
+      "start_time": "02.10",
+      "end_time": "03.05",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16444142"
+      ],
+      "url": "https://www.telsu.fi/harry-wild"
+    },
+    {
+      "title": "Harry Wild",
+      "start_time": "03.05",
+      "end_time": "04.00",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16444143"
+      ],
+      "url": "https://www.telsu.fi/harry-wild"
+    },
+    {
+      "title": "Yökylässä Maria Veitola",
+      "start_time": "04.00-04.48",
+      "end_time": "04.48",
+      "channel": "MTV3",
+      "imdb_rating": "",
+      "program_id": [
+        "16444144"
+      ],
+      "url": "https://www.telsu.fi/yökylässä-maria-veitola"
+    }
+  ],
+  "Nelonen": [
+    {
+      "title": "Tähtiarpa",
+      "start_time": "12.00",
+      "end_time": "13.55",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16276911"
+      ],
+      "url": "https://www.telsu.fi/tähtiarpa"
+    },
+    {
+      "title": "Valitut Palat Collection",
+      "start_time": "13.55",
+      "end_time": "14.10",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16468139"
+      ],
+      "url": "https://www.telsu.fi/valitut-palat-collection"
+    },
+    {
+      "title": "Valitut Palat Collection",
+      "start_time": "14.10",
+      "end_time": "14.25",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16468140"
+      ],
+      "url": "https://www.telsu.fi/valitut-palat-collection"
+    },
+    {
+      "title": "Valitut Palat Collection",
+      "start_time": "14.25",
+      "end_time": "14.40",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16468141"
+      ],
+      "url": "https://www.telsu.fi/valitut-palat-collection"
+    },
+    {
+      "title": "Valitut Palat Collection",
+      "start_time": "14.40",
+      "end_time": "14.55",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16468142"
+      ],
+      "url": "https://www.telsu.fi/valitut-palat-collection"
+    },
+    {
+      "title": "Maryn helpot kokkailut",
+      "start_time": "14.55",
+      "end_time": "15.25",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16276912"
+      ],
+      "url": "https://www.telsu.fi/maryn-helpot-kokkailut"
+    },
+    {
+      "title": "The Box Suomi",
+      "start_time": "15.25",
+      "end_time": "16.25",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16276913"
+      ],
+      "url": "https://www.telsu.fi/the-box-suomi"
+    },
+    {
+      "title": "Tähtiarpa",
+      "start_time": "16.25",
+      "end_time": "16.30",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16320823"
+      ],
+      "url": "https://www.telsu.fi/tähtiarpa"
+    },
+    {
+      "title": "Himohamstraajat",
+      "start_time": "16.30",
+      "end_time": "17.30",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279547"
+      ],
+      "url": "https://www.telsu.fi/himohamstraajat"
+    },
+    {
+      "title": "Himohamstraajat",
+      "start_time": "17.30",
+      "end_time": "18.25",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279548"
+      ],
+      "url": "https://www.telsu.fi/himohamstraajat"
+    },
+    {
+      "title": "Joulun tähdet - konsertti yksinäisyyttä vastaan",
+      "start_time": "18.30",
+      "end_time": "20.00",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279549"
+      ],
+      "url": "https://www.telsu.fi/joulun-tähdet-konsertti-yksinäisyyttä-vastaan"
+    },
+    {
+      "title": "Suomen huutokauppakeisari",
+      "start_time": "20.00",
+      "end_time": "21.00",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279550"
+      ],
+      "url": "https://www.telsu.fi/suomen-huutokauppakeisari"
+    },
+    {
+      "title": "Inferno",
+      "start_time": "21.00",
+      "end_time": "23.25",
+      "channel": "Nelonen",
+      "imdb_rating": "6.2",
+      "program_id": [
+        "16279551"
+      ],
+      "url": "https://www.telsu.fi/inferno"
+    },
+    {
+      "title": "Rekkakuskit Suomi",
+      "start_time": "23.30",
+      "end_time": "00.30",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279552"
+      ],
+      "url": "https://www.telsu.fi/rekkakuskit-suomi"
+    },
+    {
+      "title": "Burgerimiehet Välimerellä",
+      "start_time": "00.30",
+      "end_time": "01.30",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279553"
+      ],
+      "url": "https://www.telsu.fi/burgerimiehet-välimerellä"
+    },
+    {
+      "title": "Alaskan jäälentokenttä",
+      "start_time": "01.30",
+      "end_time": "02.30",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16279554"
+      ],
+      "url": "https://www.telsu.fi/alaskan-jäälentokenttä"
+    },
+    {
+      "title": "Australian rajalla",
+      "start_time": "02.30",
+      "end_time": "03.00",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16282895"
+      ],
+      "url": "https://www.telsu.fi/australian-rajalla"
+    },
+    {
+      "title": "Australian rajalla",
+      "start_time": "03.00-03.30",
+      "end_time": "03.30",
+      "channel": "Nelonen",
+      "imdb_rating": "",
+      "program_id": [
+        "16282896"
+      ],
+      "url": "https://www.telsu.fi/australian-rajalla"
+    }
+  ]
+}

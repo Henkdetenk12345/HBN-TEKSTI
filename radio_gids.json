@@ -1,0 +1,533 @@
+{
+  "Yle Radio 1": [
+    {
+      "title": "Radio 1:n iltapäivä",
+      "start_time": "13.30",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Kulttuuriykkönen: Joulukinkku vai tunteva olento?",
+      "start_time": "15.00",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Yle News",
+      "start_time": "15.55",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "16.00",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Faunin iltapäivä",
+      "start_time": "16.07",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Uutispodcast: Parhaat 2025: Venäjä-osaaminen rapistuu, vaikka sille olisi iso tarve",
+      "start_time": "17.00",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Yksi on hyvää seuraa",
+      "start_time": "17.20",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Keinuva talo - Mika Kauhanen: Joulun alla",
+      "start_time": "17.35",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Hengellisen musiikin toivekonsertti",
+      "start_time": "18.35",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Iltahartaus",
+      "start_time": "18.50",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "19.00",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Tosi tarina: Saattohoidossa",
+      "start_time": "19.02",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Musiikkikamari",
+      "start_time": "19.38",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Hyvät, pahat ajattelijat: Ulrike Meinhof",
+      "start_time": "20.05",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Kadonneiden kaupunkien jäljillä: Thonis Herakleion",
+      "start_time": "20.40",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Yksi on hyvää seuraa",
+      "start_time": "21.00",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Tiedeykkönen: Lahjan psykologia – miksi annamme lahjoja ja kuinka mokata se pahanpäiväisesti",
+      "start_time": "21.39",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Näistä levyistä en luovu",
+      "start_time": "22.44",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    },
+    {
+      "title": "Yöklassinen",
+      "start_time": "23.40",
+      "end_time": "",
+      "channel": "Yle Radio 1",
+      "genre": ""
+    }
+  ],
+  "YleX": [
+    {
+      "title": "YleX Etusivu: Parhaat",
+      "start_time": "12.00",
+      "end_time": "",
+      "channel": "YleX",
+      "genre": ""
+    },
+    {
+      "title": "YleX Iltapäivä: Vuoden parhaat",
+      "start_time": "14.00",
+      "end_time": "",
+      "channel": "YleX",
+      "genre": ""
+    },
+    {
+      "title": "Viki ja Köpi Show -Parhaat",
+      "start_time": "17.00",
+      "end_time": "",
+      "channel": "YleX",
+      "genre": ""
+    },
+    {
+      "title": "YleX Vaihtoehto: Raine Laaksonen",
+      "start_time": "20.00",
+      "end_time": "",
+      "channel": "YleX",
+      "genre": ""
+    },
+    {
+      "title": "Uuden musiikin X - Tammikuun parhaat biisit",
+      "start_time": "22.00",
+      "end_time": "",
+      "channel": "YleX",
+      "genre": ""
+    }
+  ],
+  "Yle Radio Suomi": [
+    {
+      "title": "Radio Suomi lähelläsi",
+      "start_time": "13.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "13.36",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "13.44",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "14.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi",
+      "start_time": "14.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "14.15",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "14.23",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "14.36",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "14.44",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "15.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi",
+      "start_time": "15.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "15.15",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "15.23",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "15.36",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomi lähelläsi: Uusimaa",
+      "start_time": "15.44",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "16.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Urheiluradio",
+      "start_time": "16.07",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Alkuilta - Anna Keränen",
+      "start_time": "16.09",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "17.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Urheiluradio",
+      "start_time": "17.05",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Alkuilta - Anna Keränen",
+      "start_time": "17.07",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "18.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Musiikki-ilta – Vuosikymmenen joulu!",
+      "start_time": "18.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Merisää",
+      "start_time": "18.50",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Musiikki-ilta – Vuosikymmenen joulu!",
+      "start_time": "18.55",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "19.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Musiikki-ilta – Vuosikymmenen joulu!",
+      "start_time": "19.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "20.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Sää",
+      "start_time": "20.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Musiikki-ilta – Vuosikymmenen joulu!",
+      "start_time": "20.03",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "21.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Urheiluradio",
+      "start_time": "21.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Ilta",
+      "start_time": "21.07",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Merisää",
+      "start_time": "21.50",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Radio Suomen Ilta",
+      "start_time": "21.55",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "22.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Urheiluradio",
+      "start_time": "22.03",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yöradio",
+      "start_time": "22.05",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "23.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Paikka auringossa - Jyrki Hakanen",
+      "start_time": "23.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yöradio",
+      "start_time": "23.40",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "0.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yöradio - toiveiden yö",
+      "start_time": "0.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset ja sää",
+      "start_time": "1.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yöradio - toiveiden yö",
+      "start_time": "1.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "2.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yöradio",
+      "start_time": "2.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Musiikki-illan vieras",
+      "start_time": "2.15",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yöradio",
+      "start_time": "2.45",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Yle Uutiset",
+      "start_time": "3.00",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    },
+    {
+      "title": "Levylautakunta",
+      "start_time": "3.02",
+      "end_time": "",
+      "channel": "Yle Radio Suomi",
+      "genre": ""
+    }
+  ]
+}
