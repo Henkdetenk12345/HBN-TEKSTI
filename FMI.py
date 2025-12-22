@@ -4,12 +4,13 @@ from bs4 import BeautifulSoup
 class FMITextScraper:
     """
     Scraper voor FMI tekstuele weerbeschrijvingen
-    Gebruikt DIRECT de CDN HTML endpoints (geen Selenium!)
+    UPDATED voor nieuwe day1.php / day2.php structuur
     """
     
     def __init__(self):
         self.land_url = "https://cdn.fmi.fi/apps/weather-forecast-texts/index.php"
-        self.marine_url = "https://cdn.fmi.fi/apps/sea-weather-forecasts-texts/index.php"
+        self.marine_day1_url = "https://cdn.fmi.fi/apps/sea-weather-forecasts-texts/day1.php"
+        self.marine_day2_url = "https://cdn.fmi.fi/apps/sea-weather-forecasts-texts/day2.php"
     
     def get_land_forecast(self):
         """
@@ -53,97 +54,116 @@ class FMITextScraper:
     def get_structured_marine_forecast(self):
         """
         Haal marine forecast op MET structuur behouden
+        NIEUWE VERSIE: day1.php + day2.php
         Returns: dict met intro, warnings, forecast_sections, en vrk2_sections
         """
         try:
-            response = requests.get(self.marine_url, timeout=10)
-            response.raise_for_status()
-            
-            soup = BeautifulSoup(response.content, 'html.parser')
-            
             result = {
                 'intro': '',
                 'warnings': [],           # ALLE warning content als 1 blok
-                'forecast_sections': [],  # "Odotettavissa huomisiltaan asti"
-                'vrk2_sections': []       # "Säätiedotus 2 vrk" secties
+                'forecast_sections': [],  # Day 1 forecasts
+                'vrk2_sections': []       # Day 2 forecasts
             }
             
-            elements = soup.find_all(['h1', 'h2', 'h3', 'p'])
+            # ===== HAAL DAY1.PHP OP =====
+            print("  Fetching day1.php...")
+            response1 = requests.get(self.marine_day1_url, timeout=10)
+            response1.raise_for_status()
+            soup1 = BeautifulSoup(response1.content, 'html.parser')
             
-            current_section = 'start'
-            all_warning_items = []  # Verzamel ALLE warning content (H3 + P)
-            current_area = None
-            in_vrk2 = False
+            # Haal intro op (marine-inference sectie)
+            inference_section = soup1.find('section', id='marine-inference')
+            if inference_section:
+                inference_p = inference_section.find('p', class_='weather-forecast__weather')
+                if inference_p:
+                    result['intro'] = inference_p.get_text(strip=True)
             
-            for elem in elements:
-                tag = elem.name
-                text = elem.get_text(strip=True)
+            # Haal warnings op (marine-warnings sectie)
+            warning_section = soup1.find('section', id='marine-warnings')
+            if warning_section:
+                warning_p = warning_section.find('p', class_='weather-forecast__weather')
+                if warning_p:
+                    warning_text = warning_p.get_text(strip=True)
+                    # Als het niet "Ei varoituksia" is, voeg toe
+                    if 'ei varoituksia' not in warning_text.lower():
+                        # Parse warnings als er echte zijn
+                        # Voor nu: sla hele tekst op
+                        result['warnings'].append(('text', warning_text))
+            
+            # Haal forecast secties op (alle sections behalve marine-warnings en marine-inference)
+            all_sections = soup1.find_all('section', class_='weather-forecast--marine')
+            for section in all_sections:
+                section_id = section.get('id')
                 
-                if not text:
+                # Skip special sections
+                if section_id in ['marine-warnings', 'marine-inference']:
                     continue
                 
-                # H1 = detect 2 vrk section
-                if tag == 'h1':
-                    if 'Säätiedotus 2 vrk' in text or '2 vrk' in text:
-                        in_vrk2 = True
-                        current_section = 'vrk2_waiting'
+                # Haal gebied naam
+                h3 = section.find('h3', class_='weather-forecast__title')
+                if not h3:
                     continue
                 
-                # H2 = major section headers
-                if tag == 'h2':
-                    # Check voor varoitus section
-                    if 'varoitus' in text.lower():
-                        current_section = 'warning'
-                        continue
-                    
-                    if 'Odotettavissa huomisiltaan asti' in text or 'Odotettavissa' in text:
-                        # Einde van warnings - sla alles op als 1 groep
-                        if all_warning_items:
-                            result['warnings'] = all_warning_items
-                            all_warning_items = []
-                        
-                        if in_vrk2:
-                            current_section = 'vrk2'
-                        else:
-                            current_section = 'forecast'
-                        continue
+                area_name = h3.get_text(strip=True)
+                # Verwijder timestamp uit naam
+                area_name = area_name.split('\n')[0].strip()
                 
-                # H3 = area names OF sub-headers
-                if tag == 'h3':
-                    if current_section == 'warning':
-                        # In warning sectie: verzamel ALLES (H3 + volgende P's)
-                        all_warning_items.append(('heading', text))
-                    else:
-                        current_area = text
-                    continue
+                # Haal wind + weather info
+                wind_p = section.find('p', class_='weather-forecast__wind')
+                weather_p = section.find('p', class_='weather-forecast__weather')
                 
-                # P = content
-                if tag == 'p':
-                    # Skip varoitukset link
-                    if 'varoituksia' in text.lower():
+                forecast_text = ""
+                if wind_p:
+                    forecast_text += wind_p.get_text(strip=True) + " "
+                if weather_p:
+                    forecast_text += weather_p.get_text(strip=True)
+                
+                forecast_text = forecast_text.strip()
+                
+                if forecast_text:
+                    result['forecast_sections'].append({
+                        'area': area_name,
+                        'forecast': forecast_text
+                    })
+            
+            # ===== HAAL DAY2.PHP OP =====
+            print("  Fetching day2.php...")
+            try:
+                response2 = requests.get(self.marine_day2_url, timeout=10)
+                response2.raise_for_status()
+                soup2 = BeautifulSoup(response2.content, 'html.parser')
+                
+                # Haal alle forecast secties op
+                all_sections2 = soup2.find_all('section', class_='weather-forecast--marine')
+                for section in all_sections2:
+                    # Haal gebied naam
+                    h3 = section.find('h3', class_='weather-forecast__title')
+                    if not h3:
                         continue
                     
-                    if current_section == 'warning':
-                        # Verzamel alle P's in warning sectie
-                        all_warning_items.append(('text', text))
+                    area_name = h3.get_text(strip=True)
+                    area_name = area_name.split('\n')[0].strip()
                     
-                    elif current_section == 'forecast' and current_area:
-                        result['forecast_sections'].append({
-                            'area': current_area,
-                            'forecast': text
-                        })
-                        current_area = None
+                    # Haal wind + weather info
+                    wind_p = section.find('p', class_='weather-forecast__wind')
+                    weather_p = section.find('p', class_='weather-forecast__weather')
                     
-                    elif current_section == 'vrk2' and current_area:
+                    forecast_text = ""
+                    if wind_p:
+                        forecast_text += wind_p.get_text(strip=True) + " "
+                    if weather_p:
+                        forecast_text += weather_p.get_text(strip=True)
+                    
+                    forecast_text = forecast_text.strip()
+                    
+                    if forecast_text:
                         result['vrk2_sections'].append({
-                            'area': current_area,
-                            'forecast': text
+                            'area': area_name,
+                            'forecast': forecast_text
                         })
-                        current_area = None
             
-            # Als er nog warnings over zijn
-            if all_warning_items:
-                result['warnings'] = all_warning_items
+            except Exception as e:
+                print(f"  ⚠ Warning: Could not fetch day2.php: {e}")
             
             # Clean up whitespace
             result['intro'] = result['intro'].strip()
@@ -151,13 +171,11 @@ class FMITextScraper:
             print(f"✓ Marine forecast opgehaald:")
             print(f"  - Intro: {len(result['intro'])} chars")
             if result['warnings']:
-                headings = len([x for x in result['warnings'] if x[0] == 'heading'])
-                texts = len([x for x in result['warnings'] if x[0] == 'text'])
-                print(f"  - Waarschuwingen: {headings} headings + {texts} texts = {len(result['warnings'])} items totaal")
+                print(f"  - Waarschuwingen: {len(result['warnings'])} items")
             else:
                 print(f"  - Waarschuwingen: geen")
-            print(f"  - Forecast secties: {len(result['forecast_sections'])}")
-            print(f"  - VRK2 secties: {len(result['vrk2_sections'])}")
+            print(f"  - Forecast secties (day1): {len(result['forecast_sections'])}")
+            print(f"  - VRK2 secties (day2): {len(result['vrk2_sections'])}")
             
             return result
             
