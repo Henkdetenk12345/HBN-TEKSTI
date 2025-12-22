@@ -144,23 +144,69 @@ def fill_subpage(subpage_idx, route_name, pattern, route_color):
         teletextPage401["subpages"][subpage_idx]["packets"] += tt_block
         line += len(tt_block)
 
-# SUBPAGINA 1 - M1 richting 0 (Kivenlahti-Vuosaari)
+# Helper functie om het juiste pattern te vinden op basis van directionId en eindpunten
+def find_pattern_by_direction(patterns, direction_id, required_endpoints=None):
+    """
+    Zoek pattern op basis van directionId en vereiste eindpunten
+    directionId 0 = outbound (hoofdrichting)
+    directionId 1 = inbound (terugrichting)
+    
+    required_endpoints: lijst van 2 stop namen [start, eind] die de eindpunten MOETEN zijn
+    """
+    for pattern in patterns:
+        if pattern.get('directionId') != direction_id:
+            continue
+        
+        # Check of de eindpunten kloppen
+        if required_endpoints and len(required_endpoints) == 2:
+            stops = pattern.get('stops', [])
+            if not stops:
+                continue
+                
+            first_stop = stops[0].get('name', '')
+            last_stop = stops[-1].get('name', '')
+            
+            # Print debug info
+            print(f"  Checking pattern {pattern.get('code')}: directionId={direction_id}")
+            print(f"    First stop: {first_stop}")
+            print(f"    Last stop: {last_stop}")
+            print(f"    Required endpoints: {required_endpoints}")
+            
+            # Check of eerste EN laatste stop matchen (case-insensitive)
+            start_match = required_endpoints[0].lower() in first_stop.lower()
+            end_match = required_endpoints[1].lower() in last_stop.lower()
+            
+            print(f"    Start match: {start_match}, End match: {end_match}")
+            
+            if not (start_match and end_match):
+                continue
+        
+        print(f"  ✓ Selected pattern {pattern.get('code')}")
+        return pattern
+    
+    return None
+
+# SUBPAGINA 1 - M1 direction 0 (Kivenlahti → Vuosaari)
 m1_patterns = routes_data.get("M1", {}).get("patterns", [])
-if len(m1_patterns) > 0:
-    fill_subpage(0, "M1", m1_patterns[0], "cyan")
+m1_direction_0 = find_pattern_by_direction(m1_patterns, 0, required_endpoints=["Kivenlahti", "Vuosaari"])
+if m1_direction_0:
+    fill_subpage(0, "M1", m1_direction_0, "cyan")
 
-# SUBPAGINA 2 - M2 richting 0 (Tapiola-Mellunmaki)
+# SUBPAGINA 2 - M2 direction 0 (Tapiola → Mellunmäki)
 m2_patterns = routes_data.get("M2", {}).get("patterns", [])
-if len(m2_patterns) > 0:
-    fill_subpage(1, "M2", m2_patterns[0], "yellow")
+m2_direction_0 = find_pattern_by_direction(m2_patterns, 0, required_endpoints=["Tapiola", "Mellunmäki"])
+if m2_direction_0:
+    fill_subpage(1, "M2", m2_direction_0, "yellow")
 
-# SUBPAGINA 3 - M1 richting 1 (Vuosaari-Kivenlahti)
-if len(m1_patterns) > 1:
-    fill_subpage(2, "M1", m1_patterns[1], "cyan")
+# SUBPAGINA 3 - M1 direction 1 (Vuosaari → Kivenlahti)
+m1_direction_1 = find_pattern_by_direction(m1_patterns, 1, required_endpoints=["Vuosaari", "Kivenlahti"])
+if m1_direction_1:
+    fill_subpage(2, "M1", m1_direction_1, "cyan")
 
-# SUBPAGINA 4 - M2 richting 1 (Mellunmaki-Tapiola)
-if len(m2_patterns) > 1:
-    fill_subpage(3, "M2", m2_patterns[1], "yellow")
+# SUBPAGINA 4 - M2 direction 1 (Mellunmäki → Tapiola)
+m2_direction_1 = find_pattern_by_direction(m2_patterns, 1, required_endpoints=["Mellunmäki", "Tapiola"])
+if m2_direction_1:
+    fill_subpage(3, "M2", m2_direction_1, "yellow")
 
 exportTTI(pageLegaliser(teletextPage401))
 print("HSL Metro Routes Teletextpagina 401 gegenereerd (4 subpagina's).")
