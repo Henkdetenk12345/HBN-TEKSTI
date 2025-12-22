@@ -41,7 +41,7 @@ import json
 
 teletextPage401 = {
     "number": 455,
-    "control": {"cycleTime": "5,T"},
+    "control": {"cycleTime": "10,T"},
     "subpages": [
         {"packets": json.loads(json.dumps(template_401["subpages"][0]["packets"]))},
         {"packets": json.loads(json.dumps(template_401["subpages"][0]["packets"]))},
@@ -349,7 +349,7 @@ if current_subpage_disruptions:
 if all_disruptions:
     teletextPage402 = {
         "number": 456,
-        "control": {"cycleTime": "5,T"} if len(subpages_data) > 1 else {},
+        "control": {"cycleTime": "15,T"} if len(subpages_data) > 1 else {},
         "subpages": []
     }
     
