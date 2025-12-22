@@ -4,10 +4,53 @@ import copy
 from datetime import datetime
 import unicodedata
 import os
+import json
 
 from textBlock import toTeletextBlock, tableRow
 from page import exportTTI, loadTTI
 from legaliser import pageLegaliser
+
+# ===== TV/RADIO CACHE FUNCTIES =====
+def should_update_tv_radio(cache_file="tv_radio_cache.json", hours=6):
+    """Check of TV/Radio gids moet worden ge-update"""
+    if not os.path.exists(cache_file):
+        return True
+    
+    try:
+        with open(cache_file, 'r') as f:
+            data = json.load(f)
+            from datetime import timedelta
+            last_update = datetime.fromisoformat(data['last_update'])
+            
+            if datetime.now() - last_update > timedelta(hours=hours):
+                return True
+            else:
+                return False
+    except:
+        return True
+
+def mark_tv_radio_updated(cache_file="tv_radio_cache.json"):
+    """Markeer dat TV/Radio gids zojuist is ge-update"""
+    with open(cache_file, 'w') as f:
+        json.dump({
+            'last_update': datetime.now().isoformat()
+        }, f)
+
+def save_tv_radio_subpages(subpages, cache_file="tv_radio_subpages.json"):
+    """Bewaar TV/Radio subpages"""
+    with open(cache_file, 'w', encoding='utf-8') as f:
+        json.dump(subpages, f, ensure_ascii=False)
+
+def load_tv_radio_subpages(cache_file="tv_radio_subpages.json"):
+    """Laad TV/Radio subpages van cache"""
+    if os.path.exists(cache_file):
+        try:
+            with open(cache_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return None
+    return None
+# ===== EINDE TV/RADIO CACHE =====
 
 # Finse dag- en maandnamen
 FINNISH_DAYS = ["MAANANTAI", "TIISTAI", "KESKIVIIKKO", "TORSTAI", "PERJANTAI", "LAUANTAI", "SUNNUNTAI"]
@@ -748,158 +791,185 @@ def create_newsreel_page(page_number=185):
     
     print(f"✓ Weather total: {weather_subpages_added + (len(weather_map_subpages) if 'weather_map_subpages' in locals() else 0)} subpages (+ intro if exists)")
     
-    # ===== TV-RADIO INTRO =====
+# ===== TV-RADIO INTRO =====
     print("\n--- TV & RADIO ---")
     tv_radio_intro = load_intro("tv-radio_intro.tti")
     if tv_radio_intro:
         subpages.append(tv_radio_intro)
     
-    # ===== 3. TV GIDS (4 subpages - één per kanaal) =====
-    print("  3. TV guide...")
+    # ===== CHECK OF TV/RADIO UPDATE NODIG IS =====
+    tv_radio_needs_update = should_update_tv_radio(hours=6)
     tv_subpages_added = 0
-    try:
-        from tv import TelsuScraper
-        
-        tv_scraper = TelsuScraper()
-        tv_data = tv_scraper.scrape_all_channels()
-        
-        if tv_data:
-            tv_channels = [
-                ('yle1', 'Yle TV1', 'YLE1_template.tti'),
-                ('yle2', 'Yle TV2', 'YLE2_template.tti'),
-                ('mtv3', 'MTV3', 'MTV3_template.tti'),
-                ('nelonen', 'Nelonen', 'Nelonen_template.tti')
-            ]
-            
-            for channel_id, channel_name, template_file in tv_channels:
-                programs = tv_data.get(channel_name, [])
-                
-                if programs:
-                    try:
-                        tv_template = loadTTI(template_file)
-                        tv_packets = copy.deepcopy(tv_template["subpages"][0]["packets"])
-                        
-                        for packet in tv_packets:
-                            if "text" in packet:
-                                packet["text"] = packet["text"].replace("DAY", get_finnish_day())
-                                packet["text"] = packet["text"].replace("DATE", get_finnish_date())
-                        
-                        line = 7
-                        
-                        for program in programs:
-                            tijd = program['start_time'].split('-')[0].strip()
-                            if '<small>' in tijd:
-                                tijd = tijd.split('<small>')[0]
-                            
-                            imdb = f" [{program['imdb_rating']}]" if program['imdb_rating'] else ""
-                            full_title = program['title'] + imdb
-                            
-                            para_block = toTeletextBlock(
-                                input={
-                                    "content": [
-                                        {
-                                            "align": "left",
-                                            "content": [
-                                                {"colour": "yellow", "text": tijd + " "},
-                                                {"colour": "white", "text": full_title}
-                                            ]
-                                        }
-                                    ]
-                                },
-                                line=line,
-                                maxWidth=40
-                            )
-                            
-                            if (len(para_block) + line) > 21:
-                                break
-                            
-                            tv_packets += para_block
-                            line += len(para_block)
-                        
-                        tv_subpage = {"packets": tv_packets}
-                        subpages.append(tv_subpage)
-                        tv_subpages_added += 1
-                        
-                    except Exception as e:
-                        print(f"    ⚠ {channel_name}: {e}")
-            
-            if tv_subpages_added > 0:
-                print(f"    ✓ TV guide: {tv_subpages_added} channels")
-            
-    except Exception as e:
-        print(f"    ⚠ TV guide error: {e}")
-    
-    # ===== 4. RADIO GIDS (3 subpages - één per kanaal) =====
-    print("  4. Radio guide...")
     radio_subpages_added = 0
-    try:
-        from radio import YleRadioScraper
-        
-        radio_scraper = YleRadioScraper()
-        radio_data = radio_scraper.scrape_radio_guide()
-        
-        if radio_data:
-            radio_channels = [
-                ('radio1', 'Yle Radio 1', 'RADIO1_template.tti'),
-                ('ylex', 'YleX', 'YLEX_template.tti'),
-                ('radiosuomi', 'Yle Radio Suomi', 'RADIOSUOM_template.tti')
-            ]
-            
-            for channel_id, channel_name, template_file in radio_channels:
-                programs = radio_data.get(channel_name, [])
-                
-                if programs:
-                    try:
-                        radio_template = loadTTI(template_file)
-                        radio_packets = copy.deepcopy(radio_template["subpages"][0]["packets"])
-                        
-                        for packet in radio_packets:
-                            if "text" in packet:
-                                packet["text"] = packet["text"].replace("DAY", get_finnish_day())
-                                packet["text"] = packet["text"].replace("DATE", get_finnish_date())
-                        
-                        line = 5
-                        
-                        for program in programs:
-                            tijd = program['start_time']
-                            full_title = program['title']
-                            
-                            para_block = toTeletextBlock(
-                                input={
-                                    "content": [
-                                        {
-                                            "align": "left",
-                                            "content": [
-                                                {"colour": "yellow", "text": tijd + " "},
-                                                {"colour": "white", "text": full_title}
-                                            ]
-                                        }
-                                    ]
-                                },
-                                line=line,
-                                maxWidth=40
-                            )
-                            
-                            if (len(para_block) + line) > 21:
-                                break
-                            
-                            radio_packets += para_block
-                            line += len(para_block)
-                        
-                        radio_subpage = {"packets": radio_packets}
-                        subpages.append(radio_subpage)
-                        radio_subpages_added += 1
-                        
-                    except Exception as e:
-                        print(f"    ⚠ {channel_name}: {e}")
-            
-            if radio_subpages_added > 0:
-                print(f"    ✓ Radio guide: {radio_subpages_added} channels")
-            
-    except Exception as e:
-        print(f"    ⚠ Radio guide error: {e}")
     
-    print(f"✓ TV & Radio total: {tv_subpages_added + radio_subpages_added} subpages (+ intro if exists)")
+    if tv_radio_needs_update:
+        print("  ⏰ TV/Radio gids is >6 uur oud - updating...")
+        tv_radio_generated_subpages = []
+        
+        # ===== 3. TV GIDS (4 subpages - één per kanaal) =====
+        print("  3. TV guide...")
+        tv_subpages_added = 0
+        try:
+            from tv import TelsuScraper
+            
+            tv_scraper = TelsuScraper()
+            tv_data = tv_scraper.scrape_all_channels()
+            
+            if tv_data:
+                tv_channels = [
+                    ('yle1', 'Yle TV1', 'YLE1_template.tti'),
+                    ('yle2', 'Yle TV2', 'YLE2_template.tti'),
+                    ('mtv3', 'MTV3', 'MTV3_template.tti'),
+                    ('nelonen', 'Nelonen', 'Nelonen_template.tti')
+                ]
+                
+                for channel_id, channel_name, template_file in tv_channels:
+                    programs = tv_data.get(channel_name, [])
+                    
+                    if programs:
+                        try:
+                            tv_template = loadTTI(template_file)
+                            tv_packets = copy.deepcopy(tv_template["subpages"][0]["packets"])
+                            
+                            for packet in tv_packets:
+                                if "text" in packet:
+                                    packet["text"] = packet["text"].replace("DAY", get_finnish_day())
+                                    packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                            
+                            line = 7
+                            
+                            for program in programs:
+                                tijd = program['start_time'].split('-')[0].strip()
+                                if '<small>' in tijd:
+                                    tijd = tijd.split('<small>')[0]
+                                
+                                imdb = f" [{program['imdb_rating']}]" if program['imdb_rating'] else ""
+                                full_title = program['title'] + imdb
+                                
+                                para_block = toTeletextBlock(
+                                    input={
+                                        "content": [
+                                            {
+                                                "align": "left",
+                                                "content": [
+                                                    {"colour": "yellow", "text": tijd + " "},
+                                                    {"colour": "white", "text": full_title}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    line=line,
+                                    maxWidth=40
+                                )
+                                
+                                if (len(para_block) + line) > 21:
+                                    break
+                                
+                                tv_packets += para_block
+                                line += len(para_block)
+                            
+                            tv_subpage = {"packets": tv_packets}
+                            subpages.append(tv_subpage)
+                            tv_radio_generated_subpages.append(tv_subpage)
+                            tv_subpages_added += 1
+                            
+                        except Exception as e:
+                            print(f"    ⚠ {channel_name}: {e}")
+                
+                if tv_subpages_added > 0:
+                    print(f"    ✓ TV guide: {tv_subpages_added} channels")
+                
+        except Exception as e:
+            print(f"    ⚠ TV guide error: {e}")
+        
+        # ===== 4. RADIO GIDS (3 subpages - één per kanaal) =====
+        print("  4. Radio guide...")
+        radio_subpages_added = 0
+        try:
+            from radio import YleRadioScraper
+            
+            radio_scraper = YleRadioScraper()
+            radio_data = radio_scraper.scrape_radio_guide()
+            
+            if radio_data:
+                radio_channels = [
+                    ('radio1', 'Yle Radio 1', 'RADIO1_template.tti'),
+                    ('ylex', 'YleX', 'YLEX_template.tti'),
+                    ('radiosuomi', 'Yle Radio Suomi', 'RADIOSUOM_template.tti')
+                ]
+                
+                for channel_id, channel_name, template_file in radio_channels:
+                    programs = radio_data.get(channel_name, [])
+                    
+                    if programs:
+                        try:
+                            radio_template = loadTTI(template_file)
+                            radio_packets = copy.deepcopy(radio_template["subpages"][0]["packets"])
+                            
+                            for packet in radio_packets:
+                                if "text" in packet:
+                                    packet["text"] = packet["text"].replace("DAY", get_finnish_day())
+                                    packet["text"] = packet["text"].replace("DATE", get_finnish_date())
+                            
+                            line = 5
+                            
+                            for program in programs:
+                                tijd = program['start_time']
+                                full_title = program['title']
+                                
+                                para_block = toTeletextBlock(
+                                    input={
+                                        "content": [
+                                            {
+                                                "align": "left",
+                                                "content": [
+                                                    {"colour": "yellow", "text": tijd + " "},
+                                                    {"colour": "white", "text": full_title}
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    line=line,
+                                    maxWidth=40
+                                )
+                                
+                                if (len(para_block) + line) > 21:
+                                    break
+                                
+                                radio_packets += para_block
+                                line += len(para_block)
+                            
+                            radio_subpage = {"packets": radio_packets}
+                            subpages.append(radio_subpage)
+                            tv_radio_generated_subpages.append(radio_subpage)
+                            radio_subpages_added += 1
+                            
+                        except Exception as e:
+                            print(f"    ⚠ {channel_name}: {e}")
+                
+                if radio_subpages_added > 0:
+                    print(f"    ✓ Radio guide: {radio_subpages_added} channels")
+                
+        except Exception as e:
+            print(f"    ⚠ Radio guide error: {e}")
+        
+        # Bewaar TV/Radio subpages en markeer als ge-update
+        if tv_radio_needs_update and len(tv_radio_generated_subpages) > 0:
+            save_tv_radio_subpages(tv_radio_generated_subpages)
+            mark_tv_radio_updated()
+            print(f"  ✓ TV/Radio cache saved ({len(tv_radio_generated_subpages)} subpages)")
+        
+        print(f"✓ TV & Radio total: {tv_subpages_added + radio_subpages_added} subpages (+ intro if exists)")
+    
+    else:
+        # Gebruik cached TV/Radio subpages
+        print("  💾 TV/Radio gids is recent (<6 uur) - using cache...")
+        cached_tv_radio = load_tv_radio_subpages()
+        if cached_tv_radio and len(cached_tv_radio) > 0:
+            subpages.extend(cached_tv_radio)
+            print(f"  ✓ Loaded {len(cached_tv_radio)} cached TV/Radio subpages")
+        else:
+            print("  ⚠ No cached TV/Radio data found - will update on next run")
     
     # Exporteer de complete newsreel pagina
     page = {
