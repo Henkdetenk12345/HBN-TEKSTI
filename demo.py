@@ -779,7 +779,7 @@ for headline in headlines:
 				{"align":"left","postWrapLimit":{"maxLines":2,"cutoff":36},"content":[{"colour":"white","text":headline["title"]}]},
 				{"align":"right","content":[{"colour":"yellow","text":headline["number"]}]}
 			]},
-		line = 17
+		line = 18
 	)
 	
 	newSubpage = {"packets":copy.deepcopy(frontPageTemplate["subpages"][0]["packets"]) + paraBlock}
@@ -789,3 +789,9 @@ for headline in headlines:
 exportTTI(pageLegaliser(teletextPage))
 newsreel.run_newsreel()
 weather_main()
+tv_scraper = tv.TelsuScraper()
+tv_data = tv_scraper.scrape_all_channels()
+tv_scraper.create_all_teletext_pages(tv_data)
+radio_scraper = radio.YleRadioScraper()
+radio_data = radio_scraper.scrape_radio_guide()
+radio_scraper.create_all_teletext_pages(radio_data)
