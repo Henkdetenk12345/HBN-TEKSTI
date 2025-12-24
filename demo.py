@@ -1,11 +1,11 @@
 
-     #########  ##############  #######
-    ##     ##  ##    ##    ##  ##
-   ##     ##  ##    ##    ##  #######
-  ##     ##  ##    ##    ##       ##
- ##     ##  ##    ##    ##  #######
+     ##         ##############  #########
+    ##         ##    ##    ##  ##     ##
+   #########  ##    ##    ##  ##     ##
+  ##     ##  ##    ##    ##  ##     ##
+ #########  ##    ##    ##  ##     ##
  
-# NOS to Teletext converter
+# YLE to Teletext converter
 # Demo by Nathan Dane for Max de Vos, 2025
 # Copyright free, do what you like & have fun with it :)
 
@@ -730,6 +730,118 @@ newsIndexTemplate = loadTTI("politics_index.tti")
 
 # Create a page
 teletextPage = {"number":123,"subpages":[{"packets":copy.deepcopy(newsIndexTemplate["subpages"][0]["packets"])}]}
+
+# Vervang DAY/DATE placeholders met echte Finse datum
+teletextPage = vervang_datum_in_tti(teletextPage)
+
+line = 5
+
+for headline in headlines:
+	paraBlock = toTeletextBlock(
+		input = {"content":[{"align":"left","content":[{"colour":"white","text":headline["title"]}]},{"align":"right","content":[{"colour":"yellow","text":headline["number"]}]}]},
+		line = line
+	)
+	
+	# Is this going to make the page too long?
+	if (len(paraBlock) + line) > 22:
+		break
+	
+	# Move on the line pointer
+	line += (len(paraBlock) + 1)
+	
+	# Add this paragraph to the teletext page
+	teletextPage["subpages"][0]["packets"] += paraBlock
+
+exportTTI(pageLegaliser(teletextPage))
+
+# Load the template page for the header & footer
+newsPageTemplate = loadTTI("talous_page.tti")
+
+# How many news pages do we want to create?
+maxPages = 3
+startPage = 202
+
+# Download and parse an RSS Feed of news from Yle
+newsData = feedparser.parse("https://yle.fi/rss/t/18-204933/fi")
+
+# Initialise a Page Counter
+pageNum = 0
+
+# Create a headlines list for P123
+headlines = []
+
+# Loop through each news story to produce pages
+for newsArticle in newsData['entries']:
+	# Set the first line we write on
+	line = 5
+	
+	# Create a new teletext page
+	teletextPage = {"number":(pageNum + startPage),"subpages":[{"packets":copy.deepcopy(newsPageTemplate["subpages"][0]["packets"])}]}
+	
+	# Vervang DAY/DATE placeholders in de template
+	teletextPage = vervang_datum_in_tti(teletextPage)
+	
+	# Get the title from Yle RSS
+	clean_title = newsArticle["title"].strip()
+	
+	# Create the title
+	paraBlock = toTeletextBlock(
+		input = {"content":[{"align":"left","content":[{"colour":"yellow","text":clean_title}]}]},
+		line = line
+	)
+	
+	# Move on the line pointer
+	line += (len(paraBlock) + 1)
+	
+	# Add the title to the teletext page
+	teletextPage["subpages"][0]["packets"] += paraBlock
+	
+	# Yle gebruikt 'description' voor de samenvatting
+	if "description" in newsArticle:
+		article_text = newsArticle["description"]
+	else:
+		article_text = newsArticle["title"]  # fallback
+
+	# fix: verwijder soft hyphen (U+00AD)
+	article_text = article_text.replace("\u00AD", "")
+    
+	# Voor Yle is description plain text, maar we gebruiken BeautifulSoup voor de zekerheid
+	soup = BeautifulSoup(article_text, "lxml")
+	
+	# Maak één paragraaf van de beschrijving
+	paraBlock = toTeletextBlock(
+		input = {"content":[{"align":"left","content":[{"colour":"white","text":soup.get_text()}]}]},
+		line = line
+	)
+	
+	# Is this going to make the page too long?
+	if (len(paraBlock) + line) <= 22:
+		# Move on the line pointer
+		line += (len(paraBlock) + 1)
+		
+		# Add this paragraph to the teletext page
+		teletextPage["subpages"][0]["packets"] += paraBlock
+	
+	# Export the final page
+	# We run it through "legaliser", this fixes the accented characters, but may be wrong for your country!
+	exportTTI(pageLegaliser(teletextPage))
+	
+	# Use the cleaned title for headlines too
+	headlines.append({"title":clean_title,"number":str(pageNum + startPage)})
+	
+	# Iterate the page counter
+	pageNum += 1
+	
+	# Stop when we have enough pages
+	if pageNum > maxPages:
+		break
+
+# Next we create P101, the headlines
+# Start by loading the template
+newsIndexTemplate = loadTTI("talous_index.tti")
+
+# Create a page
+teletextPage = {"number":201,"subpages":[{"packets":copy.deepcopy(newsIndexTemplate["subpages"][0]["packets"])}]}
 
 # Vervang DAY/DATE placeholders met echte Finse datum
 teletextPage = vervang_datum_in_tti(teletextPage)
