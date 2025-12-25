@@ -20,7 +20,7 @@ import veikkausliiga
 import hsl_teletext
 import tv
 import radio
-import newsflash
+from newsflash import run_newsflash
 from weather import main as weather_main
 from datetime import datetime
 import unicodedata
@@ -908,4 +908,4 @@ tv_scraper.create_all_teletext_pages(tv_data)
 radio_scraper = radio.YleRadioScraper()
 radio_data = radio_scraper.scrape_radio_guide()
 radio_scraper.create_all_teletext_pages(radio_data)
-generate_newsflash()
+run_newsflash()
