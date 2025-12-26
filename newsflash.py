@@ -244,7 +244,7 @@ def generate_newsflash():
         newsflash_page = {
             "number": 180,
             "control": {
-                "cycleTime": "3,T",  # Cycle time voor newsflash
+                "cycleTime": "10,T",  # Cycle time voor newsflash
                 "newsFlash": True     # Activeer newsflash mode
             },
             "subpages": all_subpages
