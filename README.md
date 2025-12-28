@@ -21,6 +21,7 @@ feedparser
 beautifulsoup4
 lxml
 requests
+selenium
 ```
 
 ## Installation
@@ -28,7 +29,7 @@ requests
 1. Clone this repository
 2. Install dependencies:
 ```bash
-pip install feedparser beautifulsoup4 lxml requests
+pip install feedparser beautifulsoup4 lxml requests selenium
 ```
 
 ## Usage
