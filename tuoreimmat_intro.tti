@@ -1,28 +1,28 @@
-DE,
-PS,8100
 PN,18500
 SC,0000
+PS,8100
 RE,0
-OL,2, FMTUOREIMMAT UUTISET.........          
-OL,3,                     .          .       
-OL,4,G      .      .       .                 
-OL,5,G                                    .  
-OL,6,GG        .      .          .      .    
-OL,7,          S||| G       .     .          
-OL,8,      .   Sj5G         .              
-OL,9,          S  G                       
-OL,10,          S     `0      T]R|p\ G    .  
-OL,11,     .    Sx7G)))  T]R~{}\ G      
-OL,12,          S+uG))) T]Rx??o?\G .    
-OL,13, .        S     "!    T]R)||r%+\G      
-OL,14,          S          T]R+7 \ G      
-OL,15,    .     S j5         T]R+!\ GWh}   
-OL,16,          S  ///                 W"/'   
-OL,17,          SG                       .    
-OL,18,G     .        .          .             
-OL,19,G                       .       .       
-OL,20,G                  .                    
-OL,21,G    .      .                           
-OL,22,G                    .        .     .   
-OL,23,G     . .                               
-OL,24,                  .                     
+CT,20,T
+OL,1, T]G              * Vxn3#{?}t0 G   . 
+OL,2, T]G    .          V>!h~?! "otG.    
+OL,3, T]G            . Vz!`~?'     +u     
+OL,4, T]G             Vhep~        j4    
+OL,5, T]G             Vz~pd  (! p5    
+OL,6, T]G       *    V 5*~'     h?z5    
+OL,7, T]G *          V 5 *pp0) pz/5    
+OL,8, T]G            V 5  ~7  #l~}5    
+OL,9, T]G          . V k x   oo     
+OL,10, T]G   .         V m}0 zg!G    
+OL,11, T]G             V "oo}z% G  * 
+OL,12, T]        "      V  +o "###?! G .   
+OL,13, T]               V    #),,,.'!G.       
+OL,14, T]GM    Tuoreimmat uutiset ympari      
+OL,15, T]                            a        
+OL,16, T]GM         vuorokauden               
+OL,17, T]                                     
+OL,18, T]GM       HBN Teksti-TV:ssa           
+OL,19, T]                                     
+OL,20, T]E     ------------------------       
+OL,21, T]                                    
+OL,22, T]                                    
+OL,23, T]                                    
