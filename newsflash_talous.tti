@@ -1,9 +1,8 @@
-DE,
+PN,18000
+SC,0000
 PS,8101
-PN,18001
-SC,0001
 RE,0
-FL,185,101,123,160,8ff,100
+CT,20,T
 OL,26,@{D@Gxp{D@Jxp|D@Axp|D@Bxp}D@Wxp
 OL,17,KKFHBNT]GTALOUS            DAY         \
 OL,18,KKW5G                                Wj 
@@ -12,4 +11,5 @@ OL,20,KKW5G                                Wj
 OL,21,KKW5G                                Wj 
 OL,22,KKW5G                                Wj 
 OL,23,KKWupppppppppppppppppppppppppppp]DP105 \
-OL,24,KKAUutisruutuBPaauutisetCPolitiikkaFSaa 
+OL,24,KKAUutisruutuBP{{uutisetCPolitiikkaFS{{ 
+FL,185,101,123,160,8ff,100

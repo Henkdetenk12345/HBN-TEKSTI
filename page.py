@@ -65,19 +65,40 @@ def teletextMinify(page):
 # Reads a .tti file into a standard teletext JSON object.
 # Note that this is not a "minified" object (no inheritance, etc)
 def loadTTI(filename):
+	regionMapping = {
+		0x23:"#",
+		0x24:"¤",
+		0x40:"É",
+		0x5b:"Ä",
+		0x5c:"Ö",
+		0x5d:"Å",
+		0x5e:"Ü",
+		0x5f:"_",
+		0x60:"é",
+		0x7b:"ä",
+		0x7c:"ö",
+		0x7d:"å",
+		0x7e:"ü"
+	}
+	
 	# Read in the file
-	tti = open(filename, "r")
+	tti = open(filename, "rb")
 	ttiContent = tti.readlines()
 	tti.close()
 	
 	# initialise variables for later
 	output = {"subpages":[]}
-	current = {}
+	current = {"control":{"erasePage":False}}
 	newPage = True
 	subpageCounter = 0	# We only use this to check if the subcode makes sense
 	
 	for line in ttiContent:
-		line = line.strip() # Remove any trailing whitespace
+		line = line.decode('ascii','ignore').strip() # Remove any trailing whitespace
+		
+		try:
+			line.index(",")
+		except:
+			continue
 		
 		# If an "attribute" comes through after an OL or FL, we assume this is a new page
 		if line[:line.index(",")] in ["PN","SC","PS","CT"] and newPage:
@@ -88,7 +109,7 @@ def loadTTI(filename):
 					subpageCounter += 1
 			
 			newPage = False	# Reset 
-			current = {}	# Create a fresh new subpage
+			current = {"control":{"erasePage":False}}	# Create a fresh new subpage
 		
 		# Get the page number
 		if line[:line.index(",")] == "PN":
@@ -117,7 +138,7 @@ def loadTTI(filename):
 			language = (access_bit(raw_page_status,15) << 2) + (access_bit(raw_page_status,0) << 1) + access_bit(raw_page_status,1)
 			
 			if "control" not in current:
-				current["control"] = {}
+				current["control"] = {"erasePage":False}
 				
 			if access_bit(raw_page_status,6) == 1:
 				current["control"]["erasePage"] = True
@@ -165,20 +186,34 @@ def loadTTI(filename):
 			if (packet_number < 26) and (packet_number != 0):
 				esc = False
 				unescapedPacket = ""
+				
+				graphics = False
+				
 				for position, character in enumerate(packet_content): # Un-escape the lines
+					
 					if esc:
 						esc = False
 						try:
 							unescapedPacket += chr(ord(character) - 0x40)	# Get the escaped character and subtract 0x40 to make it normal
+							
+							if ord(character) >= 0x51 and ord(character) <= 0x57:
+								graphics = True
+							elif ord(character) >= 0x40 and ord(character) <= 0x47:
+								graphics = False
+							
 						except:
 							print("loadTTI: error on page " + str(output["number"]) + " " + str(position) + " " + character)
 							continue
 						
 						continue	# Skip straight on to the next character
+					
 					if character == "":	# Tell us that the next character is escaped
 						esc = True
 					else:
-						unescapedPacket += character	# Pass other characters on through
+						if not graphics:
+							unescapedPacket += regionMapping.get(ord(character),character)
+						else:
+							unescapedPacket += character	# Pass other characters on through
 				
 				if "packets" in current:
 					current["packets"].append({"number":packet_number, "text":unescapedPacket})
@@ -238,6 +273,8 @@ def exportTTI(page):
 		page_status = 0
 		page_status = set_bit(page_status,15) # Transmit page
 		
+		page_status = set_bit(page_status,8) # Set language to Swedish/Finnish
+		
 		if "control" in subpage:
 			if "erasePage" in subpage["control"] and subpage["control"]["erasePage"] == True:
 				page_status = set_bit(page_status,14)
@@ -258,11 +295,11 @@ def exportTTI(page):
 			if "transmitPage" in subpage["control"]:
 				page_status = clear_bit(page_status,15)
 		
-		#page_status = set_bit(page_status,3)
+		page_status = set_bit(page_status,3)
 		
 		output.append("PS," + hex(page_status)[2:])
 		
-		output.append("OL,0,        " + chr(27) + "ECIMS" + chr(27) + "B" + chr(27) + "F" + str(page_number) + chr(27) + "A" + str(int(time.time())))
+		output.append("OL,0,        " + chr(27) + "ECIMS" + chr(27) + "B" + "" + chr(27) + "F" + str(page_number) + chr(27) + "A" + str(int(time.time())))
 		
 		for packet in subpage["packets"]:
 			if "text" in packet:

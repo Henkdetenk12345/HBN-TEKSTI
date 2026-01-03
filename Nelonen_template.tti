@@ -1,9 +1,8 @@
 DE,Description goes here
-DS,inserter
-SP,C:\Users\Max de Vos\Downloads\NEW TEMPLATES\New folder\Nelonen_template.tti
 PN,50400
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,            V    )08!                   
@@ -14,5 +13,5 @@ OL,5,T]V         \V5S   /  V5To?
 OL,6,             V-,,,,,,,,/%               
 OL,22,V]DYLE 1A501DYLE 2A502DMTV 3A503        
 OL,23,W]DNelonen 504 Radio 1 506 YLEX 507     
-OL,24,A  Paauutiset BUrheilu CTV Opas  FSaa   
+OL,24,A  P{{uutiset BUrheilu CTV Opas  FS{{   
 FL,101,300,500,160,8ff,8ff

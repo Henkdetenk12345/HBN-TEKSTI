@@ -1,9 +1,7 @@
-DE,
-DS,inserter
-SP,C:
 PN,31400
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,Q]Wh,,,,,,4      ``p` ```p`p`p` ` `p    
@@ -11,6 +9,6 @@ OL,2,Q]WjZY5      jjzj j:jzj.jzj j jj
 OL,3,Q]WjZY5     `zjjjpjjjjj jjjpjpjz    
 OL,4,Q//-/,,,,/./////-,---,-----/---,-,-,////
 OL,5,    Joukkue        P  Maalit   V/T/H    
-OL,23,Q]GUrheilu 301 Uutiset  308 Paasivu 100 
-OL,24,A  PaauutisetB Urheilu CTV Opas  FSaa   
+OL,23,Q]GUrheilu 301 Uutiset  308 P{{sivu 100 
+OL,24,A  P{{uutisetB Urheilu CTV Opas  FS{{   
 FL,101,300,500,160,8ff,8ff

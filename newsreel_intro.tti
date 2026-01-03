@@ -1,8 +1,8 @@
-DE,
-PS,8100
 PN,18500
 SC,0000
+PS,8100
 RE,0
+CT,20,T
 OL,1,TZ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, 
 OL,2,    W| h4   xt($             xt         
 OL,3,F   W j5| |j5h4x,0|x4| |h4h4j5h4h4     
@@ -11,7 +11,7 @@ OL,5,    V+//!+,'"-*%).!/  +,'"-.!"-"-.!
 OL,6,TZ##################################### 
 OL,7,    MP{iv{n t{rkeimm{t uutiset n{kyv{t  
 OL,9,    Mkaikissa TV-vastaanottimissaa      
-OL,11,    Mymp{ri vuorokausi                  
+OL,11,    Mymp{ri vuorokauden                 
 OL,14,    MTEKSTI-TV:N UUTISRUUDUSSA          
 OL,16,TZ(,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 OL,18,   FMMutta Uutisruutu on vain pieni osa 

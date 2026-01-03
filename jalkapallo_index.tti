@@ -1,15 +1,13 @@
-DE,
-DS,inserter
-SP,C:\Users\Max de Vos\Downloads\FIXED3\tti templates ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ kopio\jalkapallo_index.tti
 PN,30500
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,Q]Wh,,,,,,4      ``p` ```p`p`p` ` `p    
 OL,2,Q]WjZY5      jjzj j:jzj.jzj j jj    
 OL,3,Q]WjZY5     `zjjjpjjjjj jjjpjpjz    
 OL,4,Q//-/,,,,/./////-,---,-----/---,-,-,////
-OL,23,A]GUrheilu 301 Tulokset 314 Paasivu 100 
-OL,24,A  Paauutiset BUrheilu CTV Opas  FSaa   
+OL,23,A]GUrheilu 301 Tulokset 314 P{{sivu 100 
+OL,24,A  P{{uutiset BUrheilu CTV Opas  FS{{   
 FL,101,300,500,160,8ff,8ff

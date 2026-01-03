@@ -1,9 +1,7 @@
-DE,
-DS,inserter
-SP,E:\home\max\Hbn\weather_marine2_template.tti
-PN,16801
+PN,16800
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,V |h4||4||4T]RppppppV`pp0(( (( Rpppppp  
@@ -11,6 +9,6 @@ OL,2,VVn5~1j5T]RppppppVjup1'k5'k5Rpppppp
 OL,3,V j5z5j5T]RppppppVhpz5w{5w{5Rpppppp  
 OL,4, V#"!##!#"!T/////////-,,.,,.,,./////////
 OL,22,T]G   Tiedot: Ilmatieteen laitos        
-OL,23,W]DSAAKARTTA 166    SAAENNUSTEET 161    
-OL,24,A  Paauutiset BUrheilu CTV Opas  FSaa   
+OL,23,W]DS[[KARTTA 166    S[[ENNUSTEET 161    
+OL,24,A  P{{uutiset BUrheilu CTV Opas  FS{{   
 FL,101,300,500,160,8ff,8ff

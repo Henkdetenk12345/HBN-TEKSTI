@@ -1,12 +1,10 @@
-DE,
-DS,inserter
-SP,E:\home\max\Hbn\tuoreimmat_index.tti
 PN,18500
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,2,T]G TUOREIMMAT              DAY         
-OL,23,W]DPaauutiset 101 Urheilu 300 Saa 160   
-OL,24,AA Paauutiset BUrheilu CTV Opas  FSaa   
+OL,23,W]DP{{uutiset 101 Urheilu 300 S{{ 160   
+OL,24,AA P{{uutiset BUrheilu CTV Opas  FS{{   
 FL,101,300,500,160,8ff,8ff

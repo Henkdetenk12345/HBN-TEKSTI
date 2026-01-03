@@ -1,9 +1,7 @@
-DE,
-DS,inserter
-SP,C:\Users\Max de Vos\Downloads\Teletekst BO\testweer\New folder\weathermap.tti
-PN,16601
+PN,16600
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,S |,,h>.|h>.|G11.01.1988VW     x|p     
@@ -28,4 +26,4 @@ OL,19,                        W^W7
 OL,20,                      W^  oW?     
 OL,21,                      W^*!"+//W##       
 OL,22,T]G   Tiedot: Ilmatieteen laitos        
-OL,23, ]DSAA MERELLA 168  SAAENNUSTEET 161    
+OL,23, ]DS[[ MERELLA 168  S[[ENNUSTEET 161    

@@ -1,12 +1,10 @@
-DE,
-DS,inserter
-SP,E:\home\max\Hbn\paauutiset_index.tti
 PN,18500
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
-OL,2,T]G PAAUUTISET              DAY         
-OL,23,W]DTuoreimmat 111 Urheilu 300 Saa 160   
-OL,24,AATuoreimmat  BUrheilu CTV Opas  FSaa   
+OL,2,T]G P[[UUTISET              DAY         
+OL,23,W]DTuoreimmat 111 Urheilu 300 S{{ 160   
+OL,24,AATuoreimmat  BUrheilu CTV Opas  FS{{   
 FL,111,300,500,160,8ff,8ff

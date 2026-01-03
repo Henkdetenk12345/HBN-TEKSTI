@@ -1,9 +1,7 @@
-DE,
-DS,inserter
-SP,E:\home\max\Hbn\RADIO1_template.tti
-PN,50607
+PN,50600
 SC,0000
 PS,8100
+RE,0
 CT,8,T
 OL,0,        wxTED Header mpp        %H:%M.%S
 OL,1,T]R|l4|l4|l0|h<|                        
@@ -11,5 +9,5 @@ OL,2,T]Rk4k5j5j5 G          RADIO 1
 OL,3,T]Rsrqsrqsspsrss G        DAY           
 OL,4,T#######################################
 OL,23,W]DRadio 1 506 YLEX 507 Radio Suomi 508 
-OL,24,  APaauutiset BUrheilu CTV Opas  FSaa   
+OL,24,  AP{{uutiset BUrheilu CTV Opas  FS{{   
 FL,101,300,500,160,8ff,8ff
