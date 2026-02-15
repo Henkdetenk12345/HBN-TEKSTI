@@ -89,8 +89,7 @@ Adjust `maxPages` in each section to control how many articles are fetched per c
 ## Credits
 
 NOS Demo by Nathan Dane changed by Max de Vos for YLE RSS feeds, 2025  
-Copyright free - do what you like & have fun with it :)
 
 ## License
 
-This project is copyright free. Feel free to use, modify, and distribute as you wish.
+Copyright (C) 2025-2026 Max de Vos
