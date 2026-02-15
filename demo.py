@@ -6,8 +6,8 @@
  #########  ##    ##    ##  ##     ##
  
 # YLE to Teletext converter
-# Demo by Nathan Dane for Max de Vos, 2025
-# Copyright free, do what you like & have fun with it :)
+# Demo by Max de Vos for Soyuzrocket, 2025-2026
+# Copyright (C) 2025-2026 Max de Vos
 
 # Start by importing all the libraries we need
 import feedparser
